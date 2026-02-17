@@ -16,3 +16,12 @@
 
 17.02 - Reporting planning to yaml for gantty.
 
+17.02 - Thinking hard about wether or not I missed smth in the planning...
+
+17.02 - Noticed some errors ^^' Forgot to consider the week of crunch as a week without work on the thesis... urrgh hate crunch
+
+17.02 - Look around the specification of other's report to understand better what's expected
+
+17.02 - Trying to write the summary of the problem, not an easy task !
+
+17.02 - Used the description of the bachelor thesis as a base and translated it mostly
