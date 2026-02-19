@@ -28,20 +28,44 @@ tasks:
     subtasks:
       - name: Code Analysis
         start: 2026-02-24
-        end: 2026-03-24
-        x:
-          estimate: 30
-      - name: Docs Creation
-        start: 2026-03-24
         end: 2026-03-26
         x:
-          estimate: 10
-      - name: Dev env
-        start: 2026-03-26
-        end: 2026-03-31
+          estimate: 45
+        subtasks:
+          - name: First look around the codebase
+            start: 2026-02-24
+            end: 2026-02-26
+            x:
+              estimate: 8
+
+          - name: Creating dev env
+            start: 2026-02-26
+            end: 2026-03-03
+            x:
+              estimate: 10
+
+          - name: Docs template creation
+            start: 2026-03-03
+            end: 2026-03-05
+            x:
+              estimate: 3
+
+          - name: Crunch time
+            start: 2026-03-09
+            end: 2026-03-13
+
+          - name: General docs creation
+            start: 2026-03-17
+            end: 2026-03-26
+            x:
+              estimate: 24
+
+      - name: Rewriting docs to accommodate report context
+        start: 2026-03-31
+        end: 2026-04-02
         x:
           estimate: 10
-  
+
   - name: Focus crypto
     subtasks:
       - name: Analysis focus crypto
