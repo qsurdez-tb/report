@@ -69,22 +69,34 @@ tasks:
   - name: Focus crypto
     subtasks:
       - name: Analysis focus crypto
-        start: 2026-03-31
-        end: 2026-04-07
+        start: 2026-04-07
+        end: 2026-04-16
         x:
           estimate: 20
+        subtasks:
+          - name: Getting a reminder of what crypto is
+            start: 2026-04-07
+            end: 2026-04-09
+            x:
+              estimate: 10
 
-      - name: Docs creation
-        start: 2026-04-07
-        end: 2026-04-09
+          - name: Creating docs focus on crypto
+            start: 2026-04-09
+            end: 2026-04-16
+            x:
+              estimate: 10
+
+      - name: Rewriting docs to accommodate report context
+        start: 2026-04-21
+        end: 2026-04-23
         x:
           estimate: 10
 
   - name: Focus backup
     subtasks:
       - name: Analysis focus backup
-        start: 2026-04-14
-        end: 2026-04-16
+        start: 2026-04-23
+        end: 2026-04-30
         x:
           estimate: 15
 
