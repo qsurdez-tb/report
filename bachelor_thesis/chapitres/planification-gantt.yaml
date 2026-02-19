@@ -94,36 +94,36 @@ tasks:
 
   - name: Focus backup
     subtasks:
-      - name: Analysis focus backup
+      - name: Docs focus backup
         start: 2026-04-23
         end: 2026-04-30
         x:
           estimate: 15
 
-      - name: Docs creation
-        start: 2026-04-21
-        end: 2026-04-23
+      - name: Rewriting docs to accommodate report context
+        start: 2026-05-05
+        end: 2026-05-07
         x:
-          estimate: 5
+          estimate: 10
 
   - name: Focus deployment
     subtasks:
-      - name: Analysis focus deployment
-        start: 2026-04-23
-        end: 2026-04-28
+      - name: Docs focus deployment
+        start: 2026-05-07
+        end: 2026-05-12
         x:
-          estimate: 5
+          estimate: 8
       
-      - name: Docs creation
-        start: 2026-04-28
-        end: 2026-04-30
+      - name: Rewriting docs to accommodate report context
+        start: 2026-05-12
+        end: 2026-05-14
         x:
           estimate: 10
 
   - name: Development
     subtasks:
       - name: TBA
-        start: 2026-05-05
+        start: 2026-05-14
         end: 2026-07-23
         x:
           estimate: 150
