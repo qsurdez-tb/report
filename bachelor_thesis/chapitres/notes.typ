@@ -25,3 +25,9 @@
 17.02 - Trying to write the summary of the problem, not an easy task !
 
 17.02 - Used the description of the bachelor thesis as a base and translated it mostly
+
+== 19.02
+
+0822 - Thought quite a bit about the structure of the planning. Want to make it more detailed with mention of what, regarding to the report, is done.
+
+0822 - Reflected on using branches for planning and spec. I think it's not overkill as it will help undersanding how I work and each brnach will be focused on a specific interest.
