@@ -4,16 +4,17 @@
 
 // TODO ask wether we use english or french cause frenglish is a big no-no
 
-The platform ICNML (International Close Non-Matches Library) is an open source tool made for handling biometric traces in scientific or experimentation scope.
-
-It is deployed by different research insitutues, among which the University of Lausanne (UNIL), ICNML is used by many collaborators through the world for collaborative projects focused on the analysis of images and biometric recognition.
-
-The initial development of the system was in a context of research, favoring fonctionnality and flexibility over long term maintenance or standardisation of technical processes.
-
-Today, the platform is a central component in many scientific activities, but its evolution and its perennity are limited by technical gaps. This frailty compromise its maintainability, its security and its ease of use. As much for the admins as for the users.
+**ICNML** (_International Close Non-Matches Library_) is an open-souce platform designed for handling
+biometric traces in scientific and experimentation contexts. It is deployed by several research institutions,
+including the University of Lausanne (_UNIL_). It is used by collaborators worldwide on projects focused
+on image analysis and biometric recognition.
 
 === Problématique <problématique>
-#lorem(50)
+
+The system was initially developed in a research environment that prioritized functionnality and flexibility over 
+long-term maintenance and technical standardisation. Today, the plateform remains a central component in many scientific
+activities. However, its evolution and sustainability are limited by accumulated technical debt. These weaknesses affect
+maintenability, security, and usability for both admins and end users alike.
 
 == Cahier des charges <cahier-des-charges-1>
 #lorem(100)
