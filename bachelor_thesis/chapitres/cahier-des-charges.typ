@@ -4,7 +4,7 @@
 
 // TODO ask wether we use english or french cause frenglish is a big no-no
 
-**ICNML** (_International Close Non-Matches Library_) is an open-souce platform designed for handling
+*ICNML* (_International Close Non-Matches Library_) is an open-souce platform designed for handling
 biometric traces in scientific and experimentation contexts. It is deployed by several research institutions,
 including the University of Lausanne (_UNIL_). It is used by collaborators worldwide on projects focused
 on image analysis and biometric recognition.
