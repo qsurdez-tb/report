@@ -41,11 +41,13 @@ The third objective is to *optimise user experience* through filtering and manag
 by donor or image quality.
 
 === Déroulement <déroulement>
-Le travail commence le ... et se termine le .... Sur les 16 premières semaines, soit du x au y, la charge de travail représente 12h par semaine. Les 6 dernières semaines, soit du x au y, ce travail sera réalisé à plein temps.
 
-Un rendu intermédiaire noté est demandé le x et le rendu final est prévu pour le x à 12h00.
+This work begins the 16.02.2026 and ends the 23.07.2026. Over the 16 first weeks, from 16.02 to 08.06, the workload
+is 12 hours per week. The 6 last weeks, from 08.06 to 27.07, the workload is the equivalent of a full-time.
 
-La défense sera organisée entre le x et le y.
+An assessed intermediary submission is due on 20.05. The final report is due on the 27.07 at 12h00.
+
+The defense will be organized between the 24.09 and the 11.10.
 
 === Tâches <taches>
 #lorem(150)
