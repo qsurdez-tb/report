@@ -43,3 +43,7 @@
 == 24.02
 
 1030 - Working on the new iteration of the planning
+
+1120 - Finding a way to have the hours for the tasks in planning
+
+1300 - Finishing second iteration of the planning
