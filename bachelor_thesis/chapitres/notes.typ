@@ -84,4 +84,4 @@ so I added this in place of the database as this was a bit redundant with the bc
 
 1638 - The docker repo seems to be where I can start from to build my dev environment ! However, there seems to be libraries that are not part of the project ICNML on gitlab. I have to underline to Christophe that I need an access to the prod environment and copy the necessary libraries MDmisc, NIST, PiAnoS, PMlib and WSQ. This feels like quite the wall.
 
-
+1650 - The afis_assigment repo seems to be unrelevant for the thesis
