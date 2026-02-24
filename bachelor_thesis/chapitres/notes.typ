@@ -39,3 +39,7 @@
 0924 - I think that after setting up the dev env, I will be a bit less anxious about it ! It's currently a multi-repo project and I think that's what worries me a bit
 
 0935 - I'm not too sure about the planning, it feels like I'm missing something... Will see after the feedback from supervisor
+
+== 24.02
+
+1030 - Working on the new iteration of the planning
