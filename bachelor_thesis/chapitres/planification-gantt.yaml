@@ -4,7 +4,7 @@ show-today: false
 headers:
   - month
 # A start date. Not required.
-start: 2026-02-016
+start: 2026-02-16
 # An end date. Not required.
 end: 2026-07-23
 # A list of tasks
@@ -60,13 +60,6 @@ tasks:
             x:
               estimate: 3
 
-          - name: General docs creation (24h)
-            start: 2026-03-17
-            end: 2026-03-26
-            x:
-              estimate: 24
-
-
   - name: Database + backup management (36h)
     subtasks:
       - name: Backup process walkthrough (12h)
@@ -81,12 +74,6 @@ tasks:
         x:
           estimate: 12
 
-      - name: Writing docs (12h)
-        start: 2026-04-21
-        end: 2026-04-23
-        x:
-          estimate: 12
-
   - name: User management (27h)
     subtasks:
       - name: Auth process walkthrough (15h)
@@ -94,12 +81,6 @@ tasks:
         end: 2026-04-30
         x:
           estimate: 15
-
-      - name: Writing docs (12h)
-        start: 2026-05-05
-        end: 2026-05-07
-        x:
-          estimate: 12
 
   - name: Deployment management (24h)
     subtasks:
@@ -109,12 +90,6 @@ tasks:
         x:
           estimate: 12
       
-      - name: Writing docs (12h)
-        start: 2026-05-12
-        end: 2026-05-20
-        x:
-          estimate: 12
-
   - name: Development (360h)
     subtasks:
       - name: TBA (360h)
@@ -123,11 +98,22 @@ tasks:
         x:
           estimate: 360
 
-  - name: Report writing + admin end of the project (40h)
+  - name: Admin end of the project (40h)
     start: 2026-07-13
     end: 2026-07-17
     x:
       estimate: 40
+
+  - name: Report (60h)
+    intervals:
+      - start: 2026-03-17
+        end: 2026-03-26
+      - start: 2026-04-21
+        end: 2026-04-23
+      - start: 2026-05-05
+        end: 2026-05-07
+      - start: 2026-05-12
+        end: 2026-05-20
 
 milestones:
   - name: Intermediary report
