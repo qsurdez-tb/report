@@ -49,3 +49,9 @@
 1300 - Finishing second iteration of the planning
 
 1338 - Colleague asking for smth, getting back to finishing the plannin gwith a PR
+
+1348 - Added a template for the PRs. 
+
+1348 - Merged the second iteration of the planning into main
+
+
