@@ -83,17 +83,8 @@ Here are the expected deliverables :
     - Deployment procedure
     
  
-+ Functional improvements
-
-
-+ Documentation having: 
-   - Backup process explanations
-   - Watermark process explanations
-   - Schemas of system architecture
-   - Processes related to management of biometric data
-   - User key generation explanations
-   - Deployment explanations
-   
-+ Functional improvement:
-    - Scope comfirmed by May 20th when all the documentation is produced
-    - 
++ Functional improvements:
+  - Scope defined on May 20, once documentation is complete
+  - Candidate features are as followed: 
+    - Sorting by donor
+    - Sorting by image quality
