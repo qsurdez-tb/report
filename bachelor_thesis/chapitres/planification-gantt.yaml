@@ -32,7 +32,7 @@ tasks:
         x:
           estimate: 45
         subtasks:
-          - name: First look around the codebase
+          - name: First look around the codebase + app
             start: 2026-02-24
             end: 2026-02-26
             x:
@@ -43,16 +43,22 @@ tasks:
             end: 2026-03-03
             x:
               estimate: 10
-
-          - name: Docs template creation
-            start: 2026-03-03
-            end: 2026-03-05
+          
+          - name: Schema and dev env explanation
+            start: 2026-03-05
+            end: 2026-03-17
             x:
-              estimate: 3
+              estimate: 10
 
           - name: Crunch time
             start: 2026-03-09
             end: 2026-03-13
+
+          - name: Docs template creation
+            start: 2026-03-19
+            end: 2026-03-19
+            x:
+              estimate: 3
 
           - name: General docs creation
             start: 2026-03-17
@@ -60,73 +66,68 @@ tasks:
             x:
               estimate: 24
 
-      - name: Rewriting docs to accommodate report context
-        start: 2026-03-31
-        end: 2026-04-02
-        x:
-          estimate: 10
 
-  - name: Focus crypto
+  - name: Database + backup management
     subtasks:
-      - name: Analysis focus crypto
+      - name: Backup process walkthrough
         start: 2026-04-07
+        end: 2026-04-09
+        x:
+          estimate: 12
+
+      - name: Database encryption walkthrough
+        start: 2026-04-14
         end: 2026-04-16
         x:
-          estimate: 20
-        subtasks:
-          - name: Getting a reminder of what crypto is
-            start: 2026-04-07
-            end: 2026-04-09
-            x:
-              estimate: 10
+          estimate: 12
 
-          - name: Creating docs focus on crypto
-            start: 2026-04-09
-            end: 2026-04-16
-            x:
-              estimate: 10
-
-      - name: Rewriting docs to accommodate report context
+      - name: Writing docs
         start: 2026-04-21
         end: 2026-04-23
         x:
-          estimate: 10
+          estimate: 12
 
-  - name: Focus backup
+  - name: User management
     subtasks:
-      - name: Docs focus backup
+      - name: Auth process walkthrough
         start: 2026-04-23
         end: 2026-04-30
         x:
           estimate: 15
 
-      - name: Rewriting docs to accommodate report context
+      - name: Writing docs
         start: 2026-05-05
         end: 2026-05-07
         x:
-          estimate: 10
+          estimate: 12
 
-  - name: Focus deployment
+  - name: Deployment management
     subtasks:
       - name: Docs focus deployment
         start: 2026-05-07
         end: 2026-05-12
         x:
-          estimate: 8
+          estimate: 12
       
       - name: Rewriting docs to accommodate report context
         start: 2026-05-12
         end: 2026-05-14
         x:
-          estimate: 10
+          estimate: 12
 
   - name: Development
     subtasks:
       - name: TBA
         start: 2026-05-14
-        end: 2026-07-23
+        end: 2026-07-10
         x:
-          estimate: 150
+          estimate: 360
+
+      - name: Report writing + admin end of the project
+        start: 2026-07-13
+        end: 2026-07-17
+        x:
+          estimate: 40
 
 milestones:
   - name: Intermediary report
