@@ -47,3 +47,5 @@
 1120 - Finding a way to have the hours for the tasks in planning
 
 1300 - Finishing second iteration of the planning
+
+1338 - Colleague asking for smth, getting back to finishing the plannin gwith a PR
