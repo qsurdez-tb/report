@@ -32,15 +32,18 @@
 
 0822 - Reflected on using branches for planning and spec. I think it's not overkill as it will help undersanding how I work and each brnach will be focused on a specific interest.
 
-0856 - Managed to write the vision I had for the first part of the planning. But now how do I handle the notes, only commits in main or on respective branches ? !QUESTION
+0958 - Realized that I wanna rewrite the spec I wrote on tuesday. Will divide it into summary and the problematic I think it will be better.
 
-0919 - Finished writing the focus crypto part. I feel like I underestimate the time it will take me to write the documentation ? Knowing the arcane way the work of Marco is written we shall see ^^'
+1023 - It's a bit hard to write the specifications. I'm faced with the tempation to use AI. I do wonder what I should prioritize. Speed but lesser quality or take my time to write these docs ? !QUESTION
 
-0924 - I think that after setting up the dev env, I will be a bit less anxious about it ! It's currently a multi-repo project and I think that's what worries me a bit
+1033 - I will start by writing some objectives based on the description we made with my supervisor.
 
-0935 - I'm not too sure about the planning, it feels like I'm missing something... Will see after the feedback from supervisor
 
 == 24.02
+
+0750 - Draft of the questions for the meeting
+
+0825 - Work a bit on the spec + relearning some typst syntax. 
 
 1030 - Working on the new iteration of the planning
 
@@ -54,4 +57,15 @@
 
 1348 - Merged the second iteration of the planning into main
 
+1355 - Merged main into docs/draft/spec and continue working on specifications
 
+1356 - Have to rewrite the spec to adapt to the change in the planning ! Then write the deliverables part 
+
+1415 - When writing the spec I can see that my planning had some mistakes and that I forgot about the watermark process
+so I added this in place of the database as this was a bit redundant with the bcakup
+
+1425 - Starting to write the deliverables
+
+1510 - It took me a while and I feel like it's lacking somehow ... It will anyway evolve after the talk with the mandate
+
+1516 - For a first draft I will say it's enough 

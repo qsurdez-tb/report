@@ -1,44 +1,95 @@
-= Cahier des charges <cahier-des-charges>
+= Specifications <cahier-des-charges>
 
-== Résumé du problème <résumé-du-problème>
+== Problem summary <résumé-du-problème>
 
-// TODO ask wether we use english or french cause frenglish is a big no-no
+*ICNML* (_International Close Non-Matches Library_) is an open-souce platform designed for handling
+biometric traces in scientific and experimentation contexts. It is deployed by several research institutions,
+including the University of Lausanne (_UNIL_). It is used by collaborators worldwide on projects focused
+on image analysis and biometric recognition.
 
-The platform ICNML (International Close Non-Matches Library) is an open source tool made for handling biometric traces in scientific or experimentation scope.
+=== Problem statement <problématique>
 
-It is deployed by different research insitutues, among which the University of Lausanne (UNIL), ICNML is used by many collaborators through the world for collaborative projects focused on the analysis of images and biometric recognition.
+The system was initially developed in a research environment that prioritized functionnality and flexibility over 
+long-term maintenance and technical standardisation. Today, the plateform remains a central component in many scientific
+activities. However, its evolution and sustainability are limited by accumulated technical debt. These weaknesses affect
+maintenability, security, and usability for both admins and end users alike.
 
-The initial development of the system was in a context of research, favoring fonctionnality and flexibility over long term maintenance or standardisation of technical processes.
+== Specifications <cahier-des-charges-1>
 
-Today, the platform is a central component in many scientific activities, but its evolution and its perennity are limited by technical gaps. This frailty compromise its maintainability, its security and its ease of use. As much for the admins as for the users.
+=== Objectives <objectifs>
 
-=== Problématique <problématique>
-#lorem(50)
+This  aim of this bachelor thesis is to strenghten the security and maintenability of the *ICNML* platform. The work is 
+built around the 3 following objectives. \ 
 
-== Cahier des charges <cahier-des-charges-1>
-#lorem(100)
+The first objetive is to *reinforce technical maintainability* by producing documentation of the system architecture and
+all critical processes. The underlying objective is to enable future contributors to understand, install, and develop the
+platform easily compared to now. \ 
 
-=== Objectifs <objectifs>
-#lorem(150)
+The second objective is to *improve security* by bringin transparency to internal processes:
+- data encryption in the db
+- access control mechanisms
+- watermark on the images downloaded
+- encryption mechanisms applied per donor
 
-=== Déroulement <déroulement>
-Le travail commence le ... et se termine le .... Sur les 16 premières semaines, soit du x au y, la charge de travail représente 12h par semaine. Les 6 dernières semaines, soit du x au y, ce travail sera réalisé à plein temps.
+The third objective is to *demistify and reinforce management operations* such as installation and backup restoration.
+This will improve maintanability and reusability by new developers. \ 
 
-Un rendu intermédiaire noté est demandé le x et le rendu final est prévu pour le x à 12h00.
+The third objective is to *optimise user experience* through filtering and management features. Especially filtering
+by donor or image quality.
 
-La défense sera organisée entre le x et le y.
+=== Schedule <déroulement>
 
-=== Tâches <taches>
-#lorem(150)
+This work begins the 16.02.2026 and ends the 23.07.2026. Over the 16 first weeks, from 16.02 to 08.06, the workload
+is 12 hours per week. The 6 last weeks, from 08.06 to 27.07, the workload is the equivalent of a full-time. \
 
-=== Livrables <livrables>
-Les délivrables seront les suivants :
-+ Une documentation contenant :
-  - Une analyse de marché
-  - La décision qui découle de l’analyse
-  - Spécifications
-  - Les informations du module tel que le fonctionnement et les limitations
-  - Une planification initiale et finale
-  - Un mode d’emploi
-+ Un module remplissant les objectifs défini au point 2.1.
-+ Un software implémentant les améliorations s’il a été possible de les effectuer.
+An assessed intermediary submission is due on 20.05. The final report is due on the 27.07 at 12h00. \
+
+The defense will be organized between the 24.09 and the 11.10. \
+
+=== Tasks <taches>
+
+The work is built into seven phases, each one building ontop of the previous one. \
+
+The *Starting phase* (16-19.02) covers the creation of an initial planning document and the drafting of this specification. \\
+
+The *First steps in the codebase phase* (24.02-02.04) involves an in-depth analysis of the current codebase, the production
+of initial general technical documentation, and the setup of a *reproducible* local dev environment. \
+
+The *Watermark + backup management phase*  (07.04-23-04) is focus on the database encryption mechanisms as well as the process
+behind the backup mechanism. It will also analyse the process of watermarking the images when they are downloaded from the webapp. \\
+
+The *User management phase* (23.04-07.05) analyses how the keys for the users are generated and stored, how their biometric data
+ are encrypted and how the auth is managed within the application.\
+
+The *Deployment management phase* (07.05-20.05) analyses the current deployment solution and produces corresponding documentation.
+By the end of this phase, the created documentation will give enough information to take a decision on which functional
+improvements will be implemented during the development phase. \
+
+The *Development phase* (20.05-10.07) covers the implementation of the improvements selected. The exact scope is to be determined
+based on the findings of the precedent phases. \
+
+The *Admin end of the project phase* (13.07-23.07) will focus on writing the final report and the different admin tasks 
+that comes with the end of this bachelor thesis such as a publishable summary and a poster.
+
+
+=== Deliverables <livrables>
+Here are the expected deliverables :
+
++ Technical documentation on:
+    - System architecture
+    - Per-donor image encryption process with key generation and storage
+    - Digital watermarking process applied to downloaded images
+    - Backup mechanism 
+    - Deployment procedure
+    
+ 
++ Functional improvements:
+  - Scope defined on 20.05, once documentation is complete
+  - Candidate features are as followed: 
+    - Sorting by donor
+    - Sorting by image quality
+
++ End of thesis deliverables:
+    - An intermediary report due on 20.05
+    - A final report due on 23.07
+    - A publishable summary and a poster
