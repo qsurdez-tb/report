@@ -64,3 +64,8 @@
 1415 - When writing the spec I can see that my planning had some mistakes and that I forgot about the watermark process
 so I added this in place of the database as this was a bit redundant with the bcakup
 
+1425 - Starting to write the deliverables
+
+1510 - It took me a while and I feel like it's lacking somehow ... It will anyway evolve after the talk with the mandate
+
+1516 - For a first draft I will say it's enough 
