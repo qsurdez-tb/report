@@ -71,3 +71,17 @@ so I added this in place of the database as this was a bit redundant with the bc
 1516 - For a first draft I will say it's enough 
 
 1520 - Starting to write the config so the report is generated correctly
+
+1615 - Getting started for creating the repo where the code is stored. I will first clone all the repo from the gitlab, and put them raw in the icnml repository. Then I will skim through them to understand how to create my dev env with documentation !!!!
+
+1622 - I can see that the doc/build/ is within the .gitignore as well as the tests folder. That smells bad.
+
+1623 - cdn is a within .gitmodule so I will clone the repo both outside and within this so that we have all repo at one layout and where it's functionally expected
+
+1633 - Tools repo are scripts and scripts repo are scripts too. This is gonna be fun to untangle
+
+1635 - Fingerprintexperts repo seems to be smth for students or a test of sorts
+
+1638 - The docker repo seems to be where I can start from to build my dev environment ! However, there seems to be libraries that are not part of the project ICNML on gitlab. I have to underline to Christophe that I need an access to the prod environment and copy the necessary libraries MDmisc, NIST, PiAnoS, PMlib and WSQ. This feels like quite the wall.
+
+
