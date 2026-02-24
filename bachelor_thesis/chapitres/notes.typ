@@ -69,3 +69,5 @@ so I added this in place of the database as this was a bit redundant with the bc
 1510 - It took me a while and I feel like it's lacking somehow ... It will anyway evolve after the talk with the mandate
 
 1516 - For a first draft I will say it's enough 
+
+1520 - Starting to write the config so the report is generated correctly
