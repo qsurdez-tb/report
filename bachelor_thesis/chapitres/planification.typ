@@ -1,25 +1,16 @@
 #import "@preview/gantty:0.5.1": gantt
 
-= Planification <planification>
+= Planning <planification>
 
-== Planification initiale <planification-initiale>
+== Initial planning <planification-initiale>
 
-Un exemple de planification et de Gantt utilisant la bibliothèque #link("https://typst.app/universe/package/gantty/")[gantty].\
-\
-Dates clés administratives :
+This is the initial planning for the bachelor thesis. It explains the different tasks needed to complete the project. The tasks have their estimated hours needed to complete next to them in parentheses (x). Some tasks have greater estimated hours than their complete subtasks, it is because the hours estimated to write the reports are within the total estimate. \\
 
-  - oct-dec 2025 : sélection, élaboration et affectation du sujet
-  - 16.02.2026 : Démarrage du travail
-  - 20.02.2026 : Kick-off
-  - 16.03.2026 : Documents de confidentialité
-  - 16.04.2026 : Cahier des charges final
-  - 16.05.2026 : Rendu intermédiaire
-  - 24.07.2026 : Rendu final du travail
-  - 03.09.2026 : Défense du travail de Bachelor
+It is important to know the work begins the 16.02.2026 and ends the 23.07.2026. Over the 16 first weeks, from 16.02 to 08.06, the workload is 12 hours per week. The 6 last weeks, from 08.06 to 27.07, the workload is the equivalent of a full-time. \
 
 #v(5%)
 #figure(
   gantt(yaml("planification-gantt.yaml")),
   caption: [
-    Planification initiale du projet
+    Inital planning for the project
   ])<gantt>

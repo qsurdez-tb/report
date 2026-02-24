@@ -4,7 +4,7 @@ show-today: false
 headers:
   - month
 # A start date. Not required.
-start: 2026-02-016
+start: 2026-02-16
 # An end date. Not required.
 end: 2026-07-23
 # A list of tasks
@@ -12,85 +12,108 @@ tasks:
     # The name of the task.
   - name: Starting
     subtasks:
-      - name: Planning Creation
+      - name: Planning Creation (4h)
         start: 2026-02-17
         end: 2026-02-19
         x:
           estimate: 4
 
-      - name: Specification Draft
+      - name: Specification Draft (4h)
         start: 2026-02-19
         end: 2026-02-19
         x: 
           estimate: 4
 
-  - name: First steps in codebase
+  - name: First steps in codebase (45h)
     subtasks:
       - name: Code Analysis
         start: 2026-02-24
-        end: 2026-03-24
-        x:
-          estimate: 30
-      - name: Docs Creation
-        start: 2026-03-24
         end: 2026-03-26
         x:
-          estimate: 10
-      - name: Dev env
-        start: 2026-03-26
-        end: 2026-03-31
-        x:
-          estimate: 10
-  
-  - name: Focus crypto
-    subtasks:
-      - name: Analysis focus crypto
-        start: 2026-03-31
-        end: 2026-04-07
-        x:
-          estimate: 20
+          estimate: 45
+        subtasks:
+          - name: First look around the codebase + app (8h)
+            start: 2026-02-24
+            end: 2026-02-26
+            x:
+              estimate: 8
 
-      - name: Docs creation
+          - name: Creating dev env (10h)
+            start: 2026-02-26
+            end: 2026-03-03
+            x:
+              estimate: 10
+          
+          - name: Schema and dev env explanation (10h)
+            start: 2026-03-05
+            end: 2026-03-17
+            x:
+              estimate: 10
+
+          - name: Crunch time
+            start: 2026-03-09
+            end: 2026-03-13
+
+          - name: Docs template creation (3h)
+            start: 2026-03-19
+            end: 2026-03-19
+            x:
+              estimate: 3
+
+  - name: Database + backup management (36h)
+    subtasks:
+      - name: Backup process walkthrough (12h)
         start: 2026-04-07
         end: 2026-04-09
         x:
-          estimate: 10
+          estimate: 12
 
-  - name: Focus backup
-    subtasks:
-      - name: Analysis focus backup
+      - name: Database encryption walkthrough (12h)
         start: 2026-04-14
         end: 2026-04-16
         x:
-          estimate: 15
+          estimate: 12
 
-      - name: Docs creation
-        start: 2026-04-21
-        end: 2026-04-23
-        x:
-          estimate: 5
-
-  - name: Focus deployment
+  - name: User management (27h)
     subtasks:
-      - name: Analysis focus deployment
+      - name: Auth process walkthrough (15h)
         start: 2026-04-23
-        end: 2026-04-28
-        x:
-          estimate: 5
-      
-      - name: Docs creation
-        start: 2026-04-28
         end: 2026-04-30
         x:
-          estimate: 10
+          estimate: 15
 
-  - name: Development
+  - name: Deployment management (24h)
     subtasks:
-      - name: TBA
-        start: 2026-05-05
-        end: 2026-07-23
+      - name: Deployment walkthrough (12h)
+        start: 2026-05-07
+        end: 2026-05-12
         x:
-          estimate: 150
+          estimate: 12
+      
+  - name: Development (360h)
+    subtasks:
+      - name: TBA (360h)
+        start: 2026-05-20
+        end: 2026-07-10
+        x:
+          estimate: 360
+
+  - name: Admin end of the project (40h)
+    start: 2026-07-13
+    end: 2026-07-17
+    x:
+      estimate: 40
+
+  - name: Report (60h)
+    intervals:
+      - start: 2026-03-17
+        end: 2026-03-26
+      - start: 2026-04-21
+        end: 2026-04-23
+      - start: 2026-05-05
+        end: 2026-05-07
+      - start: 2026-05-12
+        end: 2026-05-20
 
 milestones:
   - name: Intermediary report
@@ -98,7 +121,7 @@ milestones:
     # Optional: whether or not the date should be shown in this milestone
 
   - name: Development focus decided
-    date: 2026-04-30
+    date: 2026-05-20
 
   - name: Final report
     date: 2026-07-23 

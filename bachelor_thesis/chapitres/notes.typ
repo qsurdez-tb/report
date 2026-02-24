@@ -31,3 +31,21 @@
 0822 - Thought quite a bit about the structure of the planning. Want to make it more detailed with mention of what, regarding to the report, is done.
 
 0822 - Reflected on using branches for planning and spec. I think it's not overkill as it will help undersanding how I work and each brnach will be focused on a specific interest.
+
+0856 - Managed to write the vision I had for the first part of the planning. But now how do I handle the notes, only commits in main or on respective branches ? !QUESTION
+
+0919 - Finished writing the focus crypto part. I feel like I underestimate the time it will take me to write the documentation ? Knowing the arcane way the work of Marco is written we shall see ^^'
+
+0924 - I think that after setting up the dev env, I will be a bit less anxious about it ! It's currently a multi-repo project and I think that's what worries me a bit
+
+0935 - I'm not too sure about the planning, it feels like I'm missing something... Will see after the feedback from supervisor
+
+== 24.02
+
+1030 - Working on the new iteration of the planning
+
+1120 - Finding a way to have the hours for the tasks in planning
+
+1300 - Finishing second iteration of the planning
+
+1338 - Colleague asking for smth, getting back to finishing the plannin gwith a PR
