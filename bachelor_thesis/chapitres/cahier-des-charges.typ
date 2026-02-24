@@ -50,13 +50,13 @@ The defense will be organized between the 24.09 and the 11.10. \
 
 The work is built into seven phases, each one building ontop of the previous one. \
 
-The *Starting phase* (16-19.02) covers the creation of an initial planning document and the drafting of this specification. \\
+The *Starting phase* (16-19.02) covers the creation of an initial planning document and the drafting of this specification. \
 
 The *First steps in the codebase phase* (24.02-02.04) involves an in-depth analysis of the current codebase, the production
 of initial general technical documentation, and the setup of a *reproducible* local dev environment. \
 
 The *Watermark + backup management phase*  (07.04-23-04) is focus on the database encryption mechanisms as well as the process
-behind the backup mechanism. It will also analyse the process of watermarking the images when they are downloaded from the webapp. \\
+behind the backup mechanism. It will also analyse the process of watermarking the images when they are downloaded from the webapp. \
 
 The *User management phase* (23.04-07.05) analyses how the keys for the users are generated and stored, how their biometric data
  are encrypted and how the auth is managed within the application.\
