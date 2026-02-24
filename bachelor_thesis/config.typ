@@ -12,13 +12,13 @@
 #let config = (
 
     global: (
-      confidential: true,
-      text_lang: "fr"
+      confidential: false,
+      text_lang: "en"
     ),
 
     information: (
-      title: "Exemple de titre",
-      subtitle: "Exemple de sous-titre",
+      title: "Modernisation and reliability improvement of the ICNML biometric trace platform",
+      subtitle: "",
       academic_years: "2025-26",
       departement: (
         court: "TIC",
@@ -29,24 +29,24 @@
         long: "Informatique et systèmes de communication (ISC)",
       ),
       orientation: (
-        court: "ISC-S",
-        long: "Sécurité informatique (ISC-S)",
+        court: "ISC-L",
+        long: "Logiciel (ISC-L)",
       ),
       author: (
-        name: "firstname lastname",
-        feminine_form: true,
+        name: "Quentin Surdez",
+        feminine_form: false,
       ),
       supervisor: (
-        name: "Prof. Bli Bla",
-        feminine_form: true,
+        name: "Prof. Sylvain Pasini",
+        feminine_form: false,
       ),
       industry_contact: (
-        name: "Nom",
+        name: "UNIL - ESC",
         address: [
-          Rue XY\
-          1400 Yverdon-les-Bains
+          Avenue François-Alphonse Forel\
+          1015 Lausanne 
         ],
-        industry_name: "EntrepriseZ",
+        industry_name: "Christophe Champod",
       ),
       resume_publiable: [
         #lorem(100)\
