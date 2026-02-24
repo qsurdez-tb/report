@@ -56,17 +56,16 @@ The work is built into five phases, each one building ontop of the previous one.
 The *Starting phase* (16-19.02) covers the creation of an initial planning document and the drafting of this specification.
 
 The *First steps in the codebase phase* (24.02-31.03) involves an in-depth analysis of the current codebase, the production
-of initial technical documentation, and the setup of a *reproducible* local dev environment. This is the foundation of 
-the following phases. This phase will produce general documentation.
+of initial general technical documentation, and the setup of a *reproducible* local dev environment.
 
-The *Cryptography focus phase*  (31.03-09.04) involves a targeted of the image encryption mechanisms, including key generation
+The *Cryptography focus phase*  (31.03-09.04) is focus on the image encryption mechanisms, including key generation
 and management per donor. This is followed by the production of dedicated documentation covering these processes.
 
 The *Backup focus phase* (14.04-23.04) analyses the actual dual-key backup system, identifies its tradeoffs, and document the 
 current process as well as possible improvements.
 
 The *Deployment focus phase* (23.04-30.04) analyses the current deployment solution and produces corresponding documentation.
-By the end of this phase, the created documenation will give enough information to take a decision on which functional
+By the end of this phase, the created documentation will give enough information to take a decision on which functional
 improvements will be implemented during the development phase.
 
 The *Development phase* (05.05-23.07) covers the implementation of the improvements selected. The exact scope is to be determined
