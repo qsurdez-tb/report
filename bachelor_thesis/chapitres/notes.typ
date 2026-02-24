@@ -37,3 +37,11 @@
 1023 - It's a bit hard to write the specifications. I'm faced with the tempation to use AI. I do wonder what I should prioritize. Speed but lesser quality or take my time to write these docs ? !QUESTION
 
 1033 - I will start by writing some objectives based on the description we made with my supervisor.
+
+
+== 24.02
+
+0750 - Draft of the questions for the meeting
+
+0825 - Work a bit on the spec + relearning some typst syntax. 
+
