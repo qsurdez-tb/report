@@ -84,7 +84,12 @@ Here are the expected deliverables :
     
  
 + Functional improvements:
-  - Scope defined on May 20, once documentation is complete
+  - Scope defined on 20.05, once documentation is complete
   - Candidate features are as followed: 
     - Sorting by donor
     - Sorting by image quality
+
++ End of thesis deliverables:
+    - An intermediary report due on 20.05
+    - A final report due on 23.07
+    - A publishable summary and a poster
