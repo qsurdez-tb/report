@@ -56,3 +56,11 @@
 1348 - Added a template for the PRs. 
 
 1348 - Merged the second iteration of the planning into main
+
+1355 - Merged main into docs/draft/spec and continue working on specifications
+
+1356 - Have to rewrite the spec to adapt to the change in the planning ! Then write the deliverables part 
+
+1415 - When writing the spec I can see that my planning had some mistakes and that I forgot about the watermark process
+so I added this in place of the database as this was a bit redundant with the bcakup
+
