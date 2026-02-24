@@ -60,7 +60,7 @@ tasks:
             x:
               estimate: 3
 
-  - name: Database + backup management (36h)
+  - name: Watermark + backup management (36h)
     subtasks:
       - name: Backup process walkthrough (12h)
         start: 2026-04-07
@@ -68,7 +68,7 @@ tasks:
         x:
           estimate: 12
 
-      - name: Database encryption walkthrough (12h)
+      - name: Watermark walkthrough (12h)
         start: 2026-04-14
         end: 2026-04-16
         x:

@@ -55,8 +55,8 @@ The *Starting phase* (16-19.02) covers the creation of an initial planning docum
 The *First steps in the codebase phase* (24.02-02.04) involves an in-depth analysis of the current codebase, the production
 of initial general technical documentation, and the setup of a *reproducible* local dev environment. \\
 
-The *Database + backup management phase*  (07.04-23-04) is focus on the database encryption mechanisms as well as the process
-behind the backup mechanism. This is followed by the production of dedicated documentation covering these processes. \\
+The *Watermark + backup management phase*  (07.04-23-04) is focus on the database encryption mechanisms as well as the process
+behind the backup mechanism. It will also analyse the process of watermarking the images when they are downloaded from the webapp. \\
 
 The *User management phase* (23.04-07.05) analyses how the keys for the users are generated, how their biometric data
  are encrypted and how the auth is managed within the application.\\
