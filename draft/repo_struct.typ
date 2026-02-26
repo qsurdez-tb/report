@@ -100,3 +100,12 @@ This repo is where the web application code is hosted. It has the cdn repo as su
 dependencies on MDmisc and NIST libraries. There is a flask application, sql schema for a database. There are also 
 a lot of utils files related to encryption, so I think this is where I will spend most of my time after creating 
 a dev environment. 
+
+=== Schema
+
+#figure(
+  image("assets/repo_dependencies.png", width: 80%),
+  caption: [
+    Repositories dependencies
+  ],
+)
