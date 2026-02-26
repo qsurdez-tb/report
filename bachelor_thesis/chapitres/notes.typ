@@ -96,7 +96,7 @@ so I added this in place of the database as this was a bit redundant with the bc
 
 1027 - First draft of repo structure is done, I'd like to make a schema to understand the relationships between the repo.
 
-
+1052 - Finished schema on app.diagrams. I think I'll do my schema on this, it's easy and nice-looking.
 
 
 
