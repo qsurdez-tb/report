@@ -92,6 +92,11 @@ so I added this in place of the database as this was a bit redundant with the bc
 
 0900 - the meeting was great, now I have to work on the code and I have to understand its different processes. Let's get started !
 
+0905 - Writing the structure of the repositories with their first perceived responsabilities
+
+1027 - First draft of repo structure is done, I'd like to make a schema to understand the relationships between the repo.
+
+
 
 
 
