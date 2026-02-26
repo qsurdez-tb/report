@@ -92,6 +92,23 @@ so I added this in place of the database as this was a bit redundant with the bc
 
 0900 - the meeting was great, now I have to work on the code and I have to understand its different processes. Let's get started !
 
+0905 - Writing the structure of the repositories with their first perceived responsabilities
 
+1027 - First draft of repo structure is done, I'd like to make a schema to understand the relationships between the repo.
 
+1052 - Finished schema on app.diagrams. I think I'll do my schema on this, it's easy and nice-looking.
 
+1125 - 5 types of users: Donor, Submitter, Admin, AFIS and Trainer. The `config.py` file seems to have lots of things to understand how everything works.
+I can't find the place where the image is decrypted. 1138 - It's in the `image_serve` function with `do_decrypt_dek` func 
+
+1131 - Submission is where the image/file is encrypted
+
+1136 - utils.encryption is where the encryption processes is.
+
+1137 - Encrypt is documented as decrypt and vice-versa 
+
+1140 - What is a dek ? -> Data Encryption Key https://security.stackexchange.com/questions/93886/dek-kek-and-master-key-simple-explanation
+
+1143 - These are stored within the db as there is a table named donor-dek
+
+1147 - when generating the dek, the code uses both aes and pbkdf2
