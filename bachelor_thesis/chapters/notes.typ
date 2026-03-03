@@ -158,3 +158,4 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 1617 - almost finished the role descriptions. then the roles-and-permissions doc will be finished I think. A nice schema can be made on thursday
 
+1632 - Fnished the role and permissions doc ! Yay
