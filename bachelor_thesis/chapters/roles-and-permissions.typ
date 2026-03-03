@@ -111,4 +111,29 @@ allows Administrators. Dedicated `/admin/*` routes are only usable by them.
   `GET /uuid/get_table/<uuid>`.
 
 
+=== Donor (type 2)
+
+*Creation:* Created programmatically by a Submitter via `POST /submission/do_new`. No self-registration.
+
+*Home page redirect:* `GET /user/myprofile/dek`
+
+*Scope:* Donors manage only their own cryptographic key (DEK) and view their
+own biometric data. They cannot interact with the submission or AFIS workflows.
+
+*Permitted operations:*
+
+#table(
+  columns: (auto, 1fr),
+  stroke: 0.5pt,
+  fill: (col, row) => if row == 0 { luma(220) } else { white },
+  align: (left, left),
+  table.header[*Route*][*Purpose*],
+  [`GET  /user/myprofile/dek`],      [View DEK profile page.],
+  [`GET  /user/myprofile/tenprint`], [View own tenprint cards.],
+  [`GET  /user/myprofile/marks`],    [View own mark images.],
+  [`POST /dek/reconstruct`],         [Re-derive the DEK from the donor's e-mail (requires re-authentication).],
+  [`GET  /dek/delete`],              [Soft-delete the DEK (`donor_dek.dek` set to `NULL`; reversible).],
+  [`GET  /dek/fulldelete`],          [Permanently delete the DEK row (right-to-erasure; irreversible).],
+)
+
 
