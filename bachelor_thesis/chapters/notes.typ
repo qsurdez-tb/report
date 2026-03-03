@@ -147,3 +147,14 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 1302 - Finished the last step for the DEK generation. Now I want to create a schema to make it more visually impactful
 
 1315 - Finished the schema
+
+1326 - Now let's create the doc explaining every role 
+
+1406 - This is harder than thought as I have to skim through all the code and check which is allowed what. A bit tiring.
+
+1425 - I'm slow and that's okay 
+
+1516 - The decorator section took a long time
+
+1617 - almost finished the role descriptions. then the roles-and-permissions doc will be finished I think. A nice schema can be made on thursday
+
