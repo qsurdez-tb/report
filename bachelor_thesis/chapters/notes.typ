@@ -128,3 +128,5 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 0848 - When creating the dek, it uses pbkdf2 but call it sha512. I don't think I understand wholly what's going on.
 
 1055 - After meeting, switch everything to english !
+
+1123 - Finished translating everything to english and incorporating the repo struct chapter !
