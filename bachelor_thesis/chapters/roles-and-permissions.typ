@@ -83,4 +83,32 @@ It also checks if this key is set to Trainer and if the user is logged.
 
 If the account type name is not Administrator or Trainer, it will redirect to the login page.
 
+== Role descriptions
+
+=== Administrator (type 1)
+
+*Creation*: Accounts must be created directly in the database or by a process not documented.
+
+*Home page redirect*: `GET /admin/submission/list`
+
+*Scope*: The Administrator has unrestricted access to the entire application. Every decorator 
+allows Administrators. Dedicated `/admin/*` routes are only usable by them.
+
+*Capabilities*:
+
+- *New user management*: can validate pending sign in requests via `GET /validate_signin`
+- *Submission overview*: can view all submissions via `GET /admin/submission/list`
+- *AFIS management*: creates targets (`POST /admin/target/<submission_id>/<pc>/new`),
+  deletes targets or candidate matches, updates assigned AFIS users, and
+  batch-assigns targets (`POST /admin/afis/batch_assign/do`)
+- *Full-resolution images:* downloads uncompressed originals via
+  `GET /image/file/<id>/full_resolution`.
+- *PiAnoS integration:* synchronises all users and segments to the external
+  PiAnoS system via `GET /pianos_api/add_user/all` and
+  `GET /pianos_api/add_segments/all`.
+- *Mark deletion (admin context):* `POST /admin/<submission_id>/mark/<m_id>/delete`.
+- *UUID inspection:* retrieves the raw database table for any UUID via
+  `GET /uuid/get_table/<uuid>`.
+
+
 
