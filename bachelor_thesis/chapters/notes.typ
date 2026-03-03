@@ -133,8 +133,13 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 0905 - Then we move to donor onboarding which uses the hash of the email in the path of the url.
 
-0926 - Beginning the writing of the document after the look through the code ! 
+0926 - Beginning the writing of the document after the look through the code !
 
 0927 - After doing this document, I should focus on a more generic one like what are the roles and what are their purposes. This makes more sense at the beginning ^^
 
 0940 - Maybe also the session object, talking a bit more on that would be helpful for the next documents
+
+
+1055 - After meeting, switch everything to english !
+
+1123 - Finished translating everything to english and incorporating the repo struct chapter !
