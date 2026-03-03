@@ -122,7 +122,7 @@ are persisted:
 It then returns a response with error false and the donor uuid.
 
 #figure(
-    image("../assets/DEK-generation.png", width: 80%),
+    image("../assets/DEK-generation.png", height: 60%),
     caption: [DEK Generation Schema]
 )
 
