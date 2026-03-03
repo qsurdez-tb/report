@@ -168,3 +168,26 @@ cannot access another submitter's data.
 *Ownership enforcement:* `@submission_has_access` issues HTTP 403 if the
 `submission_id` in the URL was not created by the current submitter.
 
+== Trainer (type 4)
+
+*Creation:* Self-registration via `GET /signin`.
+
+*Home page redirect:* `GET /marks/search`
+
+*Scope:* Trainers consume mark and tenprint data for examiner-training
+exercises. Their access is read-oriented; they do not create submissions or
+manage donors.
+
+*Permitted operations:*
+
+#table(
+  columns: (auto, 1fr),
+  stroke: 0.5pt,
+  fill: (col, row) => if row == 0 { luma(220) } else { white },
+  align: (left, left),
+  table.header[*Route*][*Purpose*],
+  [`GET  /marks/search`],              [Search and filter marks for training.],
+  [`GET  /marks/exercise/<id>`],       [View a training exercise.],
+  [`GET  /marks/folder/<id>`],         [Browse an exercise folder.],
+  [`POST /exercises/add_tenprint`],    [Associate a tenprint card with an exercise.],
+)
