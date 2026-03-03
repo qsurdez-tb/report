@@ -49,4 +49,38 @@ keys that are written in Redis.
     caption: [Keys written in Redis' session]
 )
 
+== Access-Control decorators
+
+Most of the authorisation logic lies in the decorators file. This is done via the use of `functools` package to 
+make decorator out of functions.
+
+=== `@login_required`
+
+The first decorator is the one that requires the user to be logged in. 
+It checks that the `session["logged"]` key is set to `True`. Any unauthenticated
+request is redirected to the login url. This is the baseline access control.
+
+
+=== `@admin_required`
+
+This decorator checks wether the `account_type_name` key in the session is set to Administrator.
+It also checks wether or not the user is logged with the same logic as the `login_required` decorator.
+
+If the the account type name is not Administrator, it will redirect to login.
+
+=== `@submission_has_access`
+
+This decorator will check wether the user has access to the current submission.
+
+- If the user is an Administrator, then they can access the submission
+- If the user is a Submitter, the submission needs to be theirs (this needs clarification, I don't understand it yet)
+- All other roles are redirected to the login page
+
+=== `@trainer_has_access`
+
+This decorator checks wether the `account_type_name` key in the session is set to Administrator.
+It also checks if this key is set to Trainer and if the user is logged. 
+
+If the account type name is not Administrator or Trainer, it will redirect to the login page.
+
 
