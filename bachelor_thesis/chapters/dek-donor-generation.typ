@@ -108,7 +108,18 @@ The function returns 3 variables:
 
 === Step 4, DEK persistance
 
+After the creation of the DEK, it is stored within the `donor_dek` table. Here's a list of the different fields that
+are persisted:
 
+- `donor_name`, this is the username created previously `donor_<id>`
+- `salt`, this is the `dek_salt` returned by the dek generating function
+- `dek`, the generated DEK
+- `dek_check`, the encrypted DEK using AES
+- `iterations`, the number of iterations used to create the DEK
+- `algo`, the algo used for generating the DEK, here always pbkdf2
+- `hash`, the structure of the hash used, here always sha512
+
+It then returns a response with error false and the donor uuid.
 
 
 
