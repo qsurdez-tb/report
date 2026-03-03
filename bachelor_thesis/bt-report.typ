@@ -293,7 +293,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 #include "chapters/introduction.typ"
 #include "chapters/planification.typ"
 #include "chapters/state-of-the-art.typ"
-#include "chapters/chapter-example.typ"
+#include "chapters/repo-struct.typ"
 #include "chapters/architecture.typ"
 #include "chapters/implementation.typ"
 #include "chapters/results.typ"
