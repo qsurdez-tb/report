@@ -32,4 +32,21 @@ via the `GET /signin` public form.
     )
 )
 
- 
+== Authentication and Session Model
+
+The authentication is handled by the `/login` route. It expects the user to complete a form and then it will call the
+`POST /do/login` endpoint for each attribute (username, password, TOTP or WebAuthn passkey). Then, these are the
+keys that are written in Redis.
+
+#figure(
+    ```python
+        session[ "account_type" ]
+        session[ "account_type_name" ]
+        session[ "logged" ]
+        session[ "username" ]
+        session[ "user_id" ]
+    ```,
+    caption: [Keys written in Redis' session]
+)
+
+
