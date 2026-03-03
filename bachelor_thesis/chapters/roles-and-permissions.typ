@@ -226,3 +226,16 @@ comparison decisions. This seems like a big part of the application.
   [`GET  /afis/<cnm>/<file>/<fpc>/res`],                    [Retrieve image resolution metadata.],
   [`GET  /image/cnm_candidate/screenshot/<file>/preview`],  [Preview a candidate screenshot.],
 )
+
+=== Selection (type 6)
+
+*Creation:* Self-registration via `GET /signin`.
+
+*Home page redirect:* Default (`/`) — no specialised redirect is defined in
+`views/base/__init__.py` for this role.
+
+*Scope:* The Selection role is defined in the database and the registration
+flow but has no dedicated routes or decorators at this time. A Selection user
+can log in and reach any route guarded only by `@login_required` (shared
+utilities, UUID search, image preview, donor views, etc.), but cannot access submission,
+AFIS, trainer, or admin-specific routes.
