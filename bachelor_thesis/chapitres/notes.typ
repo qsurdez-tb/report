@@ -112,3 +112,17 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 1143 - These are stored within the db as there is a table named donor-dek
 
 1147 - when generating the dek, the code uses both aes and pbkdf2
+
+== 03.03
+
+0750 - Getting back into it
+
+0803 - Made all the necessary requests for rights to access the application + the server. I should have them by this friday
+
+0804 - I would like to focus on the process for the dek creation and create a document about it explaining the workflow
+
+0827 - This seems to start at the submission. The donor will ask for an account and a submitter or admin will accept it via do_new
+
+0840 - There's an iv created via Random. The encryptino uses the encryption utils and aes utils. The stores the salt and dek created in the db.
+
+0848 - When creating the dek, it uses pbkdf2 but call it sha512. I don't think I understand wholly what's going on.
