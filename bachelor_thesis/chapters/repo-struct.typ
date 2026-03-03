@@ -1,6 +1,7 @@
 = Repository structure <repo-struct>
 
-This file will focus on the structure of the repositories and how they interact with one another. 
+This chapter focus on the repositories structure as well as their interaction with one another. It is used as a backbone
+to understand the dependencies of the directories as well as how they're linked together through the CICD. 
 
 == List of directories <list-directories>
 
@@ -104,7 +105,7 @@ a dev environment.
 == Schema <repo-struct-schema>
 
 #figure(
-  image("assets/repo_dependencies.png", width: 80%),
+  image("../assets/repo_dependencies.png", width: 80%),
   caption: [
     Repositories dependencies
   ],
