@@ -126,3 +126,15 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 0840 - There's an iv created via Random. The encryptino uses the encryption utils and aes utils. The stores the salt and dek created in the db.
 
 0848 - When creating the dek, it uses pbkdf2 but call it sha512. I don't think I understand wholly what's going on.
+
+0858 - I see that username and email are use to create the dek as the user did not yet create a password. Let's keep an eye on this.
+
+0902 - Well I'm focusing a bit on the encryption today but I feel like it's such an important part that I should tackle it as soon as I can to understand the components early on
+
+0905 - Then we move to donor onboarding which uses the hash of the email in the path of the url.
+
+0926 - Beginning the writing of the document after the look through the code ! 
+
+0927 - After doing this document, I should focus on a more generic one like what are the roles and what are their purposes. This makes more sense at the beginning ^^
+
+0940 - Maybe also the session object, talking a bit more on that would be helpful for the next documents
