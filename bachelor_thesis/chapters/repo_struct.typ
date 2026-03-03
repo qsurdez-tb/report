@@ -1,8 +1,8 @@
-= Repository structure
+= Repository structure <repo-struct>
 
 This file will focus on the structure of the repositories and how they interact with one another. 
 
-== List of directories
+== List of directories <list-directories>
 
 - afis_assignments
 - base
@@ -14,15 +14,15 @@ This file will focus on the structure of the repositories and how they interact 
 - tools
 - web
 
-== Description
+== Description <repo-struct-description>
 
-=== Repo afis_assignemnts
+=== Repo afis_assignemnts <repo-afis-ass>
 
 This repository contains one R file. This file is name `TrialSortingScript` and relies on a csv file that is not present.
 This seems to be filtering out some data from labs. This seems to be outside the scope of this thesis. It may be removed
 in the future.
 
-=== Repo base
+=== Repo base <repo-base>
 
 This repository contains on Dockerfile as well as a gitlab cicd file and a license. The Dockerfile is a minimal debian install.
 It updates, upgrades and installs `gettext-base`. It then removes the `/var/lib/apt/lists/*`.
@@ -34,7 +34,7 @@ There are two images in the container repository of this repo:
 - base/cache
 - base
 
-=== Repo cdn
+=== Repo cdn <repo-cdn>
 
 This repo hosts all the js and css that is considered as libraries for the web application. Here's an exhaustive lists of
 what is present within the repo:
@@ -53,7 +53,7 @@ what is present within the repo:
 - sha512
 - underscore-min
 
-=== Repo docker
+=== Repo docker <repo-docker>
 
 This repo has the description "ICNML application builder process". From the README, we can understand that the docker 
 repo has submodules. After testing, today it cannot reach them. This repository is mainly focused on the CICD pipeline.
@@ -71,37 +71,37 @@ There are 3 images in the container repository of this repo:
 - docker/redis
 - docker/web
 
-=== Repo documents
+=== Repo documents <repo-doc>
 
 There is only one pdf file within this repository. It is a donor consent form. 
 
-=== Repo fingerprintexperts_assessment
+=== Repo fingerprintexperts_assessment <repo-fingerprint>
 
 This repo contains the results from tests on ICNML images with fingerprint experts. It's out of scope. It may be deleted later on.
 
 
-=== Repo config/production
+=== Repo config/production <repo-prod>
 
 This repo seems to be a part of an automated process. The timestamps of the last commits correspon to the ones on 
 the web repository. 
 
-=== Repo scripts
+=== Repo scripts <repo-scripts>
 
 This repo hosts scripts used database management. There is one for creating the backup, one for cleaning the backups, one
 to duplicate the database and one for combining gpg keys.
 
-=== Repo tools
+=== Repo tools <repo-tools>
 
 This repo contains scripts in python to migrate data and convert it. It relies on submodules that are not accesible today.
 
-=== Repo web
+=== Repo web <repo-web>
 
 This repo is where the web application code is hosted. It has the cdn repo as submodule, however I also see some 
 dependencies on MDmisc and NIST libraries. There is a flask application, sql schema for a database. There are also 
 a lot of utils files related to encryption, so I think this is where I will spend most of my time after creating 
 a dev environment. 
 
-== Schema
+== Schema <repo-struct-schema>
 
 #figure(
   image("assets/repo_dependencies.png", width: 80%),
