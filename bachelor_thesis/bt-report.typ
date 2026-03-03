@@ -143,7 +143,7 @@
       [*Faculty*], [#config.information.filiere.long],
       [*Orientation*], [#config.information.orientation.long],
       [],[],
-      [*Entreprise mandante*], [
+      [*Mandating Company*], [
         #config.information.industry_contact.name \
         #config.information.industry_contact.industry_name \
         #config.information.industry_contact.address
@@ -166,9 +166,9 @@
 ▀█▄██ ▀██▀█  ██   ██ ██ ▀█▄▄▄ ██ ██  ██   ██▄ ██  ██▄ ▀████ ▀█▄██  ██   ██▄ ▀███▀ ██ ██ 
 */
 
-= Authentification
+= Authentication
 
-Par la présente, j’atteste avoir réalisé ce travail et n’avoir utilisé aucune autre source que celles expressément mentionnées.
+I hereby certify that I have completed this work myself and have used no other sources than those expressly mentioned.
 #v(20%)
 
 #table(
@@ -192,17 +192,17 @@ Par la présente, j’atteste avoir réalisé ce travail et n’avoir utilisé a
 ▀▀                                                    
 */
 
-= Préambule
+= Preamble
 
-Ce travail de Bachelor (ci-après TB) est réalisé en fin de cursus d'études, en vue de l'obtention du titre de Bachelor of Science HES-SO en Ingénierie.
-
-#v(4%)
-
-En tant que travail académique, son contenu, sans préjuger de sa valeur, n'engage ni la responsabilité de l'auteur, ni celles du jury du travail de Bachelor et de l'Ecole.
+This Bachelor Thesis (hereinafter BT) is completed at the end of the study program, with a view to obtaining the title of Bachelor of Science HES-SO in Engineering.
 
 #v(4%)
 
-Toute utilisation, même partielle, de ce TB doit être faite dans le respect du droit d'auteur.
+As an academic work, its content, without prejudging its value, does not engage the responsibility of the author, nor that of the Bachelor Thesis jury and the School.
+
+#v(4%)
+
+Any use, even partial, of this BT must be made in compliance with copyright law.
 
 #v(10%)
 
@@ -210,11 +210,11 @@ Toute utilisation, même partielle, de ce TB doit être faite dans le respect du
   stroke: none,
   columns: (60%, 40%),
   [], [HEIG-VD],
-  [], [Le Chef de département #config.information.departement.court]
+  [], [The Head of Department #config.information.departement.court]
 )
 
 #align(bottom + left, [
-  Yverdon-les-Bains, le #datetime.today().display("[day].[month].[year]")
+  Yverdon-les-Bains, #datetime.today().display("[day].[month].[year]")
 ])
 #pagebreak(weak: true)
 
@@ -226,11 +226,11 @@ Toute utilisation, même partielle, de ce TB doit être faite dans le respect du
 ██    ▀█▄▄▄ ▄▄▄█▀ ▀██▀█ ██ ██ ██ ▀█▄▄▄                             
 */
 
-= Resumé
+= Abstract
 
-#align(left)[*Travail de Bachelor #config.information.academic_years*]
-#align(left)[*Titre:*  #config.information.title]
-#align(left)[*Sous-titre:*  #config.information.subtitle]
+#align(left)[*Bachelor Thesis #config.information.academic_years*]
+#align(left)[*Title:*  #config.information.title]
+#align(left)[*Subtitle:*  #config.information.subtitle]
 
 #v(5%)
 
@@ -244,11 +244,11 @@ Toute utilisation, même partielle, de ce TB doit être faite dans le respect du
       #table(
         stroke: none,
         columns: (35%, 65%),
-        [*#if config.information.author.feminine_form { "Étudiante" } else { "Étudiant" }*], [*#config.information.author.name*],
+        [*#if config.information.author.feminine_form { "Student" } else { "Student" }*], [*#config.information.author.name*],
         [],[],
-        [*#if config.information.supervisor.feminine_form { "Superviseur" } else { "Superviseure" }*], [#config.information.supervisor.name],
+        [*#if config.information.supervisor.feminine_form { "Supervisor" } else { "Supervisor" }*], [#config.information.supervisor.name],
         [],[],
-        [*Entreprise mandante*], [#config.information.industry_contact.name],
+        [*Mandating Company*], [#config.information.industry_contact.name],
       )
     ]
   )
@@ -265,10 +265,10 @@ Toute utilisation, même partielle, de ce TB doit être faite dans le respect du
                                                                                  ▀▀▀              
 */
 
-#include "chapitres/cahier-des-charges.typ"
+#include "chapters/specifications.typ"
 
 
-#outline(title: "Table des matières", depth: 2, indent: 15pt)
+#outline(title: "Table of contents", depth: 2, indent: 15pt)
 
 /*                                                 
                                    ▄▄                                                   
@@ -290,14 +290,14 @@ Toute utilisation, même partielle, de ce TB doit être faite dans le respect du
 | ------------------------------------
 */
 
-#include "chapitres/introduction.typ"
-#include "chapitres/planification.typ"
-#include "chapitres/etat-de-lart.typ"
-#include "chapitres/exemple-de-chapitre.typ"
-#include "chapitres/architecture.typ"
-#include "chapitres/implementation.typ"
-#include "chapitres/resultats.typ"
-#include "chapitres/conclusion.typ"
+#include "chapters/introduction.typ"
+#include "chapters/planification.typ"
+#include "chapters/state-of-the-art.typ"
+#include "chapters/chapter-example.typ"
+#include "chapters/architecture.typ"
+#include "chapters/implementation.typ"
+#include "chapters/results.typ"
+#include "chapters/conclusion.typ"
 
 // ------------------------------------
 
@@ -331,7 +331,7 @@ Toute utilisation, même partielle, de ce TB doit être faite dans le respect du
 #context {
   let figures = query(figure.where(kind: image))
   if figures.len() != 0 {
-    outline(title: "Table des figures", target: figure.where(kind: image))
+    outline(title: "Figures table", target: figure.where(kind: image))
   }
 }
 
@@ -346,7 +346,7 @@ Toute utilisation, même partielle, de ce TB doit être faite dans le respect du
 #context {
   let tables = query(figure.where(kind: table))
   if tables.len() != 0 {
-    outline(title: "Liste des tableaux", target: figure.where(kind: table))
+    outline(title: "Tabs list", target: figure.where(kind: table))
   }
 }
 
@@ -356,7 +356,7 @@ Toute utilisation, même partielle, de ce TB doit être faite dans le respect du
 ▀█▄██ ██ ██ ██ ██ ▀█▄▄▄ ██ ██ ▀█▄▄▄ ▄▄▄█▀ 
 */
 
-#fullpage([= Annexes])
+#fullpage([= Appendices])
 #counter(heading).update(0)
 #set heading(numbering: "I.i")
 
@@ -366,8 +366,8 @@ Toute utilisation, même partielle, de ce TB doit être faite dans le respect du
 | ------------------------------------
 */
 
-#include "chapitres/outils-utilises.typ"
+#include "chapters/tools-used.typ"
 #set page(flipped: true)
-#include "chapitres/journal-de-travail.typ"
+#include "chapters/work-diary.typ"
 
 // ------------------------------------

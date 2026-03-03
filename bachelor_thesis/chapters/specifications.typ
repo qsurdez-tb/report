@@ -1,22 +1,22 @@
-= Specifications <cahier-des-charges>
+= Specifications <specifications>
 
-== Problem summary <résumé-du-problème>
+== Problem summary <problem-summary>
 
 *ICNML* (_International Close Non-Matches Library_) is an open-souce platform designed for handling
 biometric traces in scientific and experimentation contexts. It is deployed by several research institutions,
 including the University of Lausanne (_UNIL_). It is used by collaborators worldwide on projects focused
 on image analysis and biometric recognition.
 
-=== Problem statement <problématique>
+=== Problem statement <problem-statement>
 
 The system was initially developed in a research environment that prioritized functionnality and flexibility over 
 long-term maintenance and technical standardisation. Today, the plateform remains a central component in many scientific
 activities. However, its evolution and sustainability are limited by accumulated technical debt. These weaknesses affect
 maintenability, security, and usability for both admins and end users alike.
 
-== Specifications <cahier-des-charges-1>
+== Specifications <specification-1>
 
-=== Objectives <objectifs>
+=== Objectives <objectives>
 
 This  aim of this bachelor thesis is to strenghten the security and maintenability of the *ICNML* platform. The work is 
 built around the 3 following objectives. 
@@ -37,7 +37,7 @@ This will improve maintanability and reusability by new developers.
 The third objective is to *optimise user experience* through filtering and management features. Especially filtering
 by donor or image quality.
 
-=== Schedule <déroulement>
+=== Schedule <schedule>
 
 This work begins the 16.02.2026 and ends the 23.07.2026. Over the 16 first weeks, from 16.02 to 08.06, the workload
 is 12 hours per week. The 6 last weeks, from 08.06 to 27.07, the workload is the equivalent of a full-time.
@@ -72,7 +72,7 @@ The *Admin end of the project phase* (13.07-23.07) will focus on writing the fin
 that comes with the end of this bachelor thesis such as a publishable summary and a poster.
 
 
-=== Deliverables <livrables>
+=== Deliverables <deliverables>
 Here are the expected deliverables :
 
 + Technical documentation on:

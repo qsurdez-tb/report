@@ -126,3 +126,5 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 0840 - There's an iv created via Random. The encryptino uses the encryption utils and aes utils. The stores the salt and dek created in the db.
 
 0848 - When creating the dek, it uses pbkdf2 but call it sha512. I don't think I understand wholly what's going on.
+
+1055 - After meeting, switch everything to english !

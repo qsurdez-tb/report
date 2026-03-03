@@ -1,4 +1,4 @@
-= Journal de travail <journal-de-travail>
+= Work diary <work-diary>
 #block[
 #figure(
   align(center)[#table(
