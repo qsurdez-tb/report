@@ -191,3 +191,38 @@ manage donors.
   [`GET  /marks/folder/<id>`],         [Browse an exercise folder.],
   [`POST /exercises/add_tenprint`],    [Associate a tenprint card with an exercise.],
 )
+
+=== AFIS (type 5)
+
+*Creation:* Self-registration via `GET /signin`.
+
+*Home page redirect:* `GET /afis/list/targets`
+
+*Scope:* AFIS users work on fingerprint identification targets: they receive
+candidate match assignments, upload and annotate search results, and set
+comparison decisions. This seems like a big part of the application.
+
+*Permitted operations:*
+
+#table(
+  columns: (auto, 1fr),
+  stroke: 0.5pt,
+  fill: (col, row) => if row == 0 { luma(220) } else { white },
+  align: (left, left),
+  table.header[*Route*][*Purpose*],
+  [`GET  /afis/list/targets`],                              [List assigned AFIS targets.],
+  [`GET  /afis/incidental/donors/list`],                    [List incidental donors.],
+  [`GET  /afis/incidental/donor/<uuid>/list`],              [Browse a specific incidental donor's data.],
+  [`GET  /afis/<uuid>`],                                    [View an AFIS target.],
+  [`GET  /afis/<uuid>/download{,/mark,_exercise}`],         [Download target data, mark, or exercise package.],
+  [`GET  /afis/<uuid>/upload/list`],                        [List uploaded result files.],
+  [`GET  /afis/<uuid>/upload/new/<type>`],                  [Initiate a result file upload.],
+  [`GET  /afis/<target>/<cnm>`],                            [View a candidate match.],
+  [`POST /afis/<target>/<cnm>/set_pfsp`],                   [Record the PFSP decision for a candidate match.],
+  [`POST /afis/<target>/<cnm>/upload`],                     [Upload a candidate match result file.],
+  [`POST /afis/<target>/<cnm>/update_field`],               [Update a field on a candidate match.],
+  [`GET  /afis/<cnm>/<file>/<fpc>/autodetect`],             [Auto-detect minutiae from a mark file.],
+  [`GET  /afis/<cnm>/<file>/autodetect/tiff`],              [Auto-detect from a TIFF file.],
+  [`GET  /afis/<cnm>/<file>/<fpc>/res`],                    [Retrieve image resolution metadata.],
+  [`GET  /image/cnm_candidate/screenshot/<file>/preview`],  [Preview a candidate screenshot.],
+)
