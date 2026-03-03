@@ -145,3 +145,5 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 1123 - Finished translating everything to english and incorporating the repo struct chapter !
 
 1302 - Finished the last step for the DEK generation. Now I want to create a schema to make it more visually impactful
+
+1315 - Finished the schema

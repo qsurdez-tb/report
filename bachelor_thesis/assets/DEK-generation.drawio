@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:148.0) Gecko/20100101 Firefox/148.0" version="29.5.5">
+  <diagram name="Page-1" id="M7dZG97eRgqL2HjqSKM2">
+    <mxGraphModel dx="1377" dy="872" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Kx06MVuzAVpct7outORx-25" edge="1" parent="1" source="Kx06MVuzAVpct7outORx-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Kx06MVuzAVpct7outORx-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="POST /submission/do_new" vertex="1">
+          <mxGeometry height="60" width="166" x="331" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-26" edge="1" parent="1" source="Kx06MVuzAVpct7outORx-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Kx06MVuzAVpct7outORx-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Duplicate check" vertex="1">
+          <mxGeometry height="60" width="120" x="354" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-27" edge="1" parent="1" source="Kx06MVuzAVpct7outORx-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Kx06MVuzAVpct7outORx-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="User persistance" vertex="1">
+          <mxGeometry height="60" width="120" x="354" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-28" edge="1" parent="1" source="Kx06MVuzAVpct7outORx-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Kx06MVuzAVpct7outORx-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-29" edge="1" parent="1" source="Kx06MVuzAVpct7outORx-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Kx06MVuzAVpct7outORx-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="DEK generation" vertex="1">
+          <mxGeometry height="60" width="120" x="354" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-30" edge="1" parent="1" source="Kx06MVuzAVpct7outORx-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Kx06MVuzAVpct7outORx-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;div&gt;username:email_hash&lt;/div&gt;&lt;div&gt;salt&lt;/div&gt;&lt;div&gt;pbkdf2&lt;/div&gt;&lt;div&gt;sha512&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="160" x="560" y="595" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-31" edge="1" parent="1" source="Kx06MVuzAVpct7outORx-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" target="Kx06MVuzAVpct7outORx-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="check creation with aes from dek" vertex="1">
+          <mxGeometry height="60" width="120" x="580" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="Kx06MVuzAVpct7outORx-24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="DEK Persistence" vertex="1">
+          <mxGeometry height="60" width="120" x="354" y="780" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

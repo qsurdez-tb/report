@@ -121,6 +121,11 @@ are persisted:
 
 It then returns a response with error false and the donor uuid.
 
+#figure(
+    image("../assets/DEK-generation.png", width: 80%),
+    caption: [DEK Generation Schema]
+)
+
 
 
 
