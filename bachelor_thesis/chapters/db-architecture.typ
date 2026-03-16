@@ -851,3 +851,11 @@ Default inserted values:
 - 2, twist
 - 3, unknown
 - 4, none
+
+#figure(
+  image(
+    "../assets/db-schema.png",
+    height: 80%
+  ),
+  caption: [Auto-generated schema of the database tables]
+)
