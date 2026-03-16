@@ -795,3 +795,30 @@ Constraints:
 
 Indexes:
 - No index on `id` column.
+
+== `activities` table
+
+Stores the available activity values in the application.
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],    [`integer`],           [No],  [Auto-incremented via `activities_id_seq`.],
+      [`name`],  [`character varying`], [No],  [Name of the activity.],
+    ),
+    caption: [`activities` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried.
+- No explicit unique constraint on `name`, would be necessary to not have two activities with the same name.
+
+Indexes:
+- No index on `id` column.
+
+There's no default values in this table.
+
