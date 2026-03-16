@@ -195,3 +195,8 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 1434 - Finished, let's update the specifications again with the new planning
 
 1443 - Finished updating the new spec
+
+1458 - Thought about making a new diagram with the guessed FK relationships so we have a better view. It seems like a nice-to-have but not necessary ?
+
+1502 - Did it quickly with AI, will study this later
+
