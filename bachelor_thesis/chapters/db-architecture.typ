@@ -332,6 +332,7 @@ Stores the location and orientation of individual finger segments from a tenprin
 Constraints:
 - No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
 - No explicit foreign key constraint on `tenprint_id` to another table ? 
+- No explicit foreign key constraint on `fpc` to `pc.id`
 
 Indexes:
 - No index on `id` column.
@@ -360,6 +361,7 @@ This seems to store the actual extracted finger image data. It is used to serve 
 Constraints:
 - No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
 - No explicit foreign key constraint on `tenprint` to another table ? 
+- No explicit foreign key constraint on `pc` to `pc.id`
 
 Indexes:
 - No index on `id` column.
@@ -446,7 +448,7 @@ However, I don't see it used within the application. It's never called in a sql 
 )
 
 Constraints:
-- None
+- - No explicit foreign key constraint on `pc` to `pc.id`
 
 Indexes:
 - None
@@ -496,7 +498,7 @@ This table seems to be a template that would define the expected zones on a tenp
 
 Constraints:
 - No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
-- No explicit foreign key constraint on the `pc` column.
+- No explicit foreign key constraint on `pc` to `pc.id`
 
 Indexes:
 - No index on `id` column.
@@ -515,7 +517,7 @@ This table stores the information regarding a mark.
       [`id`],       [`integer`],            [No],  [Auto-incremented with `mark_info_id_seq`],
       [`uuid`],       [`uuid`],            [No],  [Uuid for the specific row],
       [`pfsp`], [`varchar`],            [Yes],  [Police or private forensics science providers ?],
-      [`detection_technic`],       [`varchar`],            [No],  [Detection technique used to retrieve the mark (e.q. Powder dusting)],
+      [`detection_technic`],       [`varchar`],            [No],  [Detection technique used to retrieve the mark (e.q. Powder dusting), no foreign key],
       [`surface`],       [`varchar`],            [Yes],  [Surface on which the mark was retrieved],
     ),
     caption: [`mark_info` columns]
@@ -523,6 +525,8 @@ This table stores the information regarding a mark.
 
 Constraints:
 - No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+- No explicit foreign key constraint on `detection_technic` to `detection_technics.id` as it's a varchar. This seems strange to me.
+- No explicit foreign key constraint on `surface` to `surfaces.id` as it's a varchar. This seems strange to me.
 
 Indexes:
 - No index on `id` column.
@@ -639,3 +643,76 @@ Default inserted values:
 - 27, Left lower palm
 - 1000, All rolled
 
+== `detection_technics` table
+
+Stores the available values for the detection technique in the application.
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented with `detection_technics_id_seq`],
+      [`name`],       [`varchar`],            [No],  [Name of the detection technique],
+    ),
+    caption: [`detection_technics` columns]
+)
+
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+- No explicit unique constraint on `name`, would be necessary to not have two detection techniques with the same name.
+
+Indexes:
+- No index on `id` column.
+
+
+Default inserted values:
+- There are 49 default inserted values I only put the 5 first ones
+- 1, Black Powder
+- 2, Ninhydrine
+- 3, 1,2-Indanedione
+- 4, Cyanoacrylate fuming (CA)
+- 5, Black Powder Suspension (BPS)
+- 6, Optical
+
+== `surfaces` table
+
+Stores the available values for the surfaces in the application.
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented with `surfaces_id_seq`],
+      [`name`],       [`varchar`],            [No],  [Name of the surface],
+    ),
+    caption: [`surfaces` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+- No explicit unique constraint on `name`, would be necessary to not have two detection techniques with the same name.
+
+Indexes:
+- No index on `id` column.
+
+Default inserted values:
+- 1, Paper
+- 2, Plastic
+- 3, Glass
+- 4, Bag
+- 5, Bottle
+- 6, Sticky side
+- 7, Non-adhesive side
+- 8, Tape
+- 9, Fabric / Cloth
+- 10, Metal
+- 11, Cartridge
+- 12, Wood
+- 13, Porcelain
