@@ -284,7 +284,7 @@ This table stores the files data and its metadata like height, resolution, forma
       [`format`],       [`varchar`],            [Yes],  [Format of the file],
       [`resolution`],       [`integer`],            [Yes],  [Resolution of the file],
       [`note`],       [`varchar`],            [Yes],  [Note about the file],
-      [`quality`],       [`integer`],            [Yes],  [Quality of the file],
+      [`quality`],       [`integer`],            [Yes],  [Quality of the file, no foreign key],
     ),
     caption: [`files` columns]
 )
@@ -293,10 +293,180 @@ Constraints:
 - No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
 - No explicit foreign key constraint on `creator` to `users.id`.
 - No explicit foreign key constraint on `folder` to, I suspect, `exercises_folder.id`
+- No explicit foreign key constraint on `quality` to, I suspect, `quality_type.id`
 
 Indexes:
 - No index on `id` column.
 
 This looks like a very broad table encompassing images and pdf alike.
+
+== `files_v` view
+
+This view queries all the columns from the `files` table without the data column. 
+
+== `segments_locations` table
+
+Stores the location and orientation of individual finger segments from a tenprint card image. // TODO check with Christophe if true
+
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented via `segments_locations_id_seq`.],
+      [`tenprint_id`], [`uuid`],            [No],  [Uuid of the tenprint card, no foreign key],
+      [`fpc`], [`integer`],            [No], [Finger position code (e.q. right thumb = 1)],
+      [`x`],       [`numeric`],            [No],  [x coordinate of the bounding box],
+      [`y`],       [`numeric`],            [No],  [y coordinate of the bounding box],
+      [`width`],       [`numeric`],            [No],  [Width of the bounding box],
+      [`height`],       [`numeric`],            [No],  [Height of the bounding box],
+      [`orientation`],       [`integer`],            [No],  [Orientation of the bounding box],
+    ),
+    caption: [`segments_locations` columns]
+)
+
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+- No explicit foreign key constraint on `tenprint_id` to another table ? 
+
+Indexes:
+- No index on `id` column.
+
+== `files_segments` table
+
+This seems to store the actual extracted finger image data. It is used to serve the image.
+
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented via `files_segment_id_seq`.],
+      [`tenprint`], [`uuid`],            [No],  [Uuid of the tenprint card, no foreign key],
+      [`pc`], [`integer`],            [No], [Position code (e.q. right thumb = 1)],
+      [`data`], [`varchar`],            [No], [Data encoded UTF8],
+      [`uuid`],       [`uuid`],            [No],  [Uuid of the row],
+    ),
+    caption: [`files_segments` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+- No explicit foreign key constraint on `tenprint` to another table ? 
+
+Indexes:
+- No index on `id` column.
+
+== `files_segements_v` view
+
+This view queries all the columns of the `files_segments` table expect the data column.
+
+== `thumbnails` table
+
+This table is used to store thumbnails of the different images. Are the thumbnails also encrypted ?
+
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented via `thumbnails_id_seq`.],
+      [`uuid`], [`uuid`],            [No],  [Uuid of the row],
+      [`width`],       [`integer`],            [No],  [Width of the thumbnail],
+      [`height`],       [`integer`],            [No],  [Height of the thumbnail],
+      [`size`],       [`integer`],            [No],  [Size of the thumbnail],
+      [`data`],       [`varchar`],            [No],  [Data encoded UTF8],
+      [`format`],       [`varchar`],            [No],  [Format of the thumbnail],
+    ),
+    caption: [`thumbnails` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+
+Indexes:
+- No index on `id` column.
+
+== `quality_type` table
+
+Stores the different quality values possible in the web applciation.
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented via `newtable_id_seq`.],
+      [`name`], [`varchar`],            [No],  [Name of the quality type],
+    ),
+    caption: [`quality_type` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+- No unique constraint on the `name` column, which would be interesting for enforcing business logic
+
+Indexes:
+- No index on `id` column.
+
+Lists of quality type values:
+- Prestine (typo for Pristine)
+- Good
+- Bad
+
+== `tenprint_zones_location` table
+
+Stores the possible zone location for the tenprint ? // TODO ask Christophe about this
+
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`pc`],       [`integer`],            [No],  [Position code that also acts as a primary key ?],
+      [`side`], [`varchar`],            [No],  [The side of the zone (either front or back)],
+    ),
+    caption: [`tenprint_zones_location` columns]
+)
+
+Constraints:
+- None
+
+Indexes:
+- None
+
+Values inserted by default:
+- 1, front
+- 2, front
+- 3, front
+- 5, front
+- 6, front
+- 7, front
+- 8, front
+- 9, front
+- 10, front
+- 11, front
+- 12, front
+- 13, front
+- 14, front
+- 22, back
+- 24, back
+- 25, back
+- 27, back
 
 
