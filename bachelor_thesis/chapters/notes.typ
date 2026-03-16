@@ -159,3 +159,20 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 1617 - almost finished the role descriptions. then the roles-and-permissions doc will be finished I think. A nice schema can be made on thursday
 
 1632 - Fnished the role and permissions doc ! Yay
+
+== 16.03
+
+0720 - Rereading work done on the 03.03
+
+0750 - Just thought about the sql schema that I could input in DataGrip to get a nice schema out of it !
+
+0804 - Finished rereading and updating previous work
+
+0819 - Created a lil postgres Docker, mounted the sql tables + scripts. Had to tinker with the scripts a bit but the scripts ran and now I can access the data as it should be in the prod icnml database
+
+0822 - Quite interesting, as there are looots of sequences in it created by the sql files. And 2 views !
+
+0824 - It's quite strange cause, there's barely any foreign keys ... Like the files table has a creator column that is only an integer and common sense would expect a foreign key to the user table ? What's the reason for not having foreign keys ? Security perhaps ? Feels like shadowing and not real security mechanism
+
+0830 - The views seem to get the different files table without the data column. Data column which is a varchar, not a blob. That's a strange choice. Is it because the data is a text and not bytes ? Is there some base64 encoding involved. Transforming binary data into ASCII text ? The upload of files is an interesting process that should have a dedicated document !
+
