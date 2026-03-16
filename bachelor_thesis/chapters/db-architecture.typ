@@ -222,4 +222,41 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
+== `files_type` table
+
+Stores the different files type available in the application.
+
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented via `files_type_id_seq`.],
+      [`name`], [`varchar`],            [No],  [Name of the type],
+      [`desc`], [`varchar`],            [Yes], [The string to represent the type],
+    ),
+    caption: [`files_type` columns]
+)
+
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+
+Indexes:
+- No index on `id` column.
+
+
+The default inserts are the following:
+- Consent form
+- Tenprint card front
+- Tenprint card back
+- Mark target
+- Mark incidental
+- TP NIST file
+
+// TODO ask Christophe what these files are
+
 
