@@ -318,7 +318,7 @@ Stores the location and orientation of individual finger segments from a tenprin
       table.header[*Column*][*Type*][*Nullable*][*Notes*],
       [`id`],       [`integer`],            [No],  [Auto-incremented via `segments_locations_id_seq`.],
       [`tenprint_id`], [`uuid`],            [No],  [Uuid of the tenprint card, no foreign key],
-      [`fpc`], [`integer`],            [No], [Finger position code (e.q. right thumb = 1)],
+      [`fpc`], [`integer`],            [No], [Finger position code (e.q. right thumb = 1), no foreign key],
       [`x`],       [`numeric`],            [No],  [x coordinate of the bounding box],
       [`y`],       [`numeric`],            [No],  [y coordinate of the bounding box],
       [`width`],       [`numeric`],            [No],  [Width of the bounding box],
@@ -350,7 +350,7 @@ This seems to store the actual extracted finger image data. It is used to serve 
       table.header[*Column*][*Type*][*Nullable*][*Notes*],
       [`id`],       [`integer`],            [No],  [Auto-incremented via `files_segment_id_seq`.],
       [`tenprint`], [`uuid`],            [No],  [Uuid of the tenprint card, no foreign key],
-      [`pc`], [`integer`],            [No], [Position code (e.q. right thumb = 1)],
+      [`pc`], [`integer`],            [No], [Position code (e.q. right thumb = 1), no foreign key],
       [`data`], [`varchar`],            [No], [Data encoded UTF8],
       [`uuid`],       [`uuid`],            [No],  [Uuid of the row],
     ),
@@ -429,6 +429,7 @@ Lists of quality type values:
 == `tenprint_zones_location` table
 
 Stores the possible zone location for the tenprint ? // TODO ask Christophe about this
+However, I don't see it used within the application. It's never called in a sql query.
 
 
 #figure(
@@ -438,7 +439,7 @@ Stores the possible zone location for the tenprint ? // TODO ask Christophe abou
       fill: (col, row) => if row == 0 { luma(220) } else { white },
       align: (left, left, center, left),
       table.header[*Column*][*Type*][*Nullable*][*Notes*],
-      [`pc`],       [`integer`],            [No],  [Position code that also acts as a primary key ?],
+      [`pc`],       [`integer`],            [No],  [Position code that also acts as a primary key, no foreign key],
       [`side`], [`varchar`],            [No],  [The side of the zone (either front or back)],
     ),
     caption: [`tenprint_zones_location` columns]
@@ -468,5 +469,66 @@ Values inserted by default:
 - 24, back
 - 25, back
 - 27, back
+
+== `tenprint_zones` table
+
+This table seems to be a template that would define the expected zones on a tenprint card. However, I don't see it used within the application. It's never called in a sql query.
+
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented with `tenprint_templates_id_seq`],
+      [`pc`],       [`integer`],            [No],  [Position code, no foreign key],
+      [`angle`], [`numeric(10, 0)`],            [Yes],  [Expected rotation/orientation of the finger in that zone ?],
+      [`card`],       [`integer`],            [No],  [References a card type, I don't see any table that could be it ?],
+      [`tl_x`],       [`numeric`],            [Yes],  [Top left x coordinate],
+      [`tl_y`],       [`numeric`],            [Yes],  [Top left y coordinate],
+      [`br_x`],       [`numeric`],            [Yes],  [Bottom right x coordinate],
+      [`br_y`],       [`numeric`],            [Yes],  [Bottom right y coordinate],
+    ),
+    caption: [`tenprint_zones` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+- No explicit foreign key constraint on the `pc` column.
+
+Indexes:
+- No index on `id` column.
+
+== `mark_info` table
+
+This table stores the information regarding a mark. 
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented with `mark_info_id_seq`],
+      [`uuid`],       [`uuid`],            [No],  [Uuid for the specific row],
+      [`pfsp`], [`varchar`],            [Yes],  [Police or private forensics science providers ?],
+      [`detection_technic`],       [`varchar`],            [No],  [Detection technique used to retrieve the mark (e.q. Powder dusting)],
+      [`surface`],       [`varchar`],            [Yes],  [Surface on which the mark was retrieved],
+    ),
+    caption: [`mark_info` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+
+Indexes:
+- No index on `id` column.
+
+== `gp` table
+
+Stores the General Pattern found in fingerprints.
 
 
