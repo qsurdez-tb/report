@@ -1,9 +1,4 @@
-#import "@preview/codly:1.3.0": *
-#import "@preview/codly-languages:0.1.1": *
-#show: codly-init.with()
-
-
-= DEK Donor Generation
+= DEK Donor Generation <dek-donor-generation>
 
 When a new donor is registered within the ICNML application, the first cryptographic operation is 
 the generation of a *Data Encryption Key* (DEK). This key is unique to the donor and is used to encrypt
