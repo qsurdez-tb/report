@@ -205,3 +205,4 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 >Using default tag: latest
 >Error response from daemon: error parsing HTTP 404 response body: unexpected end of JSON input: ""
 
+1525 - Using the production repo with the docker compose template, I don't have any idea what the .env should look like for the configuration variable. I just hope I'll have the access to the ICNML machine.
