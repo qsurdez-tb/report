@@ -184,5 +184,11 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 1045 - Talked with a colleague about ICNML and how strange it was that the DEK is plainly stored in the db and the use of the dek_check as it seemed redundant after the discussion. This can be interesting to talk about with my supervisor.
 
+1123 - I would like to check wether or not the docker image of ICNML contains the library that is not accessible anymore MDmisc and NIST etc...
 
+1259 - I'd like to finish the db arch by the end of today. I think it's an important work and quite a big one too. This will give me a better overview of what is the architecture of the webapp ! (Spoiler, it already does)
+
+1317 - I really do wonder how the dump was generated, I mean it's so strange that some primary key are explicit primary keys but most aren't ...
+
+1416 - Almost finished !
 
