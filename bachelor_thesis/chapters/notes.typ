@@ -192,3 +192,6 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 1416 - Almost finished !
 
+1434 - Finished, let's update the specifications again with the new planning
+
+1443 - Finished updating the new spec
