@@ -745,3 +745,28 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
+== `exercises_folder` table
+
+This table is a many-to-many relationship table linking marks to exercise folders.
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],      [`integer`],   [No],  [Auto-incremented via `exercises_folder_id_seq`.],
+      [`mark`],    [`uuid`],      [No],  [Uuid of the mark, references `mark_info.uuid`, no foreign key.],
+      [`folder`],  [`uuid`],      [No],  [Uuid of the folder],
+    ),
+    caption: [`exercises_folder` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried.
+- No explicit foreign key constraint on `mark` to `mark_info.uuid`.
+
+Indexes:
+- No index on `id` column.
+
