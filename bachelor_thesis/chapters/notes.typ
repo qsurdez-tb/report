@@ -178,5 +178,7 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 0853 - Let's get started on writing the doc for the db architecture. I'll see how detailed I wanna be for it
 
-0928 - I don't know if we prefer bulletpoints or prose for explaining the constraints and the indexes ? !QUESTION
+0928 - I don't know if we prefer bulletpoints or prose for explaining the constraints and the indexes ? !QUESTION - I prefer in bullet points so that the structure is always the same !
+
+1009 - Finished the first 5 tables.
 
