@@ -200,3 +200,8 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 1502 - Did it quickly with AI, will study this later
 
+1518 - Tried to pull the docker image from the gitlab repository and impossible, error 404 with unexpected end of input JSON: 
+>docker pull esc-md-git.unil.ch/icnml/docker/web
+>Using default tag: latest
+>Error response from daemon: error parsing HTTP 404 response body: unexpected end of JSON input: ""
+
