@@ -6,13 +6,13 @@ within the application are stored in the `account_type` sql table. It's reflecte
 on login in the Redis session object. A series of decorator are used to manage the
 authorisation of each route.
 
-The document describes each role: how they are created, what routes and database
-operations are allowed, what is explicitely denied.
+This chapter describes each role: how they are created, what routes and database
+operations are allowed.
 
 == Account types
 
 There are 6 account types in the `01-account_type.sql` file.
-A flag `can_singin` exists for each account type. It filters the types for which a user can request a user account
+A flag `can_singin` exists for each account type. There is a type and it shoud be called `can_signin`. It filters the types for which a user can request a user account
 via the `GET /signin` public form.
 
 
@@ -24,17 +24,18 @@ via the `GET /signin` public form.
       align: (center + horizon, left, center, left),
       table.header[*ID*][*Name*][*Can request account*][*Short description*],
       [1], [Administrator], [No],  [Full privileged access; manages the platform.],
-      [2], [Donor],         [No],  [Subject whose biometric data is collected; created by a Submitter.],
+      [2], [Donor],         [No],  [Subject whose biometric data is collected, created by a Submitter.],
       [3], [Submitter],     [Yes], [Registers donors.],
       [4], [Trainer],       [Yes], [Uses mark data to train fingerprint examiners.],
       [5], [AFIS],          [Yes], [Works with Automated Fingerprint Identification System targets and candidate matches.],
-      [6], [Selection],     [Yes], [Selection user, not clear yet what it's useful for.],
+      [6], [Selection],     [Yes], [Selection user, does not seem to have specific logic.],
     )
 )
 
 == Authentication and Session Model
 
-The authentication is handled by the `/login` route. It expects the user to complete a form and then it will call the
+// TODO analyses the auth process!
+The authentication is handled by the `/login` route. It expects the user to complete a form and then it will recall the
 `POST /do/login` endpoint for each attribute (username, password, TOTP or WebAuthn passkey). Then, these are the
 keys that are written in Redis.
 
@@ -57,14 +58,13 @@ make decorator out of functions.
 === `@login_required`
 
 The first decorator is the one that requires the user to be logged in. 
-It checks that the `session["logged"]` key is set to `True`. Any unauthenticated
-request is redirected to the login url. This is the baseline access control.
+It checks that the `session["logged"]` key is set to `True`. Any unauthenticated.
 
 
 === `@admin_required`
 
 This decorator checks wether the `account_type_name` key in the session is set to Administrator.
-It also checks wether or not the user is logged with the same logic as the `login_required` decorator.
+It also checks wether or not the user is logged in with the same logic as the `login_required` decorator.
 
 If the the account type name is not Administrator, it will redirect to login.
 
@@ -78,16 +78,17 @@ This decorator will check wether the user has access to the current submission.
 
 === `@trainer_has_access`
 
-This decorator checks wether the `account_type_name` key in the session is set to Administrator.
-It also checks if this key is set to Trainer and if the user is logged. 
+This decorator checks wether the user has access to the trainer specific endpoints.
 
-If the account type name is not Administrator or Trainer, it will redirect to the login page.
+- If the user is an Administrator, then they can access it
+- If the user is a Trainer and is logged then they can access it
+- All other roles are redirected to the login page.
 
 == Role descriptions
 
 === Administrator (type 1)
 
-*Creation*: Accounts must be created directly in the database or by a process not documented.
+*Creation*: Accounts must be created directly in the database or by a process not documented as of yet.
 
 *Home page redirect*: `GET /admin/submission/list`
 
@@ -143,9 +144,7 @@ by e-mail confirmation and administrator approval.
 
 *Home page redirect:* `GET /submission/list`
 
-*Scope:* Submitters manage the complete lifecycle of their own submissions,
-from donor registration through file upload and metadata annotation. They
-cannot access another submitter's data.
+*Scope:* Submitters manage the complete lifecycle of their own submissions.
 
 *Permitted operations (own submissions only):*
 
@@ -170,7 +169,7 @@ cannot access another submitter's data.
 
 == Trainer (type 4)
 
-*Creation:* Self-registration via `GET /signin`.
+*Creation:* Self-registration via `GET /signin` (Needs a confirmation from admin).
 
 *Home page redirect:* `GET /marks/search`
 
@@ -194,7 +193,7 @@ manage donors.
 
 === AFIS (type 5)
 
-*Creation:* Self-registration via `GET /signin`.
+*Creation:* Self-registration via `GET /signin` (Needs a confirmation from admin).
 
 *Home page redirect:* `GET /afis/list/targets`
 
@@ -229,7 +228,7 @@ comparison decisions. This seems like a big part of the application.
 
 === Selection (type 6)
 
-*Creation:* Self-registration via `GET /signin`.
+*Creation:* Self-registration via `GET /signin` (Needs a confirmation from admin).
 
 *Home page redirect:* Default (`/`) — no specialised redirect is defined in
 `views/base/__init__.py` for this role.
