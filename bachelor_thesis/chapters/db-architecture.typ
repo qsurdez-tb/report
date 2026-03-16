@@ -154,4 +154,36 @@ Constraints:
 Indexes:
 - No index for `id` column.
 
+== `signin_requests` table
+
+This table stores the request for new user accounts for the types with `can_singin` true. See @roles-and-permissions.
+
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented via `signin_requests_id_seq`.],
+      [`first_name`], [`varchar`],            [No],  [User's firstname from the request form],
+      [`last_name`], [`varchar`],            [No], [User's lastname from the request form],
+      [`email`],    [`varchar`],            [No], [User's email from the request form],
+      [`account_type`], [`integer`],            [No], [Id of the account type chosen by user in request form],
+      [`request_time`], [`timestamp`],            [No], [Time at which the request was sent],
+      [`uuid`], [`uuid`],            [No], [Uuid of the request],
+      [`validation_time`], [`timestamp`],            [Yes], [The time at which the request was validated],
+      [`assertion_response`],    [`varchar`],            [Yes], [Seems linked to WebAuthn workflow],
+      [`status`],    [`varchar`],            [No], [Status of the request, default to pending],
+      [`username_id`],    [`integer`],            [No], [Id from the sequence of the specific role chosen (e.g. Submitter -> `username_submitter_id` sequence)],
+    ),
+    caption: [`signin_requests` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+
+Indexes:
+- No index on `id` column.
 
