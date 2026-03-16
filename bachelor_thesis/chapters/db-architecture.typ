@@ -187,3 +187,39 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
+== `submissions` table
+
+
+This table holds the data for creating a new donor. See @dek-donor-generation.
+
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented via `submissions_id_seqo`.],
+      [`email_aes`], [`varchar`],            [No],  [Donor's email encrypted using aes],
+      [`email_hash`], [`varchar`],            [No], [Donor's email hash using pbkdf2],
+      [`nickname`],    [`varchar`],            [Yes], [Donor's nickname from the creation form],
+      [`donor_id`], [`integer`],            [Yes], [Id of the donor from the sequence `username_donor_seq`],
+      [`status`], [`varchar`],            [No], [Status of the submission, default in code to pending],
+      [`created_time`], [`timestamp`],            [No], [Time at which the submission is created],
+      [`update_time`], [`timestamp`],            [No], [Time at which the submission was last updated],
+      [`submitter_id`],    [`integer`],            [No], [Id of the submitter],
+      [`uuid`],    [`uuid`],            [No], [Uuid of the donor according to the code],
+      [`consent_form`],    [`boolean`],            [No], [Whether the consent form has been uploaded or not. Default to false],
+    ),
+    caption: [`submissions` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+- No explicit foreign key constraint on `submitter_id`. This makes the schema less readable.
+
+Indexes:
+- No index on `id` column.
+
+
