@@ -716,3 +716,32 @@ Default inserted values:
 - 11, Cartridge
 - 12, Wood
 - 13, Porcelain
+
+== `exercises` table
+
+Stores the exercises information.
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],            [`integer`],                    [No],  [Auto-incremented via `exercises_id_seq`.],
+      [`uuid`],          [`uuid`],                       [No],  [Uuid of the exercise.],
+      [`trainer_id`],    [`integer`],                    [No],  [Id of the trainer who created the exercise, no foreign key.],
+      [`creationtime`],  [`timestamp with time zone`],   [No],  [Time at which the exercise was created.],
+      [`name`],          [`character varying`],          [No],  [Name of the exercise.],
+      [`active`],        [`boolean`],                    [No],  [Whether the exercise is active. Defaults to `true`.],
+    ),
+    caption: [`exercises` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried.
+- No explicit foreign key constraint on `trainer_id` to `users.id`.
+
+Indexes:
+- No index on `id` column.
+
