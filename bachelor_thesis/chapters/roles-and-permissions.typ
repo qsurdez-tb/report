@@ -29,7 +29,8 @@ via the `GET /signin` public form.
       [4], [Trainer],       [Yes], [Uses mark data to train fingerprint examiners.],
       [5], [AFIS],          [Yes], [Works with Automated Fingerprint Identification System targets and candidate matches.],
       [6], [Selection],     [Yes], [Selection user, does not seem to have specific logic.],
-    )
+    ),
+    caption: [Account types table]
 )
 
 == Authentication and Session Model
@@ -123,18 +124,22 @@ own biometric data. They cannot interact with the submission or AFIS workflows.
 
 *Permitted operations:*
 
-#table(
-  columns: (auto, 1fr),
-  stroke: 0.5pt,
-  fill: (col, row) => if row == 0 { luma(220) } else { white },
-  align: (left, left),
-  table.header[*Route*][*Purpose*],
-  [`GET  /user/myprofile/dek`],      [View DEK profile page.],
-  [`GET  /user/myprofile/tenprint`], [View own tenprint cards.],
-  [`GET  /user/myprofile/marks`],    [View own mark images.],
-  [`POST /dek/reconstruct`],         [Re-derive the DEK from the donor's e-mail (requires re-authentication).],
-  [`GET  /dek/delete`],              [Soft-delete the DEK (`donor_dek.dek` set to `NULL`; reversible).],
-  [`GET  /dek/fulldelete`],          [Permanently delete the DEK row (right-to-erasure; irreversible).],
+#figure(
+  table(
+    columns: (auto, 1fr),
+    stroke: 0.5pt,
+    fill: (col, row) => if row == 0 { luma(220) } else { white },
+    align: (left, left),
+    table.header[*Route*][*Purpose*],
+    [`GET  /user/myprofile/dek`],      [View DEK profile page.],
+    [`GET  /user/myprofile/tenprint`], [View own tenprint cards.],
+    [`GET  /user/myprofile/marks`],    [View own mark images.],
+    [`POST /dek/reconstruct`],         [Re-derive the DEK from the donor's e-mail (requires re-authentication).],
+    [`GET  /dek/delete`],              [Soft-delete the DEK (`donor_dek.dek` set to `NULL`; reversible).],
+    [`GET  /dek/fulldelete`],          [Permanently delete the DEK row (right-to-erasure; irreversible).],
+  ),
+  caption: [Routes of interest for Donor role]
+
 )
 
 === Submitter (type 3)
@@ -148,20 +153,23 @@ by e-mail confirmation and administrator approval.
 
 *Permitted operations (own submissions only):*
 
-#table(
-  columns: (auto, 1fr),
-  stroke: 0.5pt,
-  fill: (col, row) => if row == 0 { luma(220) } else { white },
-  align: (left, left),
-  table.header[*Action*][*Routes*],
-  [Create donor + submission], [`POST /submission/do_new` — creates `users`, `donor_dek`, and `submissions` rows.],
-  [Upload files],              [`POST /upload`, `/submission/<id>/add_files`, `/submission/<id>/add_marks`, `/submission/<id>/consent_form`.],
-  [Annotate tenprints],        [Set template, quality, segment coordinates, and general pattern on tenprint cards.],
-  [Annotate marks],            [Set PFSP?, and delete marks.],
-  [Manage submission],         [Set nickname, set GP, delete submission, view targets.],
-  [Browse own data],           [`GET /submission/list`, tenprint list, mark list, segment views.],
-)
+#figure(
+  table(
+    columns: (auto, 1fr),
+    stroke: 0.5pt,
+    fill: (col, row) => if row == 0 { luma(220) } else { white },
+    align: (left, left),
+    table.header[*Action*][*Routes*],
+    [Create donor + submission], [`POST /submission/do_new` — creates `users`, `donor_dek`, and `submissions` rows.],
+    [Upload files],              [`POST /upload`, `/submission/<id>/add_files`, `/submission/<id>/add_marks`, `/submission/<id>/consent_form`.],
+    [Annotate tenprints],        [Set template, quality, segment coordinates, and general pattern on tenprint cards.],
+    [Annotate marks],            [Set PFSP?, and delete marks.],
+    [Manage submission],         [Set nickname, set GP, delete submission, view targets.],
+    [Browse own data],           [`GET /submission/list`, tenprint list, mark list, segment views.],
+  ),
+  caption: [Routes of interest for Submitters role]
 
+)
 // TODO check what PFSP is with mandate
 
 *Ownership enforcement:* `@submission_has_access` issues HTTP 403 if the
@@ -179,7 +187,8 @@ manage donors.
 
 *Permitted operations:*
 
-#table(
+#figure(
+table(
   columns: (auto, 1fr),
   stroke: 0.5pt,
   fill: (col, row) => if row == 0 { luma(220) } else { white },
@@ -189,6 +198,9 @@ manage donors.
   [`GET  /marks/exercise/<id>`],       [View a training exercise.],
   [`GET  /marks/folder/<id>`],         [Browse an exercise folder.],
   [`POST /exercises/add_tenprint`],    [Associate a tenprint card with an exercise.],
+),
+caption: [Routes of interest for Trainer role]
+
 )
 
 === AFIS (type 5)
@@ -203,29 +215,32 @@ comparison decisions. This seems like a big part of the application.
 
 *Permitted operations:*
 
-#table(
-  columns: (auto, 1fr),
-  stroke: 0.5pt,
-  fill: (col, row) => if row == 0 { luma(220) } else { white },
-  align: (left, left),
-  table.header[*Route*][*Purpose*],
-  [`GET  /afis/list/targets`],                              [List assigned AFIS targets.],
-  [`GET  /afis/incidental/donors/list`],                    [List incidental donors.],
-  [`GET  /afis/incidental/donor/<uuid>/list`],              [Browse a specific incidental donor's data.],
-  [`GET  /afis/<uuid>`],                                    [View an AFIS target.],
-  [`GET  /afis/<uuid>/download{,/mark,_exercise}`],         [Download target data, mark, or exercise package.],
-  [`GET  /afis/<uuid>/upload/list`],                        [List uploaded result files.],
-  [`GET  /afis/<uuid>/upload/new/<type>`],                  [Initiate a result file upload.],
-  [`GET  /afis/<target>/<cnm>`],                            [View a candidate match.],
-  [`POST /afis/<target>/<cnm>/set_pfsp`],                   [Record the PFSP decision for a candidate match.],
-  [`POST /afis/<target>/<cnm>/upload`],                     [Upload a candidate match result file.],
-  [`POST /afis/<target>/<cnm>/update_field`],               [Update a field on a candidate match.],
-  [`GET  /afis/<cnm>/<file>/<fpc>/autodetect`],             [Auto-detect minutiae from a mark file.],
-  [`GET  /afis/<cnm>/<file>/autodetect/tiff`],              [Auto-detect from a TIFF file.],
-  [`GET  /afis/<cnm>/<file>/<fpc>/res`],                    [Retrieve image resolution metadata.],
-  [`GET  /image/cnm_candidate/screenshot/<file>/preview`],  [Preview a candidate screenshot.],
-)
+#figure(
+  table(
+    columns: (auto, 1fr),
+    stroke: 0.5pt,
+    fill: (col, row) => if row == 0 { luma(220) } else { white },
+    align: (left, left),
+    table.header[*Route*][*Purpose*],
+    [`GET  /afis/list/targets`],                              [List assigned AFIS targets.],
+    [`GET  /afis/incidental/donors/list`],                    [List incidental donors.],
+    [`GET  /afis/incidental/donor/<uuid>/list`],              [Browse a specific incidental donor's data.],
+    [`GET  /afis/<uuid>`],                                    [View an AFIS target.],
+    [`GET  /afis/<uuid>/download{,/mark,_exercise}`],         [Download target data, mark, or exercise package.],
+    [`GET  /afis/<uuid>/upload/list`],                        [List uploaded result files.],
+    [`GET  /afis/<uuid>/upload/new/<type>`],                  [Initiate a result file upload.],
+    [`GET  /afis/<target>/<cnm>`],                            [View a candidate match.],
+    [`POST /afis/<target>/<cnm>/set_pfsp`],                   [Record the PFSP decision for a candidate match.],
+    [`POST /afis/<target>/<cnm>/upload`],                     [Upload a candidate match result file.],
+    [`POST /afis/<target>/<cnm>/update_field`],               [Update a field on a candidate match.],
+    [`GET  /afis/<cnm>/<file>/<fpc>/autodetect`],             [Auto-detect minutiae from a mark file.],
+    [`GET  /afis/<cnm>/<file>/autodetect/tiff`],              [Auto-detect from a TIFF file.],
+    [`GET  /afis/<cnm>/<file>/<fpc>/res`],                    [Retrieve image resolution metadata.],
+    [`GET  /image/cnm_candidate/screenshot/<file>/preview`],  [Preview a candidate screenshot.],
+  ),
+  caption: [Routes of interest for AFIS role]
 
+)
 === Selection (type 6)
 
 *Creation:* Self-registration via `GET /signin` (Needs a confirmation from admin).
