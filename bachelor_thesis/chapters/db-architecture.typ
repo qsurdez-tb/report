@@ -564,3 +564,32 @@ Default inserted values:
 - 8, missing/amputated, ma
 - 9, scarred/mutilated, sm
 
+== `donor_fingers_gp` table
+
+Many-to-Many relationship table for General pattern, Finger Position Code and Users. 
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented with `donor_fingers_gp_id_seq`],
+      [`donor_id`],       [`integer`],            [No],  [Id of the donor, no foreign key],
+      [`fpc`],       [`integer`],            [No],  [Id of the finger position code, no foreign key],
+      [`gp`],       [`integer`],            [No],  [Id of the general pattern, no foreign key],
+    ),
+    caption: [`gp` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+- No explicit foreign key constraint on `donor_id` to `users.id`
+- No explicit foreign key constraint on `fpc` to `pc.id`
+- No explicit foreign key constraint on `gp` to `gp.id`
+
+Indexes:
+- No index on `id` column.
+
+
