@@ -532,3 +532,35 @@ Indexes:
 Stores the General Pattern found in fingerprints.
 
 
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented with `gp_id_seq`],
+      [`name`],       [`varchar`],            [No],  [Name of the General Pattern],
+      [`div_name`], [`varchar`],            [No],  [The name of the div corresponding ?],
+    ),
+    caption: [`gp` columns]
+)
+
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+
+Indexes:
+- No index on `id` column.
+
+Default inserted values:
+- 1, unknown, unknown
+- 2, left loop, ll
+- 3, right loop, rl
+- 4, whorl, whorl
+- 5, arch, arch
+- 6, central pocket loop, cpl
+- 7, double loop, dl
+- 8, missing/amputated, ma
+- 9, scarred/mutilated, sm
+
