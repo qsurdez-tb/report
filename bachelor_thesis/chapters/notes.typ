@@ -176,3 +176,7 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 0830 - The views seem to get the different files table without the data column. Data column which is a varchar, not a blob. That's a strange choice. Is it because the data is a text and not bytes ? Is there some base64 encoding involved. Transforming binary data into ASCII text ? The upload of files is an interesting process that should have a dedicated document !
 
+0853 - Let's get started on writing the doc for the db architecture. I'll see how detailed I wanna be for it
+
+0928 - I don't know if we prefer bulletpoints or prose for explaining the constraints and the indexes ? !QUESTION
+
