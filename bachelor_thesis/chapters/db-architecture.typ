@@ -259,4 +259,44 @@ The default inserts are the following:
 
 // TODO ask Christophe what these files are
 
+== `files` table
+
+This table stores the files data and its metadata like height, resolution, format, etc...
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented via `files_id_seq`.],
+      [`creator`], [`integer`],            [Yes],  [Linked to the user creating the file, no foreign key],
+      [`creation_time`], [`timestamp`],            [No], [Time at which the file is created],
+      [`folder`],       [`integer`],            [Yes],  [Organisation column, there's a `exercises_folder` table, maybe should be a foreign key],
+      [`filename`],       [`varchar`],            [No],  [Name of the file],
+      [`type`],       [`integer`],            [Yes],  [Type of file, no foreign key],
+      [`size`],       [`bigint`],            [Yes],  [Size of the file],
+      [`uuid`],       [`uuid`],            [Yes],  [Uuid of the file],
+      [`data`],       [`varchar`],            [Yes],  [Data of the file in UTF8],
+      [`width`],       [`integer`],            [Yes],  [Width of the file],
+      [`height`],       [`integer`],            [Yes],  [Height of the file],
+      [`format`],       [`varchar`],            [Yes],  [Format of the file],
+      [`resolution`],       [`integer`],            [Yes],  [Resolution of the file],
+      [`note`],       [`varchar`],            [Yes],  [Note about the file],
+      [`quality`],       [`integer`],            [Yes],  [Quality of the file],
+    ),
+    caption: [`files` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+- No explicit foreign key constraint on `creator` to `users.id`.
+- No explicit foreign key constraint on `folder` to, I suspect, `exercises_folder.id`
+
+Indexes:
+- No index on `id` column.
+
+This looks like a very broad table encompassing images and pdf alike.
+
 
