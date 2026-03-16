@@ -182,3 +182,7 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 1009 - Finished the first 5 tables.
 
+1045 - Talked with a colleague about ICNML and how strange it was that the DEK is plainly stored in the db and the use of the dek_check as it seemed redundant after the discussion. This can be interesting to talk about with my supervisor.
+
+
+
