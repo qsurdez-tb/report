@@ -593,3 +593,49 @@ Indexes:
 - No index on `id` column.
 
 
+== `pc` table
+
+Stores the values available for the Position Code in the application.
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],       [`integer`],            [No],  [Auto-incremented with `fpc_id_seq`],
+      [`name`],       [`varchar`],            [No],  [Name of the finger position code],
+    ),
+    caption: [`pc` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried
+- No explicit unique constraint on `name`, would be necessary to not have two pc with the same name.
+
+Indexes:
+- No index on `id` column.
+
+Default inserted values:
+
+- 1, Right thumb
+- 2, Right index
+- 3, Right middle
+- 4, Right ring
+- 5, Right little
+- 6, Left thumb
+- 7, Left index
+- 8, Left middle
+- 9, Left ring
+- 10, Left little
+- 11, Right thumb slap
+- 12, Left thumb slap
+- 13, Right control slap
+- 14, Left control slap
+- 22, Right writer palm
+- 24, Left writer palm
+- 25, Right lower palm
+- 27, Left lower palm
+- 1000, All rolled
+
