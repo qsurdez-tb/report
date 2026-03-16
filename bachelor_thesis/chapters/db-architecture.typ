@@ -822,3 +822,32 @@ Indexes:
 
 There's no default values in this table.
 
+== `distortion` table
+
+Stores the available distortion values in the application.
+
+#figure(
+    table(
+      columns: (auto, auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Column*][*Type*][*Nullable*][*Notes*],
+      [`id`],    [`integer`],           [No],  [Auto-incremented via `distortion_id_seq`.],
+      [`name`],  [`character varying`], [No],  [Name of the distortion type.],
+    ),
+    caption: [`distortion` columns]
+)
+
+Constraints:
+- No explicit primary key constraint on `id`. This can hurt performance as the id column is often queried.
+- No explicit unique constraint on `name`, would be necessary to not have two distortion types with the same name.
+
+Indexes:
+- No index on `id` column.
+
+Default inserted values:
+- 1, drag
+- 2, twist
+- 3, unknown
+- 4, none
