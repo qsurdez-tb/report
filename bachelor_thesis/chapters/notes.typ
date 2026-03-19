@@ -210,3 +210,5 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 == 19.03
 
 0845 - Had a meeting with Christophe to setup the admin account on the icnml machine. That's done. I also managed to find the missing libraries on the machine which I copied into the icnml repo. There's also some env and docker-compose that do not look like the ones in the repo so I will have to copy them AND find a way to exclude all the keys and info that are sensitive ! (a simple .gitignore rule will do the trick)
+
+1113 - Finished the meeting to explain the App ICNML. 
