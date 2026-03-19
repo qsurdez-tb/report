@@ -206,3 +206,7 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 >Error response from daemon: error parsing HTTP 404 response body: unexpected end of JSON input: ""
 
 1525 - Using the production repo with the docker compose template, I don't have any idea what the .env should look like for the configuration variable. I just hope I'll have the access to the ICNML machine.
+
+== 19.03
+
+0845 - Had a meeting with Christophe to setup the admin account on the icnml machine. That's done. I also managed to find the missing libraries on the machine which I copied into the icnml repo. There's also some env and docker-compose that do not look like the ones in the repo so I will have to copy them AND find a way to exclude all the keys and info that are sensitive ! (a simple .gitignore rule will do the trick)
