@@ -2,40 +2,53 @@
 
 == Problem summary <problem-summary>
 
-ICNML (International Close Non-Matches Library) is an open-souce platform designed for handling
-biometric traces in scientific and experimentation contexts. It is deployed by several research institutions,
-including the University of Lausanne (UNIL). It is used by collaborators worldwide on projects focused
+ICNML (International Close Non-Matches Library) is a web platform designed for handling
+biometric data in scientific and experimentation contexts. It is deployed by several research institutions,
+including the University of Lausanne, Ecole des Sciences Criminelles (UNIL-ESC). It is used by collaborators worldwide on projects focused
 on image analysis and biometric recognition.
 
 === Problem statement <problem-statement>
 
 The system was initially developed in a research environment that prioritized functionnality and flexibility over 
-long-term maintenance and technical standardisation. Today, the plateform remains a central component in many scientific
+long-term maintenance and compliance with technical good practices . Today, the plateform remains a central component in many scientific
 activities. However, its evolution and sustainability are limited by accumulated technical debt. These weaknesses affect
-maintenability, security, and usability for both admins and end users alike.
+maintenability, security, and usability for developers, admins and end users alike.
 
 == Specifications <specification-1>
 
 === Objectives <objectives>
 
 This  aim of this bachelor thesis is to strenghten the security and maintenability of the ICNML platform. The work is 
-built around the 3 following objectives. 
+built around the four following objectives. 
 
-The first objetive is to reinforce technical maintainability by producing documentation of the system architecture and
-all critical processes. The underlying objective is to enable future contributors to understand, install, and develop the
+==== Reinforce technical maintainability
+
+Produce documentation of the system architecture and
+all critical processes so that future contributors can  understand, install, and develop the
 platform easily compared to now. 
 
-The second objective is to improve security by bringin transparency to internal processes:
-+ data encryption in the db
-+ access control mechanisms
-+ watermark on the images downloaded
-+ encryption mechanisms applied per donor
+Current state: No installation guide, no architecture documentation, no documented development environment. Target state: A complete documentation set covering architecture, development setup, and all critical processes, validated by a successful fresh installation.
 
-The third objective is to demistify and reinforce management operations such as installation and backup restoration.
-This will improve maintanability and reusability by new developers. 
+==== Improve security transparency
 
-The third objective is to optimise user experience through filtering and management features. Especially filtering
-by donor or image quality.
+Bring transparency to internal security processes of the platform, with a focus on:
++ Per-donor data encryption in the database
++ Access control mechanisms
++ Watermark on the images downloaded
+
+Current state: Encryption and access control mechanisms exist but are undocumented. Key storage practices are unknown prior to analysis. Target state: Each machanism is documented with its current implementation, known weakness identified if any, and refactoring applied if chosen for the development phase.
+
+==== Demystify management operations
+
+Document and, if chosen for the development phase, improve the procedures for installation, backup and restoration so that a new developer can perform these operations without assistance. 
+
+Current state: No installation or backup procedure is documented. Restoration has never been formally tested. Target state: Step-by-step procedures for installation, backup and restoration, validated by executing each procedure in a development environment.
+
+==== Optimize user experience
+
+Improve filtering and management features for end users, in particular filtering by donor and image quality.
+
+Current state: No filtering functionality exists for donor or image quality. Target state: At least one filtering feature implemented, tested and documented. The exact scope to be confirmed on 20.05 based on findings form the analysis phases.
 
 === Schedule <schedule>
 
