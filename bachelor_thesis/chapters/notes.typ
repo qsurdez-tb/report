@@ -212,3 +212,13 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 0845 - Had a meeting with Christophe to setup the admin account on the icnml machine. That's done. I also managed to find the missing libraries on the machine which I copied into the icnml repo. There's also some env and docker-compose that do not look like the ones in the repo so I will have to copy them AND find a way to exclude all the keys and info that are sensitive ! (a simple .gitignore rule will do the trick)
 
 1113 - Finished the meeting to explain the App ICNML. 
+
+== 24.03
+
+0800 - Getting back into the project 
+
+0816 - After the different meetings I had with Christophe, I'd like to make a file that would actually explain what the project is about. Some kind of contextualisation or introduction to the bachelor's thesis. 
+
+0819 - The plan for today is creating the contextualisation, making the last adjustments on the spcifications, creating a *reproducible* dev env (that's going to be tough).
+
+
