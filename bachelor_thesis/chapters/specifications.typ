@@ -9,16 +9,16 @@ on image analysis and biometric recognition.
 
 === Problem statement <problem-statement>
 
-The system was initially developed in a research environment that prioritized functionnality and flexibility over 
-long-term maintenance and compliance with technical good practices . Today, the plateform remains a central component in many scientific
+The system was initially developed in a research environment that prioritized functionality and flexibility over 
+long-term maintenance and compliance with technical good practices . Today, the platform remains a central component in many scientific
 activities. However, its evolution and sustainability are limited by accumulated technical debt. These weaknesses affect
-maintenability, security, and usability for developers, admins and end users alike.
+maintainability, security, and usability for developers, admins and end users alike.
 
 == Specifications <specification-1>
 
 === Objectives <objectives>
 
-This bachelor thesis aims to strenghten the security and maintenability of the ICNML platform. The work is 
+This bachelor thesis aims to strengthen the security and maintainability of the ICNML platform. The work is 
 built around the four following objectives. 
 
 ==== Reinforce technical maintainability
@@ -38,7 +38,7 @@ Bring transparency to internal security processes of the platform, with a focus 
 + Watermark on the images downloaded
 
 - Current state: Encryption and access control mechanisms exist but are undocumented. Key storage practices are unknown prior to analysis. 
-- Target state: Each machanism is documented with its current implementation, known weakness identified if any, and refactoring applied if chosen for the development phase.
+- Target state: Each mechanism is documented with its current implementation, known weakness identified if any.
 
 ==== Demystify management operations
 
@@ -52,7 +52,7 @@ Document and, if chosen for the development phase, improve the procedures for in
 Improve filtering and management features for end users, in particular filtering by donor and image quality.
 
 - Current state: No filtering functionality exists for donor or image quality. 
-- Target state: At least one filtering feature implemented, tested and documented. The exact scope to be confirmed on 20.05 based on findings form the analysis phases.
+- Target state: The exact scope to be confirmed on 20.05 based on findings from the analysis phases.
 
 === Schedule <schedule>
 
