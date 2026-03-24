@@ -250,3 +250,9 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 1400 - This is harder than expected
 
 1500 - Really harder than expected with the image that is not compatible with version 1 of Docker and not compatible with containerd, this is terrible
+
+1550 - So I asked Claude to help me debugging and I finally managed to get to the end of it. The WSQ code is not compatible with my architecture, so I had to run it with linux/amd64 --platform docker flag
+
+1617 - It's not per se reproducible as the library I had to download from the server are inexistent currently. So I'm a bit perplexe on how to treat it from now on ... I'll write the docs on how to reproduce this on Thursday.
+
+1634 - I managed to make it work with redis and the db, well with the docker-compose file ! That's a super amazing feat, now we'll see if it's broken or not on Thrusday
