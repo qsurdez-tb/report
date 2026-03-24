@@ -240,3 +240,5 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 1110 - Seeing the result on paper I feel like a table is way clearer and easier to read through than the prose and it's more structured which I like.
 
 1112 - Changing target state, current state with bullet points, that is more readable than just in plain text
+
+1131 - Last rereading to spot typo
