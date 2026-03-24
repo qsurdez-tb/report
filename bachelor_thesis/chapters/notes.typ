@@ -221,4 +221,8 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 0819 - The plan for today is creating the contextualisation, making the last adjustments on the spcifications, creating a *reproducible* dev env (that's going to be tough).
 
+0841 - Is doing a state of the art interesting in my bachelor thesis context ? !QUESTION
 
+0847 - First step of context is done and seems quite ok to me
+
+0848 - I feel like explaining the whole pipeline/workflow would help understanding the scope of the webapp? Data acquisition -> AFIS search -> Expert selection -> Trainer exercise creation
