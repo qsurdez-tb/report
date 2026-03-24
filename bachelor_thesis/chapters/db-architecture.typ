@@ -253,8 +253,8 @@ The default inserts are the following:
 - Consent form
 - Tenprint card front
 - Tenprint card back
-- Mark target
-- Mark incidental
+- Mark target         // Experts opinion on which fpc is interesting, labellised as close non-match potential
+- Mark incidental     // Others marks that were not labellised as promising for close non-matches
 - TP NIST file
 
 // TODO ask Christophe what these files are
@@ -307,7 +307,7 @@ This view queries all the columns from the `files` table without the data column
 == `segments_locations` table
 
 Stores the location and orientation of individual finger segments from a tenprint card image. // TODO check with Christophe if true
-
+// technical name for localizing the zone where the papillary comes from
 
 #figure(
     table(
@@ -430,7 +430,7 @@ Lists of quality type values:
 
 == `tenprint_zones_location` table
 
-Stores the possible zone location for the tenprint ? // TODO ask Christophe about this
+Stores the possible zone location for the tenprint ? // TODO ask Christophe about this, reference the physical tenprint. Generic template because tenprint not always the same depending on the country
 However, I don't see it used within the application. It's never called in a sql query.
 
 
