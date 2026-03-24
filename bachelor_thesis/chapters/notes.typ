@@ -242,3 +242,11 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 1112 - Changing target state, current state with bullet points, that is more readable than just in plain text
 
 1131 - Last rereading to spot typo
+
+1138 - Now meeting to have an Admin account on the prod webapp
+
+1300 - Coming back and getting started with the dev environment
+
+1400 - This is harder than expected
+
+1500 - Really harder than expected with the image that is not compatible with version 1 of Docker and not compatible with containerd, this is terrible
