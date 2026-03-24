@@ -18,7 +18,7 @@ maintenability, security, and usability for developers, admins and end users ali
 
 === Objectives <objectives>
 
-This  aim of this bachelor thesis is to strenghten the security and maintenability of the ICNML platform. The work is 
+This bachelor thesis aims to strenghten the security and maintenability of the ICNML platform. The work is 
 built around the four following objectives. 
 
 ==== Reinforce technical maintainability
