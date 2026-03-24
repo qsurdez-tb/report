@@ -225,4 +225,18 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 0847 - First step of context is done and seems quite ok to me
 
-0848 - I feel like explaining the whole pipeline/workflow would help understanding the scope of the webapp? Data acquisition -> AFIS search -> Expert selection -> Trainer exercise creation
+0848 - I feel like explaining the whole pipeline/workflow would help understanding the scope of the webapp? Data acquisition -> AFIS search -> Trainer exercise creation
+
+0924 - Finished the doc, it was easy with all the talks I had with the mandate. Now let's have a little break before rereading the specifications and making it better !
+
+0943 - Let's get back to it.
+
+1013 - Going back and forth with read-proofing my document and seeing the feedback of Claude Sonnet 4.6
+
+1038 - Restructure the objectives section so that it's more easily readable.
+
+1041 - I'm thinking about removing the tasks prose and replacing it with a tab. Maybe more readable ? Cause who actually cares about what I'll be doing in some ways ... Hmmmm I wonder, I wonder.
+
+1110 - Seeing the result on paper I feel like a table is way clearer and easier to read through than the prose and it's more structured which I like.
+
+1112 - Changing target state, current state with bullet points, that is more readable than just in plain text
