@@ -63,25 +63,25 @@ The defense will be organized between the 24.09 and the 11.10.
 
 The work is built into seven phases, each one building ontop of the previous one.
 
-The Starting phase (16-19.02) covers the creation of an initial planning document and the drafting of this specification.
-
-The First steps in the codebase phase (24.02-02.04) involves an in-depth analysis of the current codebase, starting with a first look around the application, followed by the setup of a reproducible local development environment. It then covers the documentation of the system schema and development environment, and closes with the creation of a documentation template.
-
-The User management phase (07.04-16.04) analyses how the keys for the users are generated and stored, how their biometric data are encrypted and how the authentication is managed within the application.
-
-The Watermark management phase (23.04-30.04) is dedicated to understanding the watermarking process for the downloaded images. Document the possible endeavors to include steganography wihtin the downloaded images as well. 
-
-The Backup management phase (07.05-12.05) analyses the process behind the backup and restoration mechanism.
-
-The Deployment management phase (12.05-20.05) analyses the current deployment solution and produces corresponding documentation.
-By the end of this phase, the created documentation will give enough information to take a decision on which functional
-improvements will be implemented during the development phase. 
-
-The Development phase (20.05-10.07) covers the implementation of the improvements selected. The exact scope is to be determined
-based on the findings of the precedent phases. 
-
-The Admin end of the project phase (13.07-23.07) will focus on writing the final report and the different admin tasks 
-that comes with the end of this bachelor thesis such as a publishable summary and a poster.
+#figure(
+   table(
+      columns: (auto, auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left, center, left),
+      table.header[*Phase*][*Dates*][*Deliverables*],
+      [Starting],       [16-19.02],            [Initial planning document, this specification],
+      [First steps in codebase],       [24.02-02.04],            [Doc: Architecture, dev environment],
+      [User management],       [07-16.04],            [Doc: key generation, encryption, authentication],
+      [Watermark management],       [23-30.04],            [Doc: watermarking process, steganography assessment],
+      [Backup management],       [07-12.05],            [Doc: backup and restoration mechanism],
+      [Deployment management],       [12-20.05],            [Deployment procedure, scope decision for development phase],
+      [Development],       [20.05-10.07],            [Implemented and tested functional improvements],
+      [End of project admin],       [13-23.07],            [Final report, publishable summary, poster],
+      
+    ),
+    caption: [Phase breakdown]
+)
 
 
 === Deliverables <deliverables>
@@ -96,8 +96,7 @@ Here are the expected deliverables :
     
  
 + Functional improvements:
-  - Scope defined on 20.05, once documentation is complete
-  - Candidate features are as followed: 
+  - Scope defined on 20.05. Candidates features include:
     - Sorting by donor
     - Sorting by image quality
 
