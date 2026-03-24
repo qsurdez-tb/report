@@ -27,7 +27,8 @@ Produce documentation of the system architecture and
 all critical processes so that future contributors can  understand, install, and develop the
 platform easily compared to now. 
 
-Current state: No installation guide, no architecture documentation, no documented development environment. Target state: A complete documentation set covering architecture, development setup, and all critical processes, validated by a successful fresh installation.
+- Current state: No installation guide, no architecture documentation, no documented development environment. 
+- Target state: A complete documentation set covering architecture, development setup, and all critical processes, validated by a successful fresh installation.
 
 ==== Improve security transparency
 
@@ -36,19 +37,22 @@ Bring transparency to internal security processes of the platform, with a focus 
 + Access control mechanisms
 + Watermark on the images downloaded
 
-Current state: Encryption and access control mechanisms exist but are undocumented. Key storage practices are unknown prior to analysis. Target state: Each machanism is documented with its current implementation, known weakness identified if any, and refactoring applied if chosen for the development phase.
+- Current state: Encryption and access control mechanisms exist but are undocumented. Key storage practices are unknown prior to analysis. 
+- Target state: Each machanism is documented with its current implementation, known weakness identified if any, and refactoring applied if chosen for the development phase.
 
 ==== Demystify management operations
 
 Document and, if chosen for the development phase, improve the procedures for installation, backup and restoration so that a new developer can perform these operations without assistance. 
 
-Current state: No installation or backup procedure is documented. Restoration has never been formally tested. Target state: Step-by-step procedures for installation, backup and restoration, validated by executing each procedure in a development environment.
+- Current state: No installation or backup procedure is documented. Restoration has never been formally tested. 
+- Target state: Step-by-step procedures for installation, backup and restoration, validated by executing each procedure in a development environment.
 
 ==== Optimize user experience
 
 Improve filtering and management features for end users, in particular filtering by donor and image quality.
 
-Current state: No filtering functionality exists for donor or image quality. Target state: At least one filtering feature implemented, tested and documented. The exact scope to be confirmed on 20.05 based on findings form the analysis phases.
+- Current state: No filtering functionality exists for donor or image quality. 
+- Target state: At least one filtering feature implemented, tested and documented. The exact scope to be confirmed on 20.05 based on findings form the analysis phases.
 
 === Schedule <schedule>
 
