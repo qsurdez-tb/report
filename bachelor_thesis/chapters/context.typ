@@ -4,9 +4,9 @@
 
 == What is ICNML ?
 
-ICNML (International Close Non-Matches Library) is a web platform designed for managing biometric data in scientific and forensic research contexts.  It is used by several reasearch institutions, for example at the University of Lausanne, Ecole des Sciences Criminelles (UNIL-ESC). It supports research in finerprint identification.
+ICNML (International Close Non-Matches Library) is a web platform designed for managing biometric data in scientific and forensic research contexts.  It is used by several reasearch institutions, for example at the University of Lausanne, Ecole des Sciences Criminelles (UNIL-ESC). It supports research in fingerprint identification.
 
-The platform acts as a centralised library and workflow engine for fingerprint traces (marks) and reference prints (tenprints), supporting the full pipeline from data acquisition to creating exercises for examiner training.
+The platform is both a library and a work environment for fingerprint traces (marks) and reference prints (tenprints), supporting all the steps from data acquisition to creating exercises for examiner training.
 
 == Scientific context and motivation
 
@@ -14,6 +14,6 @@ Fingerprint examination in forensic science relies on comparing a latent mark fo
 
 ICNML was built to collect, organise, and exploit these challenges for identification. It has two missions: 
 
-+ Library and acquisition role: acts as a recipient for donors' biometric data (traces and reference tenprints) and for close non-matches results returned by AFIS searches.
-+ Training support role: provide trainers with the annotated data they need to build exercises that test fingerprint examiners against difficult, realistic scenarios.
++ Acts as a recipient for donors' biometric data (traces and reference tenprints) and for close non-matches results returned by AFIS searches.
++ Provide trainers with the annotated data they need to build exercises that test fingerprint examiners against difficult, realistic scenarios.
 
