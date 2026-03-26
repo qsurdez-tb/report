@@ -280,3 +280,10 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 0913 - Done with the first draft of the document. Have to check whether or not I can push on a new repo that would be made for dev env on the organisation.
 
+0918 - I'm gonna focus on making an overview of the app with screenshots so that the current functionalities are documented. 
+
+0931 - Taking screenshots to cover all the admin pages at first !
+
+1006 - I'm a bit lost, I don't know what to do :(
+
+1014 - Let's try writing a doc for an overview of the web app !
