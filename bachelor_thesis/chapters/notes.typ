@@ -256,3 +256,21 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 1617 - It's not per se reproducible as the library I had to download from the server are inexistent currently. So I'm a bit perplexe on how to treat it from now on ... I'll write the docs on how to reproduce this on Thursday.
 
 1634 - I managed to make it work with redis and the db, well with the docker-compose file ! That's a super amazing feat, now we'll see if it's broken or not on Thrusday
+
+0735 - Getting back into it
+
+0736 - Trying once again to build from the dev env snatched from the server. With the changes made on Tuesday !
+
+0750 - good news, it works and the admin account is setup. However, the functionalities are not fully working as the migration script is not applied. But, to apply it seems the script expects the table to already exists with the `_old` suffix. Stranger by the hour.
+
+0754 - Trying to run the sql tables script within the migration folder straight on the database.
+
+0754 - Again some errors, I think there's something missing. A file with the creation of the old tables or something else entirley. 
+`docker compose exec -T db psql -U icnml -d icnml -f /dev/stdin < web/app/migration/311cac7b746c1852c012fa6fdfbe84eaceb27236/tables.sql`
+
+0759 - There's still one table that's missing and that's the cnm_annotation one ... I can't find it in the different folders 
+
+0804 - Not just one unfortunately, there's the cnm_annotation table, the cnm_result table.
+
+0808 - I'm actually blocked, cause I can't seem to connect to the database on the prod server ... So I will have to see with Christophe once again and download the DDL from the actual prod DB ... Urrrgh that's so annoying. 
+
