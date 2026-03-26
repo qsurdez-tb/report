@@ -133,4 +133,4 @@ A grid to display all the images in one category with a search bar. Info badge a
   caption: [Incidental marks grid]
 ) <fig-marks-incidental>
 
-Clicking on a mark, whether incidental or target, displays the detail view for this specific mark (@fig-mark-detail). 
+Clicking on a mark, whether incidental or target, displays the detail view for this specific mark (@).
