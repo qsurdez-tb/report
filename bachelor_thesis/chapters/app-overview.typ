@@ -101,7 +101,7 @@ The targets view (@fig-target) displays the ten rolled reference prints associat
 ) <fig-target>
 
 
-Clicking on one of the target displays its detail page (@fig-target-detail). There are four groups of images linked to this target, Target annotations, Close Non-Match results, References, Marks. I'm not sure yet how it's orchestrated. // TODO check how it's all linked together
+Clicking on one of the target displays its detail page (@fig-target-detail). There are four groups of images linked to this target: Target annotations, Close Non-Match results, References, Marks. I'm not sure yet how it's orchestrated. // TODO check how it's all linked together
 
 #figure(
   image(
@@ -110,3 +110,27 @@ Clicking on one of the target displays its detail page (@fig-target-detail). The
   ),
   caption: [Detail view of images linked to target]
 ) <fig-target-detail>
+
+==== Marks
+
+Marks are divided into two subcategories: Mark target and Mark incidental. The two pages share the functionalities. 
+A grid to display all the images in one category with a search bar. Info badge are here to indicate something again // TODO check what in code
+(@fig-marks-target, @fig-marks-incidental)
+
+#figure(
+  image(
+    "../assets/screenshots/admin/09-donor-mark-targets-admin.png",
+    width: 100%
+  ),
+  caption: [Target marks grid]
+) <fig-marks-target>
+
+#figure(
+  image(
+    "../assets/screenshots/admin/11-donor-mark-incidental-admin.png",
+    width: 80%
+  ),
+  caption: [Incidental marks grid]
+) <fig-marks-incidental>
+
+Clicking on a mark, whether incidental or target, displays the detail view for this specific mark (@fig-mark-detail). 
