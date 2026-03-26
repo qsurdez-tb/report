@@ -83,7 +83,30 @@ Clicking on the Go to segments list, displays the image within each segment with
 #figure(
   image(
     "../assets/screenshots/admin/06.05-donor-tenprint-segment-list-admin.png",
-    width: 80%
+    width: 100%
   ),
   caption: [Segment list from tenprint]
 ) <fig-donor-tenprint-segment>
+
+==== Targets
+
+The targets view (@fig-target) displays the ten rolled reference prints associated with the donor, one per finger, each labelled with the finger position. A badge is present to give info // TODO check what info specifically 
+
+#figure(
+  image(
+    "../assets/screenshots/admin/07-donor-target-admin.png",
+    width: 100%
+  ),
+  caption: [Targets view list]
+) <fig-target>
+
+
+Clicking on one of the target displays its detail page (@fig-target-detail). There are four groups of images linked to this target, Target annotations, Close Non-Match results, References, Marks. I'm not sure yet how it's orchestrated. // TODO check how it's all linked together
+
+#figure(
+  image(
+    "../assets/screenshots/admin/08-donor-target-detail-admin.png",
+    width: 100%
+  ),
+  caption: [Detail view of images linked to target]
+) <fig-target-detail>
