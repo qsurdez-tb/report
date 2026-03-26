@@ -274,3 +274,9 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 
 0808 - I'm actually blocked, cause I can't seem to connect to the database on the prod server ... So I will have to see with Christophe once again and download the DDL from the actual prod DB ... Urrrgh that's so annoying. 
 
+0814 - I'm gonna make a quick doc on the different steps I made to have the app half-working in a dev environment.
+
+0850 - Began by explaining everything that went wrong, but that's not what's interesting.
+
+0913 - Done with the first draft of the document. Have to check whether or not I can push on a new repo that would be made for dev env on the organisation.
+
