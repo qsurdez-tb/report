@@ -24,7 +24,7 @@ The home page for an Administrator is the submissions list, displayed as a grid 
 ) <fig-submissions-list>
 
 Selecting a donor opens its detail page (@fig-donor-detail), which presents the five data categories associated with that donor: General Pattern, Tenprint(s), Target(s), Mark(s) target and Mark(s) incidental. Green checkmarks indicate something I'm not sure of yet. // TODO check in code 
-The donor's uuid and the submitter username are displayed below.
+The donor's username is displayed above. The donor's uuid and the submitter username are displayed below.
 
 #figure(
   image(
@@ -33,3 +33,57 @@ The donor's uuid and the submitter username are displayed below.
   ),
   caption: [Donor detail page]
 ) <fig-donor-detail>
+
+==== General Pattern
+
+The general pattern view (@fig-donor-gp) shows the ten fingerprint classificatios, one per finger, each labelled with its dedicated pattern type. The Administrator can edit any classification via a modal (@fig-donor-gp-update) that presents all possible pattern types as selectable icons.
+
+#figure(
+  image(
+    "../assets/screenshots/admin/03-donor-gp-admin.png",
+    width: 80%
+  ),
+  caption: [General pattern view]
+) <fig-donor-gp>
+
+#figure(
+  image(
+    "../assets/screenshots/admin/04-donor-gp-update-admin.png",
+    width: 100%
+  ),
+  caption: [Modal to update the general pattern of a finger]
+) <fig-donor-gp-update>
+
+==== Tenprints
+
+The tenprint list view (@fig-tenprint-list) displays all the tenprints uploaded for this specific donor.
+
+#figure(
+  image(
+    "../assets/screenshots/admin/05-donor-tenprints-admin.png",
+    width: 80%
+  ),
+  caption: [Tenprint list view]
+) <fig-tenprint-list>
+
+Selecting a tenprint displays the tenprint itself with all the segments (e.g. where the right thumb is, left ring, etc...) annotated on it (@fig-donor-tenprint-detail). On the right, a list of metadata for the image and different buttons to manage both the segments and the image. 
+
+The admin can delete segments informations, update the segment informations, go to the segements list (@fig-donor-tenprint-segment), download the image or delete the tenprint card.
+
+#figure(
+  image(
+    "../assets/screenshots/admin/06-donor-tenprint-detail-admin.png",
+    width: 80%
+  ),
+  caption: [Tenprint detail view with segments and metadata]
+) <fig-donor-tenprint-detail>
+
+Clicking on the Go to segments list, displays the image within each segment with the name of the specfic segment.
+
+#figure(
+  image(
+    "../assets/screenshots/admin/06.05-donor-tenprint-segment-list-admin.png",
+    width: 80%
+  ),
+  caption: [Segment list from tenprint]
+) <fig-donor-tenprint-segment>
