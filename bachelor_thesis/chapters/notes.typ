@@ -291,3 +291,4 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 1054 - It's going quite wel, have to pu t areminder on watching all the TODOs in the documents so that I can be sure of what I write ! 
 (like what are the little exclamation signs or marked signs and what do they say about the data ?)
 
+1149 - Reached the marks gonna stop now.
