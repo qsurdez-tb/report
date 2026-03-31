@@ -110,7 +110,7 @@ The work is built into seven phases, each one building ontop of the previous one
       [Starting],       [16-19.02],            [Initial planning document, this specification],
       [First steps in codebase],       [24.02-02.04],            [Doc: architecture, dev environment, system overview],
       [User management],       [07-16.04],            [Doc: per-donor security processes, access control mechanisms and roles],
-      [Watermark management],       [23-30.04],            [Doc: watermark process, steganography assessment],
+      [Watermark management and biometric data],       [23-30.04],            [Doc: watermark process, steganography assessment, biometric data management],
       [Backup management],       [07-12.05],            [Doc: backup encryption],
       [Deployment management],       [12-20.05],            [Doc: deployment procedure, restoration procedure],
       [Development],       [20.05-10.07],            [Implemented and tested functional improvements],
