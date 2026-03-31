@@ -292,3 +292,21 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 (like what are the little exclamation signs or marked signs and what do they say about the data ?)
 
 1149 - Reached the marks gonna stop now.
+
+== 31.03
+
+0815 - Getting back into it
+
+0823 - Trying to find the credentials to conntect to the prod db so I can see all the tables used
+
+0834 - Managed to find the credentials but I have an error when I want to see the tables. I will go check with Christophe if he has the same behavior as me 
+
+0839 - Let's read the feedback from the supervisor
+
+0845 - Feedback is good generally, I'm just not sure to understand what he means by being coherent between the different parts of my specification and my report ? Not sure I understand, I'll ask him later during our meeting
+
+0848 - Upon more careful reading I think that the access control is the main culprit as I already have it in my report I didn't thought of including it in the list of deliverables ^^'. But let's ask anyway !
+
+0909 - Changes made based on feedback for title page
+
+0912 - Let's get back into the app overview document
