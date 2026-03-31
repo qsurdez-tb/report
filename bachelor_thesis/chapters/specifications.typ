@@ -102,7 +102,7 @@ The work is built into seven phases, each one building ontop of the previous one
 
 #figure(
    table(
-      columns: (auto, auto, 1fr),
+      columns: (30%, auto, auto),
       stroke: 0.5pt,
       fill: (col, row) => if row == 0 { luma(220) } else { white },
       align: (left, left, center, left),
