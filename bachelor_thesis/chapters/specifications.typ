@@ -66,8 +66,8 @@ Document and, if chosen for the development phase, improve the procedures for de
     columns: (auto, 1fr),
     stroke: 0.5pt,
     align: (left, left),
-    [Current State], [No installation or restoration procedure is documented. Restoration has never been formally tested.],
-    [Target State], [Step-by-step procedures for installation and restoration, validated by executing each procedure in a development environment.]
+    [Current State], [No deployment or restoration procedure is documented. Restoration has never been formally tested.],
+    [Target State], [Step-by-step procedures for deployment and restoration, validated by executing each procedure in a development environment.]
   ),
   caption: [Current state and target state to demystify management operations]
 )
@@ -109,10 +109,10 @@ The work is built into seven phases, each one building ontop of the previous one
       table.header[*Phase*][*Dates*][*Deliverables*],
       [Starting],       [16-19.02],            [Initial planning document, this specification],
       [First steps in codebase],       [24.02-02.04],            [Doc: Architecture, dev environment],
-      [User management],       [07-16.04],            [Doc: key generation, encryption, authentication],
-      [Watermark management],       [23-30.04],            [Doc: watermarking process, steganography assessment],
-      [Backup management],       [07-12.05],            [Doc: backup and restoration mechanism],
-      [Deployment management],       [12-20.05],            [Deployment procedure, scope decision for development phase],
+      [User management],       [07-16.04],            [Doc: per-donor security processes, access control mechanisms and roles],
+      [Watermark management],       [23-30.04],            [Doc: watermark process, steganography assessment],
+      [Backup management],       [07-12.05],            [Doc: backup encryption],
+      [Deployment management],       [12-20.05],            [Doc: deployment procedures, restoration procedures],
       [Development],       [20.05-10.07],            [Implemented and tested functional improvements],
       [End of project admin],       [13-23.07],            [Final report, publishable summary, poster],
       
@@ -123,6 +123,8 @@ The work is built into seven phases, each one building ontop of the previous one
 
 === Deliverables <deliverables>
 Here are the expected deliverables :
+
++ Codebase with all new features
 
 + Technical documentation on:
     - System architecture
@@ -140,4 +142,4 @@ Here are the expected deliverables :
 + Thesis deliverables:
     - An intermediary report due on 20.05
     - A final report due on 23.07
-    - A publishable summary and a poster
+    - A publishable summary and a poster on 23.07
