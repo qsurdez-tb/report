@@ -4,7 +4,25 @@ This chapoter is an overview of the ICNML application from the point of view of 
 
 == Login
 
+The Login page (@fig-login) is minimal with a username and password field. It contains the link to request a password reset as well as the link tho request an account. It displays the version with the git commit hash as well as the timestamp of the commit.
+
+#figure(
+  image(
+    "../assets/screenshots/00-login.png"
+  ),
+  caption: [Login page]
+) <fig-login>
+
 == Request an account
+
+The request an account page (@fig-request-account) is where a user without an account can request to the Administrator an account for the ICNML application. The form needs the first name, last name, email and what kind of account the user would like to be given. The selection is a subset of all the accounts of the application, see @roles-and-permissions.
+
+#figure(
+  image(
+    "../assets/screenshots/01-request-account.png"
+  ),
+  caption: [Request an account page]
+) <fig-request-account>
 
 == Administrator 
 
