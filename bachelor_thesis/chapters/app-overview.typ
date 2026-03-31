@@ -240,4 +240,26 @@ This page offers two buttons: Copy all accounts to PiAnoS and Open PiAnoS. When 
   caption: [PiAnoS page]
 ) <fig-pianos>
 
+=== New users
 
+The new users page displays the account requests from users (@fig-new-users). This is where the Administrator will validate or reject the account request for a selected subset of the different roles in ICNML, see @roles-and-permissions.
+
+The Administrator can validate via the Validate button and reject via the Reject button. The fields are editable, but when edited on the prod version, it was not propagated to the database.
+
+#figure(
+  image(
+    "../assets/screenshots/admin/23-new-users-admin.png"
+  ),
+  caption: [New users page management]
+) <fig-new-users>
+
+=== Security keys
+
+The security keys page (@fig-security-keys) is where the user can manage its passkeys. They can either add new ones or delete previoulsy existing ones.
+
+#figure(
+  image(
+    "../assets/screenshots/admin/24-security-keys-admin.png"
+  ),
+  caption: [Security keys page management]
+) <fig-security-keys>
