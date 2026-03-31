@@ -340,4 +340,14 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 
 1429 - The app overview from the admin point of view is finished !
 
+1433 - Going back into the dev environment setup
 
+1531 - Quite difficult to find the prod config so I can connect to the server. I cannot have the default values of some tabels :((
+
+1532 - I will continue the dev environment without them and that's okay. I'll add them later on.
+
+1539 - onto setting up the db as the prod env automatically in the dev environment
+
+1609 - Ok now other stuff is not working like the web container not running by default ? 
+
+1625 - It works again, will check if it truly works on Thursday
