@@ -205,3 +205,25 @@ Each stpe opens a modal pre-populated with structured data: the user list provid
   caption: [Resulting AFIS assignment update modal]
 ) <fig-afis-assign-assignments>
 
+=== CNM list
+
+The CNM list (@fig-cnm-list) displays all close non-match images in the library. Each image is labelled with its UUID and status: blue indicates an Incidental Mark, red indicates a Target mark and grey indicates No Mark Value. 
+I have to discuss with the client for the meaning of these indicators !
+
+#figure(
+  image(
+    "../assets/screenshots/admin/20-cnm-list-admin.png"
+  ),
+  caption: [CNM list view]
+) <fig-cnm-list>
+
+Clicking on an image displasy the detail view for this object (@fig-cnm-detail). First there is the Close Non-Match upload form where the AFIS user can document the CNM. 
+
+Below, we have the tenprint cards uploaded linked to this target as well as a screenshot from the AFIS system with the minutiae on the CNM and the uploaded finger from the tenprint.
+
+#figure(
+  image(
+    "../assets/screenshots/admin/21-cnm-detail-admin.png"
+  ),
+  caption: [Detail view of CNM image]
+) <fig-cnm-detail>
