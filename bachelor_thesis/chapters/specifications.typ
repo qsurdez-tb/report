@@ -133,6 +133,7 @@ Here are the expected deliverables :
     - Per-donor security processes
     - Access control mechanisms and roles
     - Watermark process, steganography assesment
+    - Biometric data management
     - Backup encryption
     - Deployment procedure
     - Restoration procedure
