@@ -112,7 +112,7 @@ The work is built into seven phases, each one building ontop of the previous one
       [User management],       [07-16.04],            [Doc: per-donor security processes, access control mechanisms and roles],
       [Watermark management],       [23-30.04],            [Doc: watermark process, steganography assessment],
       [Backup management],       [07-12.05],            [Doc: backup encryption],
-      [Deployment management],       [12-20.05],            [Doc: deployment procedures, restoration procedures],
+      [Deployment management],       [12-20.05],            [Doc: deployment procedure, restoration procedure],
       [Development],       [20.05-10.07],            [Implemented and tested functional improvements],
       [End of project admin],       [13-23.07],            [Final report, publishable summary, poster],
       
@@ -128,10 +128,13 @@ Here are the expected deliverables :
 
 + Technical documentation on:
     - System architecture
-    - Per-donor image encryption process with key generation and storage
-    - Digital watermarking process applied to downloaded images
-    - Backup mechanism 
+    - Development environment 
+    - Per-donor security processes
+    - Access control mechanisms and roles
+    - Watermark process, steganography assesment
+    - Backup encryption
     - Deployment procedure
+    - Restoration procedure
     
  
 + Functional improvements:
