@@ -333,3 +333,11 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 1130 - Eating break
 
 1243 - Getting back to specifications
+
+1349 - I think the specifications are approaching their final state
+
+1353 - Switching to app overview doc
+
+1429 - The app overview from the admin point of view is finished !
+
+
