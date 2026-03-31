@@ -21,16 +21,16 @@
       subtitle: "",
       academic_years: "2025-26",
       departement: (
-        court: "TIC",
-        long: "Technologies de l'information et de la communication (TIC)",
+        court: "ICT",
+        long: "Information and Communication Technologies",
       ),
       filiere: (
-        court: "ISC",
-        long: "Informatique et systèmes de communication (ISC)",
+        court: "CS",
+        long: "Computer Science and Communication Systems",
       ),
       orientation: (
-        court: "ISC-L",
-        long: "Logiciel (ISC-L)",
+        court: "SD",
+        long: "Software development",
       ),
       author: (
         name: "Quentin Surdez",
@@ -41,7 +41,7 @@
         feminine_form: false,
       ),
       industry_contact: (
-        name: "UNIL - ESC",
+        name: "UNIL - School of Forensic Science",
         address: [
           Avenue François-Alphonse Forel\
           1015 Lausanne 

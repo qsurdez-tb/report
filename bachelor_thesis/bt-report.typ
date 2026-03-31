@@ -127,7 +127,7 @@
 }else{
   v(14pt)
 }
-#v(8%)
+#v(3%)
 
 #align(left, [
   #block(
@@ -140,10 +140,10 @@
       [*#if config.information.supervisor.feminine_form { "Supervisor" } else { "Supervisor" }*], [#config.information.supervisor.name],
       [],[],
       [*Department*], [#config.information.departement.long],
-      [*Faculty*], [#config.information.filiere.long],
-      [*Orientation*], [#config.information.orientation.long],
+      [*Major*], [#config.information.filiere.long],
+      [*Minor*], [#config.information.orientation.long],
       [],[],
-      [*Mandating Company*], [
+      [*Client*], [
         #config.information.industry_contact.name \
         #config.information.industry_contact.industry_name \
         #config.information.industry_contact.address
@@ -248,7 +248,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
         [],[],
         [*#if config.information.supervisor.feminine_form { "Supervisor" } else { "Supervisor" }*], [#config.information.supervisor.name],
         [],[],
-        [*Mandating Company*], [#config.information.industry_contact.name],
+        [*Client*], [#config.information.industry_contact.name],
       )
     ]
   )
