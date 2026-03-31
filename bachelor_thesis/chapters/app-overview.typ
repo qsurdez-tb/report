@@ -227,3 +227,17 @@ Below, we have the tenprint cards uploaded linked to this target as well as a sc
   ),
   caption: [Detail view of CNM image]
 ) <fig-cnm-detail>
+
+=== PiAnoS admin
+
+This section of the application is to bridge the PiAnoS application and the ICNML application. 
+This page offers two buttons: Copy all accounts to PiAnoS and Open PiAnoS. When the buttons are clicked on the production web applicaiton, a 502 Gateway error is displayed.
+
+#figure(
+  image(
+    "../assets/screenshots/admin/22-pianos-admin.png"
+  ),
+  caption: [PiAnoS page]
+) <fig-pianos>
+
+
