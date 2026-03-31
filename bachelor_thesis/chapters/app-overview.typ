@@ -133,4 +133,54 @@ A grid to display all the images in one category with a search bar. Info badge a
   caption: [Incidental marks grid]
 ) <fig-marks-incidental>
 
-Clicking on a mark, whether incidental or target, displays the detail view for this specific mark (@).
+Clicking on a mark, whether incidental or target, displays the detail view for this specific mark (@fig-marks-detail). The metadata of this image are displayed as well as six editable fields that are: Detection, Surface, Activity, Distortion, Location and Notes. Then we have two action buttons: Download image and Delete mark.
+
+#figure(
+  image(
+    "../assets/screenshots/admin/12-donor-mark-incidental-detail-admin.png",
+    width: 80%
+  ),
+  caption: [Detail view for marks]
+) <fig-marks-detail>
+
+=== Tables
+
+The tables page is a view of the relevant information for each created donor. Each row
+corresponds to a donor and displays its UUID with numerical counters: number of latent targets, number of latent incidental targets, number of tenprints for fingers and palms, number of segments and number of targets.
+This view can be useful to have a quick overview of the donor's states.
+
+#figure(
+  image(
+    "../assets/screenshots/admin/13-tables-admin.png",
+    width: 80%
+  ),
+  caption: [Tables view]
+) <fig-tables>
+
+=== Trainer Folders
+
+The trainer folders page displays a table of the created folder exercises created by trainers (@fig-trainer-folders). Each entry shows the name of the folder, the creation time, its UUID, the number of marks it contains and the which trainer created it. There is a list of action buttons: Rename, Show, Users, Dowload. The Users action button does not work in the current version of the application. There's no way to delete a previously created folder.
+
+#figure(
+  image(
+    "../assets/screenshots/admin/14-trainer-folders-admin.png",
+    width: 80%
+  ),
+  caption: [Trainer folders]
+) <fig-trainer-folders>
+
+==== Show
+
+The Show action button displays the images that are within the exercise folder of interest
+(@fig-trainer-folders-show). The images are not clickable. 
+
+#figure(
+  image(
+    "../assets/screenshots/admin/15-trainer-folder-show-admin.png",
+    width: 80%
+  ),
+  caption: [Show view of a trainer folder]
+) <fig-trainer-folders-show>
+
+=== AFIS assignment
+
