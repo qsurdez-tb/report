@@ -23,7 +23,7 @@ built around the four following objectives.
 
 ==== Reinforce technical maintainability
 
-Produce documentation of the system architecture and
+Produce documentation of the system, the architecture and
 setting up a development environment so that future contributors can  understand, install, and develop the
 platform easily compared to now. 
 
@@ -33,7 +33,7 @@ platform easily compared to now.
     stroke: 0.5pt,
     align: (left, left),
     [Current State], [No installation guide, no architecture documentation, no documented development environment.],
-    [Target State], [A complete documentation set covering architecture, development setup, validated by a successful fresh installation.]
+    [Target State], [A complete documentation set covering system overview, architecture, development setup, validated by a successful fresh installation.]
   ),
   caption: [Current state and target state to reinforce techinal maintainability]
 )
@@ -108,7 +108,7 @@ The work is built into seven phases, each one building ontop of the previous one
       align: (left, left, center, left),
       table.header[*Phase*][*Dates*][*Deliverables*],
       [Starting],       [16-19.02],            [Initial planning document, this specification],
-      [First steps in codebase],       [24.02-02.04],            [Doc: Architecture, dev environment],
+      [First steps in codebase],       [24.02-02.04],            [Doc: architecture, dev environment, system overview],
       [User management],       [07-16.04],            [Doc: per-donor security processes, access control mechanisms and roles],
       [Watermark management],       [23-30.04],            [Doc: watermark process, steganography assessment],
       [Backup management],       [07-12.05],            [Doc: backup encryption],
@@ -127,6 +127,7 @@ Here are the expected deliverables :
 + Codebase with all new features
 
 + Technical documentation on:
+    - System overview
     - System architecture
     - Development environment 
     - Per-donor security processes
