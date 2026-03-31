@@ -184,3 +184,24 @@ The Show action button displays the images that are within the exercise folder o
 
 === AFIS assignment
 
+The AFIS assignment page (@fig-afis-assign) supports assignment of targets to AFIS users. 
+The workflow is still a mystery to me. // TODO ask Christophe about the workflow
+There are three steps: select AFIS users, select targets, and generate assignments. // Maybe needs confirmation of the code !
+Each stpe opens a modal pre-populated with structured data: the user list provides `id;username;email` records, the target list provides `uuid:donor_username;fpx;submitter_username` records and the resulting assignment format maps to `folder_uuid;type;username` which can be updated (@fig-afis-assign-assignments).
+
+#figure(
+  image(
+    "../assets/screenshots/admin/16-afis-assign-admin.png",
+    width: 80%
+  ),
+  caption: [AFIS assignment]
+) <fig-afis-assign>
+
+#figure(
+  image(
+    "../assets/screenshots/admin/19-afis-assign-assignment.png",
+    width: 80%
+  ),
+  caption: [Resulting AFIS assignment update modal]
+) <fig-afis-assign-assignments>
+
