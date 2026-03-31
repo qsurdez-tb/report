@@ -68,7 +68,7 @@ tasks:
         x:
           estimate: 12
 
-      - name: Biometric data walkthrough (12h)
+      - name: Per-donor security processes (12h)
         start: 2026-04-14
         end: 2026-04-16
         x:
@@ -76,7 +76,7 @@ tasks:
 
   - name: Watermark management (27h)
     subtasks:
-      - name: watermark management (15h)
+      - name: Biometric data management (15h)
         start: 2026-04-23
         end: 2026-04-30
         x:
