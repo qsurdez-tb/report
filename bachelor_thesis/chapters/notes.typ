@@ -310,3 +310,26 @@ I can't find the place where the image is decrypted. 1138 - It's in the `image_s
 0909 - Changes made based on feedback for title page
 
 0912 - Let's get back into the app overview document
+
+0938 - After some writing, I think I would up my game in documentation writing by giving
+each chapter one of the four Diataxis axiom ... I may want to read more on that later on. Could be a nice source as well !
+
+1015 - Meeting with client and with supervisor
+
+- Nommer une fois bien les déliverables, et les redire 
+- Distinguer les différents processus
+- On se perd un peu parce que les choses sont assez différentes 
+- Se retrouver dans les noms du chapitre, Biometric data management
+- Revocation aussi qui est important ! 
+- Structurer mieux mieux mieux !!!!
+- User management, biometric data (revocation), backup, déploiement
+- Current state and target state pas assez graphiquement clair psk on dirait uniquement pour le dernier point. 
+- Intro qui explique comment accéder à la solution
+- Diataxis qui est pas mal
+- Retour pour qqn d'externe puisse suivre facilement 
+
+1119 - Working on making a better structure for specifications
+
+1130 - Eating break
+
+1243 - Getting back to specifications
