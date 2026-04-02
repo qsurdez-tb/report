@@ -98,7 +98,7 @@ The defense will be organized between the 24.09 and the 11.10.
 
 === Tasks <taches>
 
-The work is built into seven phases, each one building ontop of the previous one.
+The work is built into seven phases, each one building on top of the previous one.
 
 #figure(
    table(
@@ -132,7 +132,7 @@ Here are the expected deliverables :
     - Development environment 
     - Per-donor security processes
     - Access control mechanisms and roles
-    - Watermark process, steganography assesment
+    - Watermark process, steganography assessment
     - Biometric data management
     - Backup encryption
     - Deployment procedure
