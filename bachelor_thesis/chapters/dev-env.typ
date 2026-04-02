@@ -106,6 +106,7 @@ Log in with the admin credentials created from the previous steps.
       [TOTP setup], [Reachable only after the new user validation by the admin, thus this is not working.],
       [Password reset], [Sends an email via SMTP. No mail server is running in this environment, the email is not delivered.],
       [PiAnoS integration], [The feature is disabled],
+      [GPG file encryption], [Still inspecting that and if needed added to this how-to dev setup]
     ),
     caption: [Features not available in development environment]
 )
