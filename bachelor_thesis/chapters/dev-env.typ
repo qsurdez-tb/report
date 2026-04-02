@@ -1,13 +1,10 @@
 = Development environment setup
 
-This chapter focuses on how to deploy a development environment in several steps. The ressources are not all available 
-yet, there's a need to confirm whether or not the libraries used by the web application can be made open-source. 
+This chapter focuses on how to deploy a development environment for ICNML. Following these steps will give you a running instance of the application with its three services (web, database, cache) on your machine.
 
 == Context
 
-ICNML is a legacy Python 2.7 Flask application originally hosted on a remote x86-64 Linux server. Its libraries (`WSQ`, `MDmisc`, `NIST`, `PMlib`) were git submodules, but their remote repositories are no longer accessible. They were manually copied from the server.
-
-The container registry `cr.unil.ch` has a TLS certificate that does not cover the registry subdomain, making direct image pulls fail. The base image must be obtained by other means.
+ICNML is a legacy Python 2.7 Flask application originally hosted on a remote x86-64 Linux server. Its dependencies (`WSQ`, `MDmisc`, `NIST`, `PMlib`) were originally git submodules, but their remote repositories are no longer accessible. They were recovered by copying them from the production server. The original Docker base image (`cr.unil.ch/icnml/base:latest`) is also inaccessible due to a TLS misconfiguration on the container registry and image format incompatibility with current Docker versions. Thus, the development envirionment uses `python:2.7-slim-buster` as a replacement base image.
 
 The stack runs three Docker containers:
 
@@ -22,38 +19,48 @@ The stack runs three Docker containers:
       [`db`], [`postgres:11`],            [PostgreSQL database],
       [`redis`], [`redis:6`],            [Redis cache],
     ),
-    caption: [Table of containers in `docker-compose` file]
+    caption: [Containers in `docker-compose` file]
 )
-
-As the base image is currently corrupted, the image `python:2.7-slim-buster` is used to replace it. The Dockerfile on the git repository uses `debian:11` but this image does not have Python 2 which is essential for the libraries used. 
 
 == Prerequisites
 
 + Docker engine >= 4.x
 + Git
-+ Access to the repository of this bachelor thesis
++ Access to the `icnml-dev` private repository
 
-== Step 1 
 
-Download the repository for creating the development environment created for this thesis here // TODO put the link
+== Step 1, Clone the repository
 
 ```sh
-git clone https...
+git clone https://github.com/qsurdez-tb/icnml-dev.git
+cd icnml-dev
 ```
 
-== Step 2
+== Step 2, Configure the envirionment file
 
-The project root contains an `env` file that is passed to the `web` container. You need to set the correct values so that the TOTP is not enforced. 
-
-Create or edit `dev_icnml/env`:
+The `web` container reads an `env` file at the project root. This file controls application behaviour. At minimum, set `ENVTYPE` to `DEV` to disable TOTP enforcement:
 
 ```
 ENVTYPE=DEV
 ```
 
-== Step 3
+Create or edit `icnml-dev/env` with the above content before starting the containers.
 
-From the `dev_icnml` directory, start the containers: 
+#block[
+  *Note*: this is not a `.env` file but indeed a `env` file.
+]
+
+== Step 3, Copy the GPG keys
+
+The application requires GPG keys to be present in the `web/keys` directory. Copy the keys (Are they created by the dev? Are they given? We shall see in the future... Cause only the public key was present on the server) // TODO check that relatively quickly ^^
+
+```sh
+cp -r ./config/keys ./web
+```
+
+== Step 4, Start the containers
+
+From the `dev_icnml` directory, start all three services: 
 
 ```sh
 docker compose up
@@ -61,50 +68,44 @@ docker compose up
 
 Check all three containers are running.
 
-== Step 4
+#block[
+  *ARM64 note:* The `WSQ` library contains binaries compiled only for `linux/amd64`. On ARM64 hosts, the `web`service must be force to run under emulation. The provided `docker-compose` file already sets `platform: linux/amd64` on the `web` service for this reason.
+]
 
-Access the application by opening your browser at:
+== Step 5, Create the admin account
+
+Run the script on the `web` service to create an admin account with:
+
+```sh
+docker compose exec web python2 /app/create_admin.py
+```
+
+This will prompt a minimalist CLI to create an admin acccount with the credentials provided by the user.
+
+== Step 6, Access the application
+
+
+Open your browser at: 
 
 ```
 http://localhost
 ```
 
-Log in with the admin credentials:
+Log in with the admin credentials created from the previous steps.
 
-- Username: admin
-- Password: admin
+== Current Known limitations
 
-== Known limitations
-
-- Not all the tables are created. The `cnm_*` tables are nowhere to be found yet. 
-- WSQ binaries do not work on ARM64 system. a platform flag needs to exist for it to work.
-- Dependencies version unpinned in the requirements file of the libraries.
-
-
-== Current state
-
-=== Images
-
-The current Gitlab project called ICNML does not have all the dependencies for the application. In deed, the libraries MDmisc, NIST, WSQ, PiAnoS and PMlib are submodules, but the url for each of them returns a 404. 
-
-The container registry `cr.unil.ch` is a domain that is not present in the TLS certificate and thus it's not possible to pull the images from them without changing the `daemon.json` file from docker to:
-
-```json
-"insecure-registries": [
-    "cr.unil.ch"
-  ]
-```
-
-Then the images stored on this container registry were created using the first version of Docker // TODO check which one
-and cannot be used with the current version (4.43.1). The problem came from the containerd setting that had to be turned off 
-to pull the image. Then, the image pulled seemed to be corrupt as the error returned was:
-
-```bash
-docker pull esc-md-git.unil.ch/icnml/docker/web
-Using default tag: latest
-Error response from daemon: error parsing HTTP 404 response body: unexpected end of JSON input: ""
-```
-
-=== Server
-
-The quickest way to resolve this was 
+#figure(
+  table(
+      columns: (auto, 1fr),
+      stroke: 0.5pt,
+      fill: (col, row) => if row == 0 { luma(220) } else { white },
+      align: (left, left),
+      table.header[*Feature*][*Why*],
+      [New user registration], [The admin must sign the validation with a registered passkey. There is no way to skip this test and currently it's a LocalhostNotAllowed error when trying to create it. New accounts must be insterted directly in the DB.],
+      [TOTP setup], [Reachable only after the new user validation by the admin, thus this is not working.],
+      [Password reset], [Sends an email via SMTP. No mail server is running in this environment, the email is not delivered.],
+      [PiAnoS integration], [The feature is disabled],
+    ),
+    caption: [Features not available in development environment]
+)
