@@ -110,3 +110,60 @@ Log in with the admin credentials created from the previous steps.
     ),
     caption: [Features not available in development environment]
 )
+
+== Explanation of struggles 
+
+=== 1. Container registry TLS certificate mismatch
+
+The Let's Encrypt certificate on the Gitlab instance covers `bunny.unil.ch` but not `cr.unil.ch`. Any `docker pull cr.unil.ch/icnml/...` call
+fails with a TLS verification error. Adding `cr.unil.ch`to Docker's `insecure-registries` in `daemon.json` was attempted as a workaround but did not fully resolve the problem because of the manifest format issue below.
+
+=== 2. Docker manifest v1 format no longer supported
+
+The base image was originally built and pushed with the old manifest format. Since containerd v2.0, this format is rejected.
+
+Rebuilding the image with a v2 would have required access to the original build envionment, which was unavailable. Disabling containerd was trie but produces an `unexcpected end of JSON input` error instead.
+
+=== 3. `docker save` failure on server
+
+Attempting to export the server image with `docker save` failed: 
+
+```
+Error response from daemon: open
+/var/lib/docker/overlay2/.../merged/var/www/library/NIST/NIST/XML/__init__.py:
+no such file or directory
+```
+
+The overlay filesystem of the image on the server was corrupt or incomplete, making a direct save impossible. The workaround was to export a running container instead of the stored image
+
+=== 4. No usable base image, had to export a live container
+
+Because the image could neither be pulled from the registry nor saved from the daemon, the only viable path was to connect to the production server, find a healthy container, and export it with `docker export`. The resulting archive was then loaded locally and retagged as `cr.unil.ch/icnml/base:latest`. However, this wasn't a solution, as the next developer should be able to build from a Dockerfile or a docker compose file. Trying to bypass the base image was the path chosen from now on.
+
+=== 5. Python 2.7 end-of-life, broken package
+
+Python 2.7 reached end of life in January 2020. The `apt` sources in `python:2.7-slim-buster` point to repositories that no longer server packages at their original URLs. The `sources.list` file had to be redirected to Debian's EOL archive URLs before any `apt-get install` call could succeed.
+
+=== 6. `.pth` file targeting the wrong Python directory
+
+The Dockerfile added custom libraries to Python's module search path by writing a `.pth` file:
+
+```dockerfile
+RUN find /library -maxdepth 1 -mindepth 1 \
+    > /usr/local/lib/python2.7/dist-packages/mdedonno.pth
+```
+
+`dist-packages` is a Debian convetion for the system-installed Python. The official `python:2.7-slim-buster` image compiles Python from source and uses `site-packages`. Python never read the file, causing every import of `Mdmisc`, `NIST`, `WSQ` and `PMlib` to fail with `ImportError: No module named MDmisc`. The fix was to target `site-packages` instead.
+
+=== 7. WSQ binaries compiled only for x86-64
+
+The `WSQ` library ships pre-compiled binaries (`cwsq`, `dwsq`) that only run on `linux/amd64`. On Apple Silicon (ARM64) these cannot execute natively. The Dockerfile's `RUN python doctester.py` step runs `WSQ` doctests, which silently failed on ARM64, causing the build to abort. The setting `platform` in the docker compose file is a solution to emulate the a x86-64 environment.
+
+=== 8. Missing CNM database tables
+
+The numbered SQL install scripts did not include DDL for any of the CNM-related tables: `cnm_annotation`, `cnm_assignment`, and others. These tables were absent from all migration files, and direct access to the production schema was difficult to obtain. A new file `30-cnm_tables.sql` had to be created by reconstructing from the source code and the DDL from the production database.
+
+=== 9. WebAuthn `LocalhostNotAllowed` on localhost
+
+Even in `DEV` mode, attempting to register a new passkey through the browser produced a `LocahostNotAllowed` error from the WebAuthn API. New user accounts cannot be validated through the normal UI and must be inserted directly into the database.
+
