@@ -362,3 +362,11 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 
 0904 - Finished creating a repo for the dev environment + README.md with ~clear explanation on what are the changes and why they were needed. Some are not present, have to go through it again later on
 
+1010 - Exporting typst spec to txt and md
+
+1028 - Sending txt and md version to supervisor
+
+1029 - Getting back into the dev setup document
+
+1053 - Finished dev env now writing the struggles associated with it
+
