@@ -10,7 +10,7 @@ on image analysis and biometric recognition.
 === Problem statement <problem-statement>
 
 The system was initially developed in a research environment that prioritized functionality and flexibility over 
-long-term maintenance and compliance with technical good practices . Today, the platform remains a central component in many scientific
+long-term maintenance and compliance with technical good practices. Today, the platform remains a central component in many scientific
 activities. However, its evolution and sustainability are limited by accumulated technical debt. These weaknesses affect
 maintainability, security, and usability for developers, admins and end users alike.
 
