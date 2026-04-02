@@ -351,3 +351,14 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 1609 - Ok now other stuff is not working like the web container not running by default ? 
 
 1625 - It works again, will check if it truly works on Thursday
+
+== 02.04
+
+0800 - Rereading the specifications
+
+0834 - Finished the specifications, I'm a bit stressed but it's a good work I think !
+
+0837 - Let's get back into the development environment setup !
+
+0904 - Finished creating a repo for the dev environment + README.md with ~clear explanation on what are the changes and why they were needed. Some are not present, have to go through it again later on
+
