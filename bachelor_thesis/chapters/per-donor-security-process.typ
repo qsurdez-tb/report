@@ -119,7 +119,7 @@ are persisted:
 It then returns a response with error false and the donor uuid.
 
 #figure(
-    image("../assets/DEK-generation.png", height: 100%),
+    image("../assets/DEK-generation.png", height: 70%),
     caption: [DEK Generation Schema]
 )
 
@@ -260,7 +260,7 @@ The server performs the second hash before storage, adding a new random salt:
 Before accepting the operation, the server verifies that the `email_hash` present in the session matches the one in the url as well as the `user_id` matches the one retrieved from the database using the username (`donor_<id>`).
 
 #figure(
-    image("../assets/consent-activation.drawio.png", height: 100%),
+    image("../assets/consent-activation.drawio.png", width: 80%),
     caption: [Consent Form flow with donor account activation]
 )
 
@@ -358,6 +358,6 @@ the submitter's session or admin's session must contain the AES-encrypted email 
 The reconstructed DEK is never written back to `donor_dek`. It exists only in the server-side session for the duration of the submitter's or admin's login.
 
 #figure(
-    image("../assets/dek-lifecycle.drawio.png", height: 100%),
+    image("../assets/dek-lifecycle.drawio.png", width: 80%),
     caption: [Consent Form flow with donor account activation]
 )
