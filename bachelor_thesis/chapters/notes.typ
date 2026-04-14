@@ -370,3 +370,21 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 
 1053 - Finished dev env now writing the struggles associated with it
 
+1200 - Finsished
+
+== 14.04
+
+0744 - Getting back into it, taking some time to see where I'm at and what are the next steps
+
+0752 - Purpose of today is renaming and adding to roles and permissions as well as dek donor generation to have all per-donor security processes and the access control mechanisms and roles ! (authentication)
+
+0757 - Add authentication to roles-and-permissions and rename the doc (carful about renaming the anchor as it's the reference in other files), Add other security processes in dek-donor-generation (could be mixed with the biometric data management).
+
+0819 - Trying to list all the different per-donor security processes: biometric data encryption in submission, two email encryption format, session-based encryption, filename encryption, consent form pipeline, donor account activation pipeline (mostly the difference with other accounts as the others will be discussed someplace else), dek softdelete mechanism + reconstruction. Almost all of them lie in views/submission | donor/__init__.py 
+
+0830 - Listing take some time as I hace to go through the codebase searching for it.
+
+0851 - I'm thinking about creating a file for explaining how the dev has created wrapper around common encryption libraries and submit that to check if it's ok or not ? 
+
+0913 - Okay, let's get started writing the doc per-donor-security-processes
+
