@@ -388,3 +388,17 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 
 0913 - Okay, let's get started writing the doc per-donor-security-processes
 
+1016 - Integrated the dek generation doc in per donor sec proc + add the mechanisms to never store plaintext emails when form is submitted.
+
+1017 - I don't know if I want to address the biometric files encryption now or later on ? I feel like the consent form does fit this doc better as its mechanism is different from the biometric files... 
+
+1030 - Metting with the boss and then eating break
+
+1230 - Getting back to it.
+
+1327 - Finished consent form section
+
+1420 - Continuing the document
+
+1436 - I think it's finished ?
+
