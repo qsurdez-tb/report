@@ -221,4 +221,38 @@ The consent form is then encrypted with a GPG public key identified by a hardcod
 
 Only after the GPG encryption and database insertion succeed is the upload considered complete. The consent form is only uploaded once. The `submissions.consent_form` flag is set to `true` and further file upload for the donor become available.
 
+== Donor Account Activation
 
+=== Entry Point
+
+The donor account activation is handled by the route `POST /do/config/donor`. It is reached via the link in the activation email. The session must already contain the `email_hash` and `user_id` set by the previous `GET /config/donor/<h>` route.
+
+=== Password Setup
+
+The password comes from the browser and is already hashed with the client-side first step:
+
+#figure(
+  ```javascript
+  password = await generateKey( password, "icnml_" + username, 20000 );
+  ```,
+  caption: [Encryption of the password Client-Side (`login/templates/login/users/config.html`, ln 109)]
+)
+
+#note[The function generateKey is defined in the file `app/function.js`. It would be interesting to explain it so to be sure it's understood how the password is encrypted on the Client-Side.]
+
+The server performs the second hash before storage, adding a new random salt:
+
+#figure(
+    ```python
+    password = utils.hash.pbkdf2( 
+      password, 
+      utils.rand.random_data( config.PASSWORD_SALT_LENGTH ), 
+      config.PASSWORD_NB_ITERATIONS )
+      .hash()
+    ...
+    config.db.query( "UPDATE users SET password = %s WHERE username = %s", ( password, username, ) )
+    ```,
+    caption: [Server-side second hash and storage (`views/newuser/__init__.py`)]
+)
+
+Before accepting the operation, the server verifies that the `email_hash` present in the session matches the one in the url as well as the `user_id` matches the one retrieved from the database using the username (`donor_<id>`).
