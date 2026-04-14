@@ -20,9 +20,7 @@ biometric data linked to the Donor unrecoverable. This is a
 very important workflow to guarantee a privacy-by-deletion 
 design. If the donor wants to delete their key, they have the possibility to do it, and it will render all biometric data unreadable by other users.
 
-=== Steps
-
-==== Entry point
+=== Entry point
 
 The entry point for the generation of the donor's DEK is `POST /submission/do_new`. This is triggered after the Submitter has sent the form to register the new Donor. This is only accessible for the users with `@utils.decorator.submission_has_access`, @roles-and-permissions.
 
@@ -30,7 +28,7 @@ The form provides two inputs:
 - `email`, this is the donor's plaintext email
 - `upload_nickname`, this is the donor's nickname chosen by the Submitter.
 
-==== Step 1, checking for duplicate
+=== Step 1, checking for duplicate
 
 Before any creation, the code check whether the hash of the email is already present in the database. To be more precise from the SQL query, it will check if, among the submissions done by the current Submitter, one has the same email hash.
 
@@ -46,7 +44,7 @@ Before any creation, the code check whether the hash of the email is already pre
     caption: [Duplicate check (`views/submission/__init__.py`, ln 329)]
 )
 
-==== Step 2, creating the donor user
+=== Step 2, creating the donor user
 
 In this step, the Donor is created with the status pending. The `email` and the upload nickname are both encrypted with AES-256, @submission-data-protection. Then an Id is retrieved via a sequence found in the database.
 
@@ -61,7 +59,7 @@ A new user is inserted within the `users` table with the format `donor_<id>`. Th
     caption: [Creation of a new user of type Donor (`views/submission/__init__.py`, ln 353-356)]
 )
 
-==== Step 3, generating the DEK
+=== Step 3, generating the DEK
 
 After creating a user of type Donor, the DEK is generated calling the `utils.encryption.dek_generate()` function.
 This function can take up to 4 arguments:
@@ -105,7 +103,7 @@ The function returns a tuple of 3 variables:
 - `dek`, the generated DEK.
 - `check`, the json object encrypted using the DEK.
 
-==== Step 4, persisting the DEK
+=== Step 4, persisting the DEK
 
 After the creation of the DEK, it is stored within the `donor_dek` table. Here's a list of the different fields that
 are persisted:
