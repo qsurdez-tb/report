@@ -402,3 +402,8 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 
 1436 - I think it's finished ?
 
+1528 - Finished creating the diagrams
+
+1536 - Diagrams well inserted in the report
+
+1536 - Exploring authentication 
