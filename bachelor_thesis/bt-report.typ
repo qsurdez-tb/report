@@ -298,7 +298,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 #include "chapters/dev-env.typ"
 #include "chapters/roles-and-permissions.typ"
 #include "chapters/per-donor-security-process.typ"
-#include "chapters/dek-donor-generation.typ"
+// #include "chapters/dek-donor-generation.typ"
 #include "chapters/db-architecture.typ"
 #include "chapters/architecture.typ"
 #include "chapters/implementation.typ"
