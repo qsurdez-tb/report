@@ -17,3 +17,8 @@ diataxis:
   title: Diátaxis
   author: Daniele Procida
   url: https://diataxis.fr/
+
+base64:
+  type: Web
+  title: Base64 Wikipedia Article
+  url: https://en.wikipedia.org/wiki/Base64
