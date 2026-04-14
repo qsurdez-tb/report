@@ -168,3 +168,57 @@ as`email_aes` before being stored in `submissions.nickname`.
 Because both fields use the submitter's password as the key, 
 they can only be decrypted during an authenticated session of 
 that submitter.
+
+== Consent Form flow
+
+The content form PDF is encrypted via a mechanism involving an asymmetric GPG key.
+
+=== Step 1, QR Code Verification
+
+Before the file is stored, each page of the PDF is scanned searching for a QR code containing the exact string `"ICNML CONSENT FORM"`. The result is stored as a boolean in `cf.has_qrcode`.
+
+#figure(
+  ```python
+  for d in decoded:
+    if d.data == "ICNML CONSENT FORM":
+        qrcode_checked = True
+  ```,
+  caption: [QR code verification during consent form upload (`views/submission/__init__.py`, ln 212-213) ]
+)
+
+=== Step 2, Donor Activation Email
+
+Once the QR code is detected, the donor receivesan email containing a unique activation URL. The URL is computed as the SHA-512 hash of the email hash stored in `users.email`.
+
+#figure(
+    ```python
+    url_hash = hashlib.sha512( email_db ).hexdigest()
+    url = url_for( "newuser.config_new_user_donor", h = url_hash )
+    ```,
+    caption: [Activation URL token generation (`views/submission/__init__.py`, ln 188 + ln 227)]
+)
+
+The activation route (`GET /config/donor/<h>`) iterates all Donor accounts without a password set, computes `sha512(email)` for each, and matches against `h`. On a match, the donor's `user_id` is stored in the session and the account setup page is served.
+
+=== Step 3, GPG Encryption and Storage
+
+The consent form is then encrypted with a GPG public key identified by a hardcoded key Id configured in `config.gpg_key`. A separate email hash is derived for the consent form table using `CF_NB_ITERATIONS`.
+
+#figure(
+    ```python
+    file_data = config.gpg.encrypt( file_data, *config.gpg_key )
+    file_data = str( file_data )
+    file_data = base64.b64encode( file_data )
+
+    email_hash = utils.hash.pbkdf2( email, iterations = config.CF_NB_ITERATIONS ).hash()
+
+    sql = utils.sql.sql_insert_generate( "cf", [ "uuid", "data", "email", "has_qrcode" ] )
+    ```,
+    caption: [GPG encryption and storage of the consent form (`views/submission/__init__.py`)]
+)
+
+#note[The file data is stored in a `varchar` in the database. Thus it needs to be converted to base64. This bloats the data by about 30% @base64. It's an issue that could easily be fixed.]
+
+Only after the GPG encryption and database insertion succeed is the upload considered complete. The consent form is only uploaded once. The `submissions.consent_form` flag is set to `true` and further file upload for the donor become available.
+
+
