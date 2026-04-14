@@ -221,7 +221,7 @@ The consent form is then encrypted with a GPG public key identified by a hardcod
 
 Only after the GPG encryption and database insertion succeed is the upload considered complete. The consent form is only uploaded once. The `submissions.consent_form` flag is set to `true` and further file upload for the donor become available.
 
-== Donor Account Activation
+== Donor Account Activation 
 
 === Entry Point
 
@@ -256,3 +256,95 @@ The server performs the second hash before storage, adding a new random salt:
 )
 
 Before accepting the operation, the server verifies that the `email_hash` present in the session matches the one in the url as well as the `user_id` matches the one retrieved from the database using the username (`donor_<id>`).
+
+== DEK Lifecycle
+
+After the DEK has been generated, the donor created and their password setup, the donor has control over the DEK through three operations: soft deletion, full deletion and reconstruction.
+
+=== Soft Deletion
+
+The route `GET /dek/delete` deletes only the `dek` column in `donor_dek`, leaving the `salt` and `dek_check` intact.
+
+#figure(
+    ```python
+    sql = "UPDATE donor_dek SET dek = NULL WHERE donor_name = %s"
+    config.db.query( sql, ( username, ) )
+    ```,
+    caption: [DEK soft-delete (`views/donor/__init__.py`, ln 92-93)]
+)
+
+This allows a user to withdraw their data from the application. The submitter's view of the submission is unchanged. Files appear to exist, but image content is no longer decryptable by the server. The DEK can still be reconstructed by the donor or the submitter.
+
+=== Full Deletion
+
+The route `GET /dek/fulldelete` removes the `dek`, `salt` and `dek_check` columns in three separate `UPDATE` statements.
+
+#figure(
+  ```python
+  sql = "UPDATE donor_dek SET dek = NULL WHERE donor_name = %s"
+  config.db.query( sql, ( username, ) )
+  sql = "UPDATE donor_dek SET salt = NULL WHERE donor_name = %s"
+  config.db.query( sql, ( username, ) )
+  sql = "UPDATE donor_dek SET dek_check = NULL WHERE donor_name = %s"
+  config.db.query( sql, ( username, ) )
+  ```,
+  caption: [DEK full delete (`views/donor/__init__.py`, ln 119-124)]
+)
+
+Without the salt, the DEK formula
+
+```
+DEK = PBKDF2( username + ":" + email_hash, salt, 500 000 )
+```
+
+cannot be evaluated by anyone. All encrypted biometric data becomes permanently unreadable. This is the donor's right-to-erasure operation. 
+
+#note[Quid of the backups ?]
+
+=== DEK Reconstruction by the Donor
+
+The route `POST /dek/reconstruct` allows the donor to restore their DEK after a soft deletion. The donor prodived their email hashed client-side with the fixed salt `"icnml_user_DEK"`. 
+
+The server fetches the stored `salt` and `dek_check`, recomputes the DEK, and validates it by decrypting `dek_check` and asserting `{"value": "ok"}` in the result.
+
+#figure(
+    ```python
+    _, dek, _ = utils.encryption.dek_generate(
+        username = username, email_hash = email_hash, salt = user[ "salt" ]
+    )
+    check = utils.aes.do_decrypt( user[ "dek_check" ], dek )
+    check = json.loads( check )
+
+    if check[ "value" ] != "ok":
+        raise Exception( "DEK check error" )
+
+    sql = "UPDATE donor_dek SET dek = %s WHERE id = %s AND donor_name = %s"
+    config.db.query( sql, ( dek, user[ "id" ], username, ) )
+    ```,
+    caption: [DEK reconstruction and verification by the donor (`views/donor/__init__.py`, ln 45-55)]
+)
+
+If the `dek_check` verification fails, the DEK is not written to the database and an error is returned.
+
+=== DEK Session Reconstruction by the Submitter or Administrator
+
+When the DEK column is empty but the `salt` is still present, the submitter or admin can access encrypted files for the duration of their session. This path is triggered automatically in `utils.encryption.get_dek_from_submissionid` when the database lookup returns no value.
+
+the submitter's session or admin's session must contain the AES-encrypted email `email_aes` for the submission. The code decrypts it using the session id, recomputes the DEK, verifies it against `dek_check`, and stores the result in the session under `session["dek_{submission_id}"]`.
+
+#figure(
+    ```python
+    email = do_decrypt_user_session( user[ "email" ] )
+    _, dek, _ = dek_generate( username = username, email = email, salt = dek_salt )
+
+    to_check = aes.do_decrypt( user[ "dek_check" ], dek )
+    to_check = json.loads( to_check )
+
+    if to_check[ "value" ] == "ok":
+        session[ "dek_{}".format( submission_id ) ] = dek
+        return True
+    ```,
+    caption: [Session-scoped DEK reconstruction for the submitter (`utils/encryption.py`, ln 139-146)]
+)
+
+The reconstructed DEK is never written back to `donor_dek`. It exists only in the server-side session for the duration of the submitter's or admin's login.
