@@ -11,7 +11,7 @@
 
 This chapter is focused on all the security processes around the user type Donor, @roles-and-permissions. These processes span the whole donor lifecycle, from protection of the data concerning the donor by a Submitter, through the consent and activation flow, to authentication and the DEK (Data Encryption Key) deletion and reconstruction mechanisms.
 
-== Donor Creation and DEK Generation
+== Donor Creation and DEK Generation <dek-donor-generation>
 
 When a new donor is registered, a DEK (Data Encryption Key) is generated. This key is unique to the donor and is used to encrypt all biometric data associated with them.
 
