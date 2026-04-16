@@ -1,4 +1,80 @@
-= Roles and permissions <roles-and-permissions>
+#import "../macros.typ": note
+
+= Authentication, roles and permissions
+
+This chapter documents both the authentication processes mechanisms as well as authorisation processes within ICNML. 
+
+== Authentication processes
+
+This section covers the authentication processes, more precisely the session structure, the multi-step login flow, second-factor authentication (TOTP and WebAuthn) and the credential management (setup ,reset, key lifecycle).
+
+=== Session Structure
+
+All session variables is stored server-side in Redis. Sessions are not permanent and are refreshed on every request.
+
+#figure(
+  ```python
+  SESSION_TYPE = "redis"
+  SESSION_PERMANENT = False
+  SESSION_REFRESH_EACH_REQUEST = True
+  PERMANENT_SESSION_LIFETIME = 2 * 60 * 60
+  ```,
+  caption: [Session configuration (`config.py`, ln 37-41)]
+)
+
+In production, the session cookie is created with `Secure` and `SameSite=Strict` flags. In development mode these flags are absent and the cookie is transmitted over HTTP. 
+
+#figure(
+  ```python
+  if envtype.upper() != "DEV":
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SAMESITE = "Strict"
+    domain = "https://icnml.unil.ch"
+    RP_ID = "icnml.unil.ch"
+  ```,
+  caption: [Secure session configuration in production environment (`config.py`, ln 99-103)]
+)
+
+The `SECRET_KEY` used to sign the session cookie is read from the `SECRET_KEY` environment variable. 
+If the variable is not set, a random value of 20 characters is generated at startup using the non-cryptographic `random` module.
+
+#note[This seems like an easy fix as one would just need to replace the `random` library by the `secret` library]
+
+On successful login, the session is explicitly persisted in Redis with a synchronous `SAVE` command.
+
+#figure(
+  ```python
+  config.redis_db[ "sessions" ].execute_command( "save" )
+  ```,
+  caption: [Redis persistence after login confirmed (`views/login/__init__.py`, ln 339)]
+)
+
+==== Session Fields set at Login
+
+After a complete and successful login, the session contains:
+
+- `logged -> True`, checked by all control decorators.
+- `username`, the user's login name
+- `user_id`, the primary key from the table `users`
+- `account_type`, the numeric type identifier for the role
+- `account_type_name`, the string role name
+- `password`, a session-scoped PBKDF2 hash of the submitted password, but the function says AES256 ? // TODO besoin d'éclaicissements
+
+#figure(
+  ```python
+  session[ "password" ] = utils.hash.pbkdf2( form_password, "AES256", config.PASSWORD_NB_ITERATIONS ).hash()
+  ```,
+  caption: [Creation of the PBKDF2 hash with AES256 mention as salt ? (`views/login/__init__.py`, ln 221)]
+)
+
+#note[This is an example of how obscure the cryptography is within the application to me. As the `__init__` function from the class pbkdf2 has as signature: 
+```python
+  def __init__( self, word, salt = None, iterations = 20000, hash_name = "sha512" ):
+```]
+
+
+
+== Roles and permissions <roles-and-permissions>
 
 The application ICNML follows a role-based access control (RBAC) model.
 Every authenticated user has one and only one role. The different roles possible
@@ -9,7 +85,7 @@ authorisation of each route.
 This chapter describes each role: how they are created, what routes and database
 operations are allowed.
 
-== Account types
+=== Account types
 
 There are 6 account types in the `01-account_type.sql` file.
 A flag `can_singin` exists for each account type. There is a type and it shoud be called `can_signin`. It filters the types for which a user can request a user account
@@ -33,7 +109,7 @@ via the `GET /signin` public form.
     caption: [Account types table]
 )
 
-== Authentication and Session Model
+=== Authentication and Session Model
 
 // TODO analyses the auth process!
 The authentication is handled by the `/login` route. It expects the user to complete a form and then it will recall the
@@ -51,25 +127,25 @@ keys that are written in Redis.
     caption: [Keys written in Redis' session]
 )
 
-== Access-Control decorators
+=== Access-Control decorators
 
 Most of the authorisation logic lies in the decorators file. This is done via the use of `functools` package to 
 make decorator out of functions.
 
-=== `@login_required`
+==== `@login_required`
 
 The first decorator is the one that requires the user to be logged in. 
 It checks that the `session["logged"]` key is set to `True`. Any unauthenticated.
 
 
-=== `@admin_required`
+==== `@admin_required`
 
 This decorator checks wether the `account_type_name` key in the session is set to Administrator.
 It also checks wether or not the user is logged in with the same logic as the `login_required` decorator.
 
 If the the account type name is not Administrator, it will redirect to login.
 
-=== `@submission_has_access`
+==== `@submission_has_access`
 
 This decorator will check wether the user has access to the current submission.
 
@@ -77,7 +153,7 @@ This decorator will check wether the user has access to the current submission.
 - If the user is a Submitter, the submission needs to be theirs (this needs clarification, I don't understand it yet)
 - All other roles are redirected to the login page
 
-=== `@trainer_has_access`
+==== `@trainer_has_access`
 
 This decorator checks wether the user has access to the trainer specific endpoints.
 
@@ -85,9 +161,9 @@ This decorator checks wether the user has access to the trainer specific endpoin
 - If the user is a Trainer and is logged then they can access it
 - All other roles are redirected to the login page.
 
-== Role descriptions
+=== Role descriptions
 
-=== Administrator (type 1)
+==== Administrator (type 1)
 
 *Creation*: Accounts must be created directly in the database or by a process not documented as of yet.
 
@@ -113,7 +189,7 @@ allows Administrators. Dedicated `/admin/*` routes are only usable by them.
   `GET /uuid/get_table/<uuid>`.
 
 
-=== Donor (type 2)
+==== Donor (type 2)
 
 *Creation:* Created by a Submitter via `POST /submission/do_new`. No self-registration.
 
@@ -142,7 +218,7 @@ own biometric data. They cannot interact with the submission or AFIS workflows.
 
 )
 
-=== Submitter (type 3)
+==== Submitter (type 3)
 
 *Creation:* Self-registration via `GET /signin` / `POST /do/signin` followed
 by e-mail confirmation and administrator approval.
@@ -175,7 +251,7 @@ by e-mail confirmation and administrator approval.
 *Ownership enforcement:* `@submission_has_access` issues HTTP 403 if the
 `submission_id` in the URL was not created by the current submitter.
 
-== Trainer (type 4)
+==== Trainer (type 4)
 
 *Creation:* Self-registration via `GET /signin` (Needs a confirmation from admin).
 
@@ -203,7 +279,7 @@ caption: [Routes of interest for Trainer role]
 
 )
 
-=== AFIS (type 5)
+==== AFIS (type 5)
 
 *Creation:* Self-registration via `GET /signin` (Needs a confirmation from admin).
 
@@ -241,7 +317,7 @@ comparison decisions. This seems like a big part of the application.
   caption: [Routes of interest for AFIS role]
 
 )
-=== Selection (type 6)
+==== Selection (type 6)
 
 *Creation:* Self-registration via `GET /signin` (Needs a confirmation from admin).
 
