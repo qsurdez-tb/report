@@ -1,0 +1,51 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Consent Form and Donor Activation" id="Jrr7dvSbZ3exGuUymCcG">
+    <mxGraphModel dx="958" dy="741" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CKF1LqmvKIRS15CMiypR-1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=13;" value="Submitter" vertex="1">
+          <mxGeometry height="30" width="120" x="110" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="POST /upload (consent_form)&#xa;PDF sent by submitter" vertex="1">
+          <mxGeometry height="50" width="200" x="70" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Scan PDF pages for QR code&#xa;&quot;ICNML CONSENT FORM&quot;&#xa;→ store has_qrcode flag" vertex="1">
+          <mxGeometry height="60" width="200" x="70" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="GPG encrypt PDF" vertex="1">
+          <mxGeometry height="50" width="200" x="70" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Hash email for cf table&#xa;PBKDF2(email, CF_NB_ITERATIONS)&#xa;Store in cf: uuid, data, email, has_qrcode" vertex="1">
+          <mxGeometry height="70" width="200" x="70" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="UPDATE submissions&#xa;SET consent_form = true" vertex="1">
+          <mxGeometry height="50" width="200" x="70" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Build activation URL&#xa;url_hash = sha512(users.email)&#xa;Send email to donor" vertex="1">
+          <mxGeometry height="60" width="200" x="70" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-19" edge="1" parent="1" source="CKF1LqmvKIRS15CMiypR-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="CKF1LqmvKIRS15CMiypR-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-20" edge="1" parent="1" source="CKF1LqmvKIRS15CMiypR-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="CKF1LqmvKIRS15CMiypR-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-21" edge="1" parent="1" source="CKF1LqmvKIRS15CMiypR-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="CKF1LqmvKIRS15CMiypR-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-22" edge="1" parent="1" source="CKF1LqmvKIRS15CMiypR-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="CKF1LqmvKIRS15CMiypR-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-23" edge="1" parent="1" source="CKF1LqmvKIRS15CMiypR-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="CKF1LqmvKIRS15CMiypR-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CKF1LqmvKIRS15CMiypR-24" edge="1" parent="1" source="CKF1LqmvKIRS15CMiypR-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" value="email sent">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="510" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
