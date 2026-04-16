@@ -74,6 +74,28 @@ After a complete and successful login, the session contains:
 This means that the string `"AES256"` is a hardcoded salt for creating a pbkdf2 hash and this is not good practice.
 ]
 
+=== Login Flow
+
+==== Entry Point
+
+The login endpoint is `POST /do/login`. It is called once per authentication step. Which step to execute is determined by the first element of `session["need_to_check"]`. The session is initialised by `GET /login` which also resets any in-progress login state.
+
+#figure(
+  ```python
+  session.clear()
+  session[ "process" ] = "login"
+  session[ "need_to_check" ] = [ "password" ]
+  session[ "logged" ] = False
+  ```,
+  caption: [Session initialissation before login (`views/login/__init__.py`, ln 59-63)]
+)
+
+The usual sequence for an account with TOTP is: `password` -> `totp` -> logged. There is also another sequence for when a security key is activated for the user: `password` -> `securitykey` -> logged. With this sequence, the form will call the `webauthn_begin_assertion` function instead of the login one.
+
+#note[I haven't been able to test the path with the security key on the development server or the production one. There's quite a lot of code linked to it but nothing very critical, I may leave it on the side after a talk with my supervisor.]
+
+==== Rate Limiting
+
 
 
 == Roles and permissions <roles-and-permissions>
