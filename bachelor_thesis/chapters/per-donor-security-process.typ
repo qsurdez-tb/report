@@ -221,7 +221,10 @@ The consent form is then encrypted with a GPG public key identified by a hardcod
 
 Only after the GPG encryption and database insertion succeed is the upload considered complete. The consent form is only uploaded once. The `submissions.consent_form` flag is set to `true` and further file upload for the donor become available.
 
-
+#figure(
+    image("../assets/submitter-consent-form.drawio.png", width: 80%),
+    caption: [Consent form creation workflow]
+)
 
 == Donor Account Activation 
 
@@ -260,8 +263,8 @@ The server performs the second hash before storage, adding a new random salt:
 Before accepting the operation, the server verifies that the `email_hash` present in the session matches the one in the url as well as the `user_id` matches the one retrieved from the database using the username (`donor_<id>`).
 
 #figure(
-    image("../assets/consent-activation.drawio.png", width: 80%),
-    caption: [Consent Form flow with donor account activation]
+    image("../assets/donor-activation.drawio.png", width: 80%),
+    caption: [Donor activation schema]
 )
 
 
@@ -359,5 +362,5 @@ The reconstructed DEK is never written back to `donor_dek`. It exists only in th
 
 #figure(
     image("../assets/dek-lifecycle.drawio.png", width: 80%),
-    caption: [Consent Form flow with donor account activation]
+    caption: [DEK lifecycle]
 )
