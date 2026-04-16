@@ -407,3 +407,15 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 1536 - Diagrams well inserted in the report
 
 1536 - Exploring authentication 
+
+== 16.04
+
+0753 - Getting back into it
+
+0800 - Thinking about dividing the consent form flow with what the submitter does and what the donor does, cause currently it's a bit complex and not easy to understand when you come upon the diagram. 
+
+0815 - Created both diagrams to insert them at the right place in the report
+
+0830 - Added both of the diagrams in the report getting into the authentication doc !
+
+0930 - Struggling with the session part reading the docs and I don't see where the .execute_command comes from 
