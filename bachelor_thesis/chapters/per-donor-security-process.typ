@@ -1,11 +1,4 @@
-#let note(body) = block(
-  fill: blue.lighten(70%),
-  stroke: (left: 3pt + blue),
-  inset: (x: 12pt, y: 8pt),
-  radius: 3pt,
-  width: 100%,
-)[*Note:* #body]
-
+#import "../macros.typ": note
 
 = Per-Donor Security Processes <per-donor-security>
 
