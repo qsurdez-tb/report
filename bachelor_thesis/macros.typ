@@ -58,3 +58,11 @@
   set heading(numbering: "A", supplement: [Annexe])
   body
 }
+
+#let note(body) = block(
+  fill: blue.lighten(70%),
+  stroke: (left: 3pt + blue),
+  inset: (x: 12pt, y: 8pt),
+  radius: 3pt,
+  width: 100%,
+)[*Note:* #body]
