@@ -58,19 +58,21 @@ After a complete and successful login, the session contains:
 - `user_id`, the primary key from the table `users`
 - `account_type`, the numeric type identifier for the role
 - `account_type_name`, the string role name
-- `password`, a session-scoped PBKDF2 hash of the submitted password, but the function says AES256 ? // TODO besoin d'éclaicissements
+- `password`, a session-scoped PBKDF2 hash of the submitted password, but the salt is harcoded as the string `"AES256"`
 
 #figure(
   ```python
   session[ "password" ] = utils.hash.pbkdf2( form_password, "AES256", config.PASSWORD_NB_ITERATIONS ).hash()
   ```,
-  caption: [Creation of the PBKDF2 hash with AES256 mention as salt ? (`views/login/__init__.py`, ln 221)]
+  caption: [Creation of the PBKDF2 hash with AES256 mention as salt (`views/login/__init__.py`, ln 221)]
 )
 
-#note[This is an example of how obscure the cryptography is within the application to me. As the `__init__` function from the class pbkdf2 has as signature: 
+#note[This is an example of how obscure the cryptography is within the application. As the `__init__` function from the class pbkdf2 has as signature: 
 ```python
   def __init__( self, word, salt = None, iterations = 20000, hash_name = "sha512" ):
-```]
+```
+This means that the string `"AES256"` is a hardcoded salt for creating a pbkdf2 hash and this is not good practice.
+]
 
 
 
