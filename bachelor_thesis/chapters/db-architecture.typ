@@ -4,7 +4,9 @@ The _ICNML_ application uses a PostgreSQL database named `icnml` owned by the `i
 
 All the tables, sequences and views live in the public schema. This chapter documents each object in the databse with details.
 
-== `account_type` table
+== Tables 
+
+=== `account_type` table
 
 Stores the different type of account in the web application.
 
@@ -29,7 +31,7 @@ The index on the primary key duplicates the index, this creates noise and has no
 The column `can_singin` has a typo.
 
 
-== `users` table
+=== `users` table
 
 Stores the users account. The `type` column is a foreign key referencing the `account_type.id`. This determines the role of the user and its capabilities within the application, see @roles-and-permissions.
 
@@ -59,7 +61,7 @@ Indexes:
 - `users_username_idx`, B-tree index on `username`
 
 
-== `webauthn` table
+=== `webauthn` table
 
 
 This table stores WebAuthn passkey credentials registered by users. I have not yet seen how and where in the application a user can do it. // TODO check when I have an account
@@ -95,7 +97,7 @@ Indexes:
 - No index on `id` column.
 
 
-== `cf` table
+=== `cf` table
 
 This table must store the consent forms of the donors. It's quite minimal but it stores the consent form file as `varchar` data within the database. As `varchar` expects text formatted with UTF8, an encoding might append server-side before uploading the file. A `blob` field would be better as this is made to store binary data. Or it's actually storing a file path. 
 
@@ -124,7 +126,7 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
-== `donor_dek` table
+=== `donor_dek` table
 
 This table stores the DEK for each donor. It will store all the values necessary to generate the DEK again and check it agains the `dek_check` column.
 
@@ -154,7 +156,7 @@ Constraints:
 Indexes:
 - No index for `id` column.
 
-== `signin_requests` table
+=== `signin_requests` table
 
 This table stores the request for new user accounts for the types with `can_singin` true. See @roles-and-permissions.
 
@@ -187,7 +189,7 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
-== `submissions` table
+=== `submissions` table
 
 
 This table holds the data for creating a new donor. See @dek-donor-generation.
@@ -222,7 +224,7 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
-== `files_type` table
+=== `files_type` table
 
 Stores the different files type available in the application.
 
@@ -259,7 +261,7 @@ The default inserts are the following:
 
 // TODO ask Christophe what these files are
 
-== `files` table
+=== `files` table
 
 This table stores the files data and its metadata like height, resolution, format, etc...
 
@@ -300,11 +302,11 @@ Indexes:
 
 This looks like a very broad table encompassing images and pdf alike.
 
-== `files_v` view
+=== `files_v` view
 
 This view queries all the columns from the `files` table without the data column. 
 
-== `segments_locations` table
+=== `segments_locations` table
 
 Stores the location and orientation of individual finger segments from a tenprint card image. // TODO check with Christophe if true
 // technical name for localizing the zone where the papillary comes from
@@ -337,7 +339,7 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
-== `files_segments` table
+=== `files_segments` table
 
 This seems to store the actual extracted finger image data. It is used to serve the image.
 
@@ -366,11 +368,11 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
-== `files_segements_v` view
+=== `files_segements_v` view
 
 This view queries all the columns of the `files_segments` table expect the data column.
 
-== `thumbnails` table
+=== `thumbnails` table
 
 This table is used to store thumbnails of the different images. Are the thumbnails also encrypted ?
 
@@ -399,7 +401,7 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
-== `quality_type` table
+=== `quality_type` table
 
 Stores the different quality values possible in the web applciation.
 
@@ -428,7 +430,7 @@ Lists of quality type values:
 - Good
 - Bad
 
-== `tenprint_zones_location` table
+=== `tenprint_zones_location` table
 
 Stores the possible zone location for the tenprint ? // TODO ask Christophe about this, reference the physical tenprint. Generic template because tenprint not always the same depending on the country
 However, I don't see it used within the application. It's never called in a sql query.
@@ -472,7 +474,7 @@ Values inserted by default:
 - 25, back
 - 27, back
 
-== `tenprint_zones` table
+=== `tenprint_zones` table
 
 This table seems to be a template that would define the expected zones on a tenprint card. However, I don't see it used within the application. It's never called in a sql query.
 
@@ -503,7 +505,7 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
-== `mark_info` table
+=== `mark_info` table
 
 This table stores the information regarding a mark. 
 
@@ -531,7 +533,7 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
-== `gp` table
+=== `gp` table
 
 Stores the General Pattern found in fingerprints.
 
@@ -568,7 +570,7 @@ Default inserted values:
 - 8, missing/amputated, ma
 - 9, scarred/mutilated, sm
 
-== `donor_fingers_gp` table
+=== `donor_fingers_gp` table
 
 Many-to-Many relationship table for General pattern, Finger Position Code and Users. 
 
@@ -597,7 +599,7 @@ Indexes:
 - No index on `id` column.
 
 
-== `pc` table
+=== `pc` table
 
 Stores the values available for the Position Code in the application.
 
@@ -643,7 +645,7 @@ Default inserted values:
 - 27, Left lower palm
 - 1000, All rolled
 
-== `detection_technics` table
+=== `detection_technics` table
 
 Stores the available values for the detection technique in the application.
 
@@ -678,7 +680,7 @@ Default inserted values:
 - 5, Black Powder Suspension (BPS)
 - 6, Optical
 
-== `surfaces` table
+=== `surfaces` table
 
 Stores the available values for the surfaces in the application.
 
@@ -717,7 +719,7 @@ Default inserted values:
 - 12, Wood
 - 13, Porcelain
 
-== `exercises` table
+=== `exercises` table
 
 Stores the exercises information.
 
@@ -745,7 +747,7 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
-== `exercises_folder` table
+=== `exercises_folder` table
 
 This table is a many-to-many relationship table linking marks to exercise folders.
 
@@ -770,7 +772,7 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
-== `exercises_trainee_list` table
+=== `exercises_trainee_list` table
 
 This table is a many-to-many relationship table linking trainees to exercise folders.
 
@@ -796,7 +798,7 @@ Constraints:
 Indexes:
 - No index on `id` column.
 
-== `activities` table
+=== `activities` table
 
 Stores the available activity values in the application.
 
@@ -822,7 +824,7 @@ Indexes:
 
 There's no default values in this table.
 
-== `distortion` table
+=== `distortion` table
 
 Stores the available distortion values in the application.
 
