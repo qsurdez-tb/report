@@ -49,7 +49,7 @@ On successful login, the session is explicitly persisted in Redis with a synchro
   caption: [Redis persistence after login confirmed (`views/login/__init__.py`, ln 339)]
 )
 
-==== Session Fields set at Login
+==== Session Fields set at Login <session-fields-set>
 
 After a complete and successful login, the session contains:
 
@@ -168,6 +168,48 @@ If the stored password hash was produced with a different iternation count or sa
   ```,
   caption: [Password hash auto-updates at login (`views/login/__init__.py`, ln 206-215)]
 )
+
+==== Step 5, Session hashed password
+
+As discussed in @session-fields-set, the password from the client-side, which was hashed on the browser of the client, is also as data to create a PBKDF2 hash with the fixed salt `AES256`. The hash created is only stored in the session.
+
+==== Step 6, TOTP Verification
+
+The TOTP secret is stored in `users.totp`. It is loaded into a `pyotp.TOTP` object and the code given by the user is verified within a time window interval which is the equivalent of about 150 seconds. The setting to set this time window is the config as `TOTP_VALIDWINDOW = 5`. 
+
+#figure(
+  ```py
+  totp_db = pyotp.TOTP( user[ "totp" ] )
+  totp_user = request.form.get( "totp", None )
+  totp_save_serverside = request.form.get( "save", False )
+
+  ...
+  
+  if not totp_db.verify( totp_user, valid_window = config.TOTP_VALIDWINDOW ):
+  ...
+  ```,
+  caption: [TOTP verification at login (`views/login/__init__.py`, ln 263-276)]
+)
+
+If the verification fails within the window given, the code extends the check up to the settings `TOTP_MAX_VALIDWINDOW` which is set in the config to 1000. If a match is found outside the standard window, the time difference in seconds is returned to the client, but the login is still rejected.
+
+==== Step 7, TOTP Device Trust
+
+After a successful TOTP login, the user can choose to trust the current device for 30 days. The trust record is stored in the Redis `totp` database under a key derived from the username and a hash of the client remote address.
+
+#figure(
+  ```py
+  if totp_save_serverside in [ True, "true" ]:
+    hra = hashlib.sha512( request.headers.environ[ "REMOTE_ADDR" ] ).hexdigest()
+    username = session[ "username" ]
+    key = "{}_{}".format( username, hra )
+    
+    config.redis_dbs[ "totp" ].set( key, "ok", ex = 30 * 24 * 3600 )
+  ```,
+  caption: [TOTP device trust storage (`views/login/__init__.py`, ln 309-314)]
+)
+
+On next logins from the same remote address, the presence of the key bypasses the TOTP steps and the TTL is refreshed to another 30 days after a successful password login.
 
 == Roles and permissions <roles-and-permissions>
 
