@@ -220,6 +220,31 @@ On next logins from the same remote address, the presence of the key bypasses th
 
 === Password Reset
 
+Password reset is initiated by `POST /do/reset_password`. The email lookup is in a background thread to guarantee a constant response time and prevent enumeration according to the comment in the code.
+
+#figure(
+  ```py
+  Thread( target = do_password_reset_thread, args = ( email, current_app._get_current_object(), ) ).start()
+  ```,
+  caption: [Threaded password reset to prevent email enumeration (`views/login/__init__.py`, ln 728)]
+)
+
+#note[The comment seems a bit lacking as proof of the efectiveness for this method to prevent enumeration. There's no rate limiting either]
+
+A check on all users in the database is made, when a matching email is found, a reset token is generated and stored in Redis with a 24 hour TTL. The token is the SHA-512 hash of 100 random characters. There's the same updating mechanism for the email hash as the password if the settings have changed.
+
+#figure(
+    ```python
+    user_id  = hashlib.sha512( utils.rand.random_data( 100 ) ).hexdigest()
+    ...
+    reset_id = "reset_{}".format( user_id )
+    config.redis_dbs[ "reset" ].set( reset_id, base64.b64encode( data ), ex = 24 * 3600 )
+    ```,
+    caption: [Password reset token generation (`views/login/__init__.py`, ln 770-783)]
+)
+
+The user receives the reset URL by email. The request `GET /reset_password_stage2/<user_id>` validates the token against Redis. When the form is sent, the new password (hashed client-side) is re-hashed server-side and stored. The token is deleted from Redis immediately after a successful reset.
+
 == Roles and permissions <roles-and-permissions>
 
 The application ICNML follows a role-based access control (RBAC) model.
