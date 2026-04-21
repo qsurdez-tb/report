@@ -94,7 +94,20 @@ The usual sequence for an account with TOTP is: `password` -> `totp` -> logged. 
 
 #note[I haven't been able to test the path with the security key on the development server or the production one. There's quite a lot of code linked to it but nothing very critical, I may leave it on the side after a talk with my supervisor.]
 
-==== Rate Limiting
+==== Step 1, Rate Limiting
+
+Rate limiting is computed before any credential checks on every call to `POST /do/login`. It will first get the `REMOTE_ADDR` from the request headers and then create the `16` supernet from the remote address, this will be the key for the value in the Redis `rate_limit` database. Then the rate limit is applied with this function:
+
+#figure(
+  ```py
+  def rate_limit_to_seconds( nb ):
+        return pow( config.login_rate_limiting_base, max( nb, config.login_rate_limiting_limit ) )
+  ```,
+  caption: [Exponential formula for rate limiting (`views/login/__init__.py`, ln 113-114)]
+)
+
+The default configuration sets the `login_rate_limiting_base` setting to 2 and `login_rate_limiting_limit` to 5. The counter is incremented on both wrong password and unknown username. This means that the rate limiting mechanism does not reveal whether a username exists.
+
 
 
 
