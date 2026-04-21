@@ -437,3 +437,17 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 1049 - Beginning to read the CAA course which is more practical than the first one.
 
 1115 - With the knowledge acquired I feel more and more perplex about the use of random and the reduced output  which translates to a loss of entropy per bit ! And everything is a string not bytes which seems even weirder to me.
+
+1128 - I-m reading a lot but I think it's important and it gives me clarity on what I've been reading in the code for the past few months.
+
+1145 - The more I read and the more I feel like doing a deep dive into the utils module to unravel what is used for the hash and AES file and understand where the limitations are linked to the libraries not updated etc etc 
+
+1155 - The iterations on the server side need to be pumped up. The course recommends 310'000 for server-side hashing and 10'000'000 for critical keys. Currently 50'000... Weak to GPU attacks.
+
+1203 - Break time
+
+1305 - Getting back into writing about the auth 
+
+1337 - There's some weird operator precedence stuff happening in the verification of the password. It's a or not verify ??? I don't understand. It's just bad written code, that's all...
+
+1455 - Finished the Login Flow section 
