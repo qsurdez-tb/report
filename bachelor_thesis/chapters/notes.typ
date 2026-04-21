@@ -451,3 +451,7 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 1337 - There's some weird operator precedence stuff happening in the verification of the password. It's a or not verify ??? I don't understand. It's just bad written code, that's all...
 
 1455 - Finished the Login Flow section 
+
+1524 - Finished the Password Reset Section 
+
+1528 - I think it's the end of the day as I am a bit sick 
