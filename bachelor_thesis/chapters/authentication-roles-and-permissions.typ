@@ -108,8 +108,66 @@ Rate limiting is computed before any credential checks on every call to `POST /d
 
 The default configuration sets the `login_rate_limiting_base` setting to 2 and `login_rate_limiting_limit` to 5. The counter is incremented on both wrong password and unknown username. This means that the rate limiting mechanism does not reveal whether a username exists.
 
+==== Step 2, Password Verification
 
+The password is hashed in the browser first before transmission:
 
+#figure(
+  ```py
+  password = await generateKey( password, "icnml_" + username, 20000 );
+  password = password.substring( 0, 128 );
+  password = "pbkdf2$sha512$icnml_" + username + "$20000$" + password;
+  ```,
+  caption: [Client-Side password hashing (`views/login/templates/login.html`, ln 82-84)]
+)
+
+#note[It would be interesting to make a dedicated chapter to how the `generateKey` function is implemented in `app/function.js` and how the `window.crypto` is used.]
+
+The server then check whether the username exists in the `users` table and if not, it uses `pbkdf2.verify()` on a fake hash and a fake stored hash to prevent agains time-based side channel attack before sending back an errror. Then the server checks if the password sent is existing or if the password is verified with `pbkdf2.verify()`:
+
+#figure(
+  ```py
+  if form_password == None or not utils.hash.pbkdf2( form_password ).verify( user[ "password" ] ):
+      current_app.logger.error( "Password not validated" )
+      
+      trigger_rate_limit()
+      
+      session_clear_and_prepare()
+      
+      return jsonify( {
+          "error": False,
+          "logged": False,
+      } ) 
+  ```,
+  caption: [Password verification (`views/login/__init__.py`, ln 177-187)]
+)
+
+#note[This is not very easily readable that that's where the verification is done as it's a `or not` condition which makes things not very obvious at first reading.]
+
+==== Step 3, Active Account Check
+
+After match that is successful, the `users.active` field is checked. Inactive accounts are rejected with message directing the user to contact the administrator. The rate limit is not incremented for inactive accounts since the password was correct.
+
+==== Step 4, Password Paramter Auto-Upgrade
+
+If the stored password hash was produced with a different iternation count or salt length than the current configuration, the password is re-hashed with the current parameters. 
+
+#figure(
+  ```py
+  _, _, salt, iterations, _ = user[ "password" ].split( "$" )
+  iterations = int( iterations )
+
+  if iterations != config.PASSWORD_NB_ITERATIONS or len( salt ) != config.PASSWORD_SALT_LENGTH:
+      new_password = utils.hash.pbkdf2(
+          form_password,
+          utils.rand.random_data( config.PASSWORD_SALT_LENGTH ),
+          config.PASSWORD_NB_ITERATIONS
+      ).hash()
+      config.db.query( "UPDATE users SET password = %s WHERE id = %s",
+                        ( new_password, user[ "id" ] ) )
+  ```,
+  caption: [Password hash auto-updates at login (`views/login/__init__.py`, ln 206-215)]
+)
 
 == Roles and permissions <roles-and-permissions>
 
