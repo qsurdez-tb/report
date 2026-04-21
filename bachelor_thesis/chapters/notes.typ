@@ -419,3 +419,21 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 0830 - Added both of the diagrams in the report getting into the authentication doc !
 
 0930 - Struggling with the session part reading the docs and I don't see where the .execute_command comes from 
+
+1003 - This is difficult understanding how all these cryptographic functions are used in ways that I don't expect in the code to write the auth doc
+
+1050 - Stopping writing and doing some more reasearch on the difference between AES, PBKDF2 and GPG.
+
+== 21.04
+
+0750 - Getting back into it
+
+0811 - Looking at the crypto course given by my supervisor. This seems promising and I will give it the time it needs. 
+
+1020 - Is the check_dek something akin to the authenticated encryption ? It's not really in the context of encryption more of creating the key though 
+
+1023 - The AES mode chosen is CBC !
+
+1049 - Beginning to read the CAA course which is more practical than the first one.
+
+1115 - With the knowledge acquired I feel more and more perplex about the use of random and the reduced output  which translates to a loss of entropy per bit ! And everything is a string not bytes which seems even weirder to me.
