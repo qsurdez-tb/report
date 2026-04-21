@@ -211,6 +211,15 @@ After a successful TOTP login, the user can choose to trust the current device f
 
 On next logins from the same remote address, the presence of the key bypasses the TOTP steps and the TTL is refreshed to another 30 days after a successful password login.
 
+
+==== Should do WebAuthn ??? // TODO check
+
+=== TOTP Management
+
+=== WebAuthn Key Management
+
+=== Password Reset
+
 == Roles and permissions <roles-and-permissions>
 
 The application ICNML follows a role-based access control (RBAC) model.
