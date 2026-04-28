@@ -212,9 +212,75 @@ After a successful TOTP login, the user can choose to trust the current device f
 On next logins from the same remote address, the presence of the key bypasses the TOTP steps and the TTL is refreshed to another 30 days after a successful password login.
 
 
-==== Should do WebAuthn ??? // TODO check
+==== Should do the WebAuthn login flow ? Doesn't seem to be used in the app today ???
 
 === TOTP Management
+
+==== Setup
+
+TOTP setup is mandatory, in production environment, to any logged-in user at `GET /user/config/totp`. A secret is generated with `pyotp.random_base32(40)` and held in `session [secret]` until the user confirms it.
+
+#figure(
+    ```python
+    def renew_secret():
+        secret = pyotp.random_base32( 40 )
+        session[ "secret" ] = secret
+        return secret
+    ```,
+    caption: [TOTP secret generation (`views/login/__init__.py`, ln 1039-1040)]
+)
+
+The QR code of the secret is served as a PNG image at `GET /user/config/totp_qrcode.png` using the standard `otpauth://` URI format.
+
+#figure(
+    ```python
+    qrcode_value = "otpauth://totp/ICNML%20{}?secret={}&issuer=ICNML".format(
+        session[ "username" ], get_secret()
+    )
+    ```,
+    caption: [OTPAuth URI construction for QR code (`views/login/__init__.py`, ln 1111)]
+)
+
+The user may request a new secret at any time via `GET /new_secret` before committing. Once the user confirms the secret is registered in their authenticator app, `GET /set_secret` writes the session-help secret to `users.totp`.
+
+#figure(
+    ```python
+    config.db.query(
+        "UPDATE users SET totp = %s WHERE username = %s",
+        ( session[ "secret" ], session[ "username" ], )
+    )
+    ```,
+    caption: [TOTP secret commitment to the database (`views/login/__init__.py`, ln 1064)]
+)
+
+==== Reset
+
+TOTP reset is started by `POST /do/reset_totp` which accepts an email address. The database is scanned for a matching email hash in a background thread to prevent data extraction according to the comment in the code.
+
+When a match is found, a reset token is generated and stored in the Redis `reset` database with a 24-hour TTL.
+
+#figure(
+    ```python
+    user_id = hashlib.sha512( utils.rand
+      .random_data( 100 ) ).hexdigest()
+    
+    data = {
+        "process": "totp_reset",
+        "process_id": user_id,
+        "user_id": user[ "id" ],
+        "username": user[ "username" ]
+    }
+    data = json.dumps( data )
+    data = base64.b64encode( data )
+    
+    reset_id = "reset_{}".format( user_id )
+    config.redis_dbs[ "reset" ]
+      .set( reset_id, data, ex = 24 * 3600 )
+    ```,
+    caption: [TOTP reset token generation and storage (`views/login/__init__.py`, ln 929-943)]
+) <totp-reset-generation>
+
+The user receives an email containing a link to `GET /reset_totp_stage2/<user_id>`. the URL param `user_id` was previously hashed as shown @totp-reset-generation. On that page, the new TOTP secret (generated in the sae way as during setup) is displayed. Submitting the form writes the new secret directly to `users.totp` and deletes the token from Redis.
 
 === WebAuthn Key Management
 
