@@ -131,3 +131,8 @@ A submission folder can only be deleted if the consent form is absent thus the s
   ```,
   caption: [Consent-form check on submission deletion (`views/submission/__init__.py`, ln 1177-1182)]
 )
+
+#figure(
+  image("../assets/biometric-management.drawio.png"),
+  caption: [Biometric files flow]
+)
