@@ -76,18 +76,58 @@ For tenprint cards, a thumbnail is generated and stored immediately in the `thum
 
 == Image Serving and Decryption
 
+The central decryption function is `image_serve` in `views/images/__init__.py`. It fetches the `data` column from the requested table, decrypts it with the submission's DEK, and transforms the result into a PIL image.
 
+#figure(
+  ```python
+  if need_to_decrypt_with_donor_dek:
+    img = utils.encryption.do_decrypt_dek( img, submission_id )
 
-=== Thumbnail Fallback
+  if table == "files" and data[ "format" ].upper() == "NIST":
+    img = str2nist2img( img )
+  else:
+    img = str2img( img )
 
-=== NIST Tenprint Card Rendering
-
-== Tenprint Segmentation
+  img = utils.images.patch_image_to_web_standard( img )
+  ```,
+  caption: [DEcryption and transformation of raw bytes into PIL image (`views/images/__init__.py`, ln 271-279)]
+)
 
 == File Deletion
 
 === Mark Deletion
 
+Individual mark files are deleted with a direct `DELETE FROM files` SQL statement. The submitter route enforces ownership via `creator = session["user_id"]`. The admin route omits that constraint.
+
+#figure(
+  ```python
+  if admin:
+      sql = "DELETE FROM files WHERE uuid = %s"
+      data = ( mark_id, )
+  else:
+      sql = "DELETE FROM files WHERE creator = %s AND uuid = %s"
+      data = ( session[ "user_id" ], mark_id, )
+  ```,
+  caption: [Mark deletion with ownership check (`views/submission/__init__.py`, ln 1147-1153)]
+)
+
+Deletion is immediate and permanent. There is no mechanism of soft-delete.
+
 === Submission Deletion
 
-== Caching
+A submission folder can only be deleted if the consent form is absent thus the submission folder is empty. Once `submission.consent_form` is `true`, the route returns an error and no deletion occurs.
+
+#note[That's inconsistent with the right to deletion boasted about with the donor being able to delete their DEK at any given time.]
+
+#figure(
+  ```python
+  cf = config.db.query_fetchone( sql, ( session[ "user_id" ], submission_id, ) )[ "consent_form" ]
+  
+  if not cf:
+      sql = "DELETE FROM submissions WHERE submitter_id = %s AND uuid = %s"
+      config.db.query( sql, ( session[ "user_id" ], submission_id, ) )
+  else:
+      current_app.logger.error( "Can  not delete a submission with consent form" )
+  ```,
+  caption: [Consent-form check on submission deletion (`views/submission/__init__.py`, ln 1177-1182)]
+)
