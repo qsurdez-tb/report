@@ -91,7 +91,7 @@
 #show heading: set block(above: 1.4em, below: 1em)
 #show heading.where(level:1): set text(size: 25pt)
 #set table.cell(breakable: false)
-#show figure: set block(breakable: false)
+#show figure: set block(breakable: false, above: 1.5em, below: 1.5em)
 #show link: underline
 
 #show raw.where(block: true): block.with(
