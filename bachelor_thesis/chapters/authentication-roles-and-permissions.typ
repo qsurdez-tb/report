@@ -211,6 +211,15 @@ After a successful TOTP login, the user can choose to trust the current device f
 
 On next logins from the same remote address, the presence of the key bypasses the TOTP steps and the TTL is refreshed to another 30 days after a successful password login.
 
+#figure(
+  image("../assets/login-flow.drawio.png"),
+  caption: [Login Flow password steps]
+)
+
+#figure(
+  image("../assets/totp-login.drawio.png"),
+  caption: [Login Flow TOTP steps]
+)
 
 ==== Should do the WebAuthn login flow ? Doesn't seem to be used in the app today ???
 
@@ -372,6 +381,11 @@ A check on all users in the database is made, when a matching email is found, a 
 )
 
 The user receives the reset URL by email. The request `GET /reset_password_stage2/<user_id>` validates the token against Redis. When the form is sent, the new password (hashed client-side) is re-hashed server-side and stored. The token is deleted from Redis immediately after a successful reset.
+
+#figure(
+  image("../assets/password-reset.drawio.png"),
+  caption: [Password reset steps]
+)
 
 == Roles and permissions <roles-and-permissions>
 
