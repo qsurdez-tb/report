@@ -99,7 +99,7 @@ The usual sequence for an account with TOTP is: `password` -> `totp` -> logged. 
 Rate limiting is computed before any credential checks on every call to `POST /do/login`. It will first get the `REMOTE_ADDR` from the request headers and then create the `16` supernet from the remote address, this will be the key for the value in the Redis `rate_limit` database. Then the rate limit is applied with this function:
 
 #figure(
-  ```py
+  ```python
   def rate_limit_to_seconds( nb ):
         return pow( config.login_rate_limiting_base, max( nb, config.login_rate_limiting_limit ) )
   ```,
@@ -113,7 +113,7 @@ The default configuration sets the `login_rate_limiting_base` setting to 2 and `
 The password is hashed in the browser first before transmission:
 
 #figure(
-  ```py
+  ```python
   password = await generateKey( password, "icnml_" + username, 20000 );
   password = password.substring( 0, 128 );
   password = "pbkdf2$sha512$icnml_" + username + "$20000$" + password;
@@ -126,7 +126,7 @@ The password is hashed in the browser first before transmission:
 The server then check whether the username exists in the `users` table and if not, it uses `pbkdf2.verify()` on a fake hash and a fake stored hash to prevent agains time-based side channel attack before sending back an errror. Then the server checks if the password sent is existing or if the password is verified with `pbkdf2.verify()`:
 
 #figure(
-  ```py
+  ```python
   if form_password == None or not utils.hash.pbkdf2( form_password ).verify( user[ "password" ] ):
       current_app.logger.error( "Password not validated" )
       
@@ -153,7 +153,7 @@ After match that is successful, the `users.active` field is checked. Inactive ac
 If the stored password hash was produced with a different iternation count or salt length than the current configuration, the password is re-hashed with the current parameters. 
 
 #figure(
-  ```py
+  ```python
   _, _, salt, iterations, _ = user[ "password" ].split( "$" )
   iterations = int( iterations )
 
@@ -178,7 +178,7 @@ As discussed in @session-fields-set, the password from the client-side, which wa
 The TOTP secret is stored in `users.totp`. It is loaded into a `pyotp.TOTP` object and the code given by the user is verified within a time window interval which is the equivalent of about 150 seconds. The setting to set this time window is the config as `TOTP_VALIDWINDOW = 5`. 
 
 #figure(
-  ```py
+  ```python
   totp_db = pyotp.TOTP( user[ "totp" ] )
   totp_user = request.form.get( "totp", None )
   totp_save_serverside = request.form.get( "save", False )
@@ -198,7 +198,7 @@ If the verification fails within the window given, the code extends the check up
 After a successful TOTP login, the user can choose to trust the current device for 30 days. The trust record is stored in the Redis `totp` database under a key derived from the username and a hash of the client remote address.
 
 #figure(
-  ```py
+  ```python
   if totp_save_serverside in [ True, "true" ]:
     hra = hashlib.sha512( request.headers.environ[ "REMOTE_ADDR" ] ).hexdigest()
     username = session[ "username" ]
@@ -280,16 +280,78 @@ When a match is found, a reset token is generated and stored in the Redis `reset
     caption: [TOTP reset token generation and storage (`views/login/__init__.py`, ln 929-943)]
 ) <totp-reset-generation>
 
+#note[The comment seems a bit lacking as proof of the efectiveness for this method to prevent enumeration. There's no rate limiting either]
+
 The user receives an email containing a link to `GET /reset_totp_stage2/<user_id>`. the URL param `user_id` was previously hashed as shown @totp-reset-generation. On that page, the new TOTP secret (generated in the sae way as during setup) is displayed. Submitting the form writes the new secret directly to `users.totp` and deletes the token from Redis.
 
 === WebAuthn Key Management
+
+==== Key registration
+
+Hardware key registration begins at `POST /webauthn/begin_activate`. A challenge and a unique `ukey` value are generated and stored in the session. The credential options specify `authenticatorAttachment: "cross-platform"` to restrict registration to portable hardware keys (not platform authenticators like Touch ID on macOS).
+
+#figure(
+  ```python
+    challenge = pyotp.random_base32( 64 )
+    ukey = pyotp.random_base32( 64 )
+    session[ "challenge" ] = challenge
+    session[ "register_ukey" ] = ukey
+    
+    make_credential_options = webauthn.WebAuthnMakeCredentialOptions( 
+        challenge, config.rp_name, config.RP_ID,
+        ukey, username, username,
+        None
+    )
+    
+    registration_dict = make_credential_options.registration_dict
+    registration_dict[ "authenticatorSelection" ] = {
+        "authenticatorAttachment": "cross-platform",
+        "requireResidentKey": False,
+        "userVerification": "discouraged"
+    }
+  ```,
+  caption: [WebAuthn credential options for key registration (`views/login/__init__.py`, ln 409-429)]
+)
+
+`POST /webauthn/verify` verifies the registration response and stores the credential in the `webauthn` table. The Relying Party ID is `icnml.unil.ch` in production.
+
+#figure(
+  ```python
+  webauthn_credential = webauthn_registration_response.verify()
+
+  ...
+
+  config.db.query( 
+    utils.sql.sql_insert_generate( "webauthn", [ "user_id", "key_name", "ukey", "credential_id", "pub_key", "sign_count" ] ),
+    ( 
+        user_id, key_name,
+        ukey, webauthn_credential.credential_id,
+        webauthn_credential.public_key, webauthn_credential.sign_count,
+    )
+  )
+  ```,
+  caption: [WebAuthn credential storage after registration (`views/login/__init__.py`, 459-480)]
+)
+
+==== Key Lifecycle
+
+All key management operations (`POST /webauthn/delete`, `POST /webauthn/disable`, `POST /webauthn/enable`, `POST /webauthn/rename`) require the user to be logged in. The user id as well as the key id are passed in the `WHERE` clause to confirm the key is owned by the logged in user. An administrator can only manage their own keys and not the keys of someone else. 
+
+#figure(
+  ```python
+  config.db.query( "DELETE FROM webauthn WHERE id = %s AND user_id = %s", ( key_id, userid, ) )
+  ```,
+  caption: [Key deletion with the session user info (`views/login/__init__.py`, ln 511)]
+)
+
+Disabling a key sets `webauthn.active = False`. It remains within the database and can be re-enabled. However, the user cannot use it anymore. 
 
 === Password Reset
 
 Password reset is initiated by `POST /do/reset_password`. The email lookup is in a background thread to guarantee a constant response time and prevent enumeration according to the comment in the code.
 
 #figure(
-  ```py
+  ```python
   Thread( target = do_password_reset_thread, args = ( email, current_app._get_current_object(), ) ).start()
   ```,
   caption: [Threaded password reset to prevent email enumeration (`views/login/__init__.py`, ln 728)]
@@ -344,24 +406,6 @@ via the `GET /signin` public form.
       [6], [Selection],     [Yes], [Selection user, does not seem to have specific logic.],
     ),
     caption: [Account types table]
-)
-
-=== Authentication and Session Model
-
-// TODO analyses the auth process!
-The authentication is handled by the `/login` route. It expects the user to complete a form and then it will recall the
-`POST /do/login` endpoint for each attribute (username, password, TOTP or WebAuthn passkey). Then, these are the
-keys that are written in Redis.
-
-#figure(
-    ```python
-        session[ "account_type" ]
-        session[ "account_type_name" ]
-        session[ "logged" ]
-        session[ "username" ]
-        session[ "user_id" ]
-    ```,
-    caption: [Keys written in Redis' session]
 )
 
 === Access-Control decorators
