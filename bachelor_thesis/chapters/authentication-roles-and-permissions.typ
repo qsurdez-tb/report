@@ -278,11 +278,11 @@ When a match is found, a reset token is generated and stored in the Redis `reset
       .set( reset_id, data, ex = 24 * 3600 )
     ```,
     caption: [TOTP reset token generation and storage (`views/login/__init__.py`, ln 929-943)]
-) <totp-reset-generation>
+) 
 
 #note[The comment seems a bit lacking as proof of the efectiveness for this method to prevent enumeration. There's no rate limiting either]
 
-The user receives an email containing a link to `GET /reset_totp_stage2/<user_id>`. the URL param `user_id` was previously hashed as shown @totp-reset-generation. On that page, the new TOTP secret (generated in the sae way as during setup) is displayed. Submitting the form writes the new secret directly to `users.totp` and deletes the token from Redis.
+The user receives an email containing a link to `GET /reset_totp_stage2/<user_id>`. the URL param `user_id` was previously hashed as shown above. On that page, the new TOTP secret (generated in the sae way as during setup) is displayed. Submitting the form writes the new secret directly to `users.totp` and deletes the token from Redis.
 
 === WebAuthn Key Management
 
