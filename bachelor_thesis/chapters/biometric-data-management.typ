@@ -52,7 +52,31 @@ After the rotation, the image is re-saved via PIL. PIL's save operation does not
 
 === Encryption and Persistence
 
+After image preparation, the file bytes are base64 encoded, then DEK encrypted: 
+
+#figure(
+  ```python
+  file_data = utils.encryption.do_encrypt_dek( file_data, submission_uuid )
+                
+  sql = utils.sql.sql_insert_generate( "files", [
+      "folder", "creator",
+      "filename", "type",
+      "format", "size", "width", "height", "resolution",
+      "uuid", "data"
+  ] )
+  ...
+  config.db.query( sql, data )
+  ```,
+  caption: [DEK encryption and database insertion (`views/submission/__init__.py`, ln 276-290)]
+)
+
+The name of the file is also encrypted with the submitter's password before storage. 
+
+For tenprint cards, a thumbnail is generated and stored immediately in the `thumbnails` table, also DEK-encrypted.
+
 == Image Serving and Decryption
+
+
 
 === Thumbnail Fallback
 
