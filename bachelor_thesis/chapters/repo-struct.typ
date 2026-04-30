@@ -118,7 +118,7 @@ The analysis of the `requirements.txt` file from the web repository showed sever
       [`pillow==6.2.2`], [Old version with known CVEs: CVE-2021-28675 (High), CVE-2021-25289 (High), among others. The newest version has no known vulnerabilities.],
       [`python2.7`], [Reached end-of-life in January 2020 and no longer receives security patches. Known CVEs remain pending: CVE-2023-24329 (Medium), CVE-2022-48560 (Medium)]
     ),
-    caption: [Most critical dependencies of the app, rating of CVEs from @cve-site]
+    caption: [Most critical dependencies of the app, rating of CVEs from @cve_site]
 )
 
 The main culprit here is that the codebase runs on Python2.7. This will constrain all dependencies to use old versions, which are potentially vulnerable. New versions of most packages have dropped Python2 support. This makes it difficult to simply upgrade one or two libraries.
