@@ -22,3 +22,8 @@ base64:
   type: Web
   title: Base64 Wikipedia Article
   url: https://en.wikipedia.org/wiki/Base64
+
+cve_site:
+  type: Web
+  title: CVE 
+  url: https://cve.org
