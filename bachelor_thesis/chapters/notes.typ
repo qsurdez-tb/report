@@ -496,3 +496,15 @@ Sick day
 == 30.04
 
 0745 - Cleanup the docs 
+
+0821 - The next deliverable is the steganogaphy assesment. There's no steganography in the app so should I do maybe the different techniques used currently and how we could implement them ? Seems like a second part of the TB kind of thing ... 
+
+0823 - Could write the different stuff seen on the use of deprecated libraries !
+
+0936 - Had to check whether the prod deployment was launching the flask app with a python2 or python3 command and it's indeed python2 !
+
+0945 - Discovered that the prod server is using docker swarm for some reason...
+
+0954 - I cannot find the code that I copied on my machine previously... That seems very very strange... It seems the previous dev, whose access are still valid on the machine, removed it for some reason
+
+1013 - Taking a break 
