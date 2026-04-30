@@ -104,7 +104,7 @@ Log in with the admin credentials created from the previous steps.
       table.header[*Feature*][*Why*],
       [New user registration], [The admin must sign the validation with a registered passkey. There is no way to skip this test and currently it's a LocalhostNotAllowed error when trying to create it. New accounts must be insterted directly in the DB.],
       [TOTP setup], [Reachable only after the new user validation by the admin, thus this is not working.],
-      [Password reset], [Sends an email via SMTP. No mail server is running in this environment, the email is not delivered.],
+      [Password reset], [In Prod, sends an email via SMTP. No mail server is running in this environment, the email is not thus not delivered.],
       [PiAnoS integration], [The feature is disabled],
       [GPG file encryption], [Still inspecting that and if needed added to this how-to dev setup]
     ),

@@ -455,3 +455,44 @@ each chapter one of the four Diataxis axiom ... I may want to read more on that 
 1524 - Finished the Password Reset Section 
 
 1528 - I think it's the end of the day as I am a bit sick 
+
+
+== 23.04 
+
+Sick day
+
+== 28.04
+
+0727 - Getting back into it
+
+0729 - A bit late on the auth process document, I have to work a bit schnelly schnelly today and on Thursday to be able to give a complete analyse of the processes within the codebase. 
+
+0730 - Getting back into the auth writing 
+
+0753 - Finally the figures are not too tight with the text with a little change that is very welcome to the eyes
+
+0838 - Finished the doc on authentication, getting started on the watermark doc after a break
+
+0903 - Finished the schemas for the auth part which I forgot about ^^
+
+0908 - Added the schemas in the auth file
+
+1025 - Came back from a coffee break with the colleagues
+
+1119 - Finished the watermark document, will start the biometric data management doc
+
+1230 - Stopped break
+
+1313 - Came back continue writing the biometric data doc
+
+1354 - Finished writing the biometric data management doc for now.
+
+1416 - Finished the nice schema and included it in the report for the flow of the biometric data files
+
+1443 - Break for the meeting with the US people on Pianos
+
+1539 - End of the meeting, which will be the end of the day on ICNML
+
+== 30.04
+
+0745 - Cleanup the docs 

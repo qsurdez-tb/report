@@ -1,5 +1,9 @@
 = Work diary <work-diary>
-#block[
+
+#{
+  show figure: set block(breakable: true)
+
+block[
 #figure(
   align(center)[#table(
     columns: 6,
@@ -61,3 +65,4 @@
   kind: table
   )
 ]
+}

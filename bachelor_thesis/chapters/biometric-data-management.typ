@@ -76,7 +76,7 @@ For tenprint cards, a thumbnail is generated and stored immediately in the `thum
 
 == Image Serving and Decryption
 
-The central decryption function is `image_serve` in `views/images/__init__.py`. It fetches the `data` column from the requested table, decrypts it with the submission's DEK, and transforms the result into a PIL image.
+The main decryption function is `image_serve` in `views/images/__init__.py`. It fetches the `data` column from the requested table, decrypts it with the DEK of the donor related to this submission, and transforms the result into a PIL image.
 
 #figure(
   ```python
@@ -91,6 +91,20 @@ The central decryption function is `image_serve` in `views/images/__init__.py`. 
   img = utils.images.patch_image_to_web_standard( img )
   ```,
   caption: [DEcryption and transformation of raw bytes into PIL image (`views/images/__init__.py`, ln 271-279)]
+)
+
+#figure(
+  ```python
+  sql = """
+      SELECT donor_dek.dek
+      FROM donor_dek
+      LEFT JOIN users ON users.username = donor_dek.donor_name
+      LEFT JOIN submissions ON submissions.donor_id = users.id
+      WHERE submissions.uuid = %s
+      LIMIT 1
+  """
+  ```,
+  caption: [SQL statement to get the donor's DEK linked to the submission (`utils/encryption.py`, ln 41-48)]
 )
 
 == File Deletion

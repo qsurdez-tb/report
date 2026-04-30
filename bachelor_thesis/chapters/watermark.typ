@@ -69,7 +69,7 @@ The function `tag_visible` generates a CODE128 barcode encoding the first 18 cha
 The barcode is rendered with text below the bars. It is visible to the naked eye and scannable with any standard barcode reader. It encodes only part of the file identifier.
 There's no user or session information or timestamp.
 
-=== Layer 2, Near-Invisible Tracking Barcode
+=== Layer 2, Almost Invisible Tracking Barcode
 
 The function `tag_bottom` generates a second CODE128 barcode encoding the downloader's `user_id` and the Unix timestamp of the download. It is appended as a 10-pixel high strip at the bottom-right corner of the image.
 

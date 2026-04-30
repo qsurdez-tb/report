@@ -31,7 +31,7 @@ First a focus on what an Administrator sees. The interface is organized around a
 
 === Submissions
 
-The home page for an Administrator is the submissions list, displayed as a grid of donor cards (@fig-submissions-list). Each card is identified by a donor name and offers a _View_ button. Warning indicators flag donors that may have incomplete or pending data. // TODO check in code
+The home page for an Administrator is the submissions list. It's displayed as a grid of donor cards (@fig-submissions-list). Each card has the donor username as title and a _View_ button. Warning indicators flag donors that may have incomplete or pending data. // TODO check in code
 
 #figure(
   image(

@@ -17,7 +17,7 @@ All session variables is stored server-side in Redis. Sessions are not permanent
   SESSION_TYPE = "redis"
   SESSION_PERMANENT = False
   SESSION_REFRESH_EACH_REQUEST = True
-  PERMANENT_SESSION_LIFETIME = 2 * 60 * 60
+  PERMANENT_SESSION_LIFETIME = 2  60  60
   ```,
   caption: [Session configuration (`config.py`, ln 37-41)]
 )
@@ -204,7 +204,7 @@ After a successful TOTP login, the user can choose to trust the current device f
     username = session[ "username" ]
     key = "{}_{}".format( username, hra )
     
-    config.redis_dbs[ "totp" ].set( key, "ok", ex = 30 * 24 * 3600 )
+    config.redis_dbs[ "totp" ].set( key, "ok", ex = 30  24  3600 )
   ```,
   caption: [TOTP device trust storage (`views/login/__init__.py`, ln 309-314)]
 )
@@ -284,7 +284,7 @@ When a match is found, a reset token is generated and stored in the Redis `reset
     
     reset_id = "reset_{}".format( user_id )
     config.redis_dbs[ "reset" ]
-      .set( reset_id, data, ex = 24 * 3600 )
+      .set( reset_id, data, ex = 24  3600 )
     ```,
     caption: [TOTP reset token generation and storage (`views/login/__init__.py`, ln 929-943)]
 ) 
@@ -375,7 +375,7 @@ A check on all users in the database is made, when a matching email is found, a 
     user_id  = hashlib.sha512( utils.rand.random_data( 100 ) ).hexdigest()
     ...
     reset_id = "reset_{}".format( user_id )
-    config.redis_dbs[ "reset" ].set( reset_id, base64.b64encode( data ), ex = 24 * 3600 )
+    config.redis_dbs[ "reset" ].set( reset_id, base64.b64encode( data ), ex = 24  3600 )
     ```,
     caption: [Password reset token generation (`views/login/__init__.py`, ln 770-783)]
 )
@@ -411,7 +411,7 @@ via the `GET /signin` public form.
       stroke: 0.5pt,
       fill: (col, row) => if row == 0 { luma(220) } else { white },
       align: (center + horizon, left, center, left),
-      table.header[*ID*][*Name*][*Can request account*][*Short description*],
+      table.header[ID][Name][Can request account][Short description],
       [1], [Administrator], [No],  [Full privileged access; manages the platform.],
       [2], [Donor],         [No],  [Subject whose biometric data is collected, created by a Submitter.],
       [3], [Submitter],     [Yes], [Registers donors.],
@@ -460,40 +460,40 @@ This decorator checks wether the user has access to the trainer specific endpoin
 
 ==== Administrator (type 1)
 
-*Creation*: Accounts must be created directly in the database or by a process not documented as of yet.
+Creation: Accounts must be created directly in the database or by a process not documented as of yet.
 
-*Home page redirect*: `GET /admin/submission/list`
+Home page redirect: `GET /admin/submission/list`
 
-*Scope*: The Administrator has unrestricted access to the entire application. Every decorator 
-allows Administrators. Dedicated `/admin/*` routes are only usable by them.
+Scope: The Administrator has unrestricted access to the entire application. Every decorator 
+allows Administrators. Dedicated `/admin/` routes are only usable by them.
 
-*Capabilities*:
+Capabilities:
 
-- *New user management*: can validate pending sign in requests via `GET /validate_signin`
-- *Submission overview*: can view all submissions via `GET /admin/submission/list`
-- *AFIS management*: creates targets (`POST /admin/target/<submission_id>/<pc>/new`),
+- New user management: can validate pending sign in requests via `GET /validate_signin`
+- Submission overview: can view all submissions via `GET /admin/submission/list`
+- AFIS management: creates targets (`POST /admin/target/<submission_id>/<pc>/new`),
   deletes targets or candidate matches, updates assigned AFIS users, and
   batch-assigns targets (`POST /admin/afis/batch_assign/do`)
-- *Full-resolution images:* downloads uncompressed originals via
+- Full-resolution images: downloads uncompressed originals via
   `GET /image/file/<id>/full_resolution`.
-- *PiAnoS integration:* synchronises all users and segments to the external
+- PiAnoS integration: synchronises all users and segments to the external
   PiAnoS system via `GET /pianos_api/add_user/all` and
-  `GET /pianos_api/add_segments/all`.
-- *Mark deletion (admin context):* `POST /admin/<submission_id>/mark/<m_id>/delete`.
-- *UUID inspection:* retrieves the raw database table for any UUID via
+  `GET /pianos_api/add_segments/all` (not working in prod).
+- Mark deletion (admin context): `POST /admin/<submission_id>/mark/<m_id>/delete`.
+- UUID inspection: retrieves the raw database table for any UUID via
   `GET /uuid/get_table/<uuid>`.
 
 
 ==== Donor (type 2)
 
-*Creation:* Created by a Submitter via `POST /submission/do_new`. No self-registration.
+Creation: Created by a Submitter via `POST /submission/do_new`. No self-registration.
 
-*Home page redirect:* `GET /user/myprofile/dek`
+Home page redirect: `GET /user/myprofile/dek`
 
-*Scope:* Donors manage only their own cryptographic key (DEK) and view their
+Scope: Donors manage only their own cryptographic key (DEK) and view their
 own biometric data. They cannot interact with the submission or AFIS workflows.
 
-*Permitted operations:*
+Permitted operations:
 
 #figure(
   table(
@@ -501,7 +501,7 @@ own biometric data. They cannot interact with the submission or AFIS workflows.
     stroke: 0.5pt,
     fill: (col, row) => if row == 0 { luma(220) } else { white },
     align: (left, left),
-    table.header[*Route*][*Purpose*],
+    table.header[Route][Purpose],
     [`GET  /user/myprofile/dek`],      [View DEK profile page.],
     [`GET  /user/myprofile/tenprint`], [View own tenprint cards.],
     [`GET  /user/myprofile/marks`],    [View own mark images.],
@@ -515,14 +515,14 @@ own biometric data. They cannot interact with the submission or AFIS workflows.
 
 ==== Submitter (type 3)
 
-*Creation:* Self-registration via `GET /signin` / `POST /do/signin` followed
+Creation: Self-registration via `GET /signin` / `POST /do/signin` followed
 by e-mail confirmation and administrator approval.
 
-*Home page redirect:* `GET /submission/list`
+Home page redirect: `GET /submission/list`
 
-*Scope:* Submitters manage the complete lifecycle of their own submissions.
+Scope: Submitters manage the complete lifecycle of their own submissions.
 
-*Permitted operations (own submissions only):*
+Permitted operations (own submissions only):
 
 #figure(
   table(
@@ -530,7 +530,7 @@ by e-mail confirmation and administrator approval.
     stroke: 0.5pt,
     fill: (col, row) => if row == 0 { luma(220) } else { white },
     align: (left, left),
-    table.header[*Action*][*Routes*],
+    table.header[Action][Routes],
     [Create donor + submission], [`POST /submission/do_new` — creates `users`, `donor_dek`, and `submissions` rows.],
     [Upload files],              [`POST /upload`, `/submission/<id>/add_files`, `/submission/<id>/add_marks`, `/submission/<id>/consent_form`.],
     [Annotate tenprints],        [Set template, quality, segment coordinates, and general pattern on tenprint cards.],
@@ -543,20 +543,21 @@ by e-mail confirmation and administrator approval.
 )
 // TODO check what PFSP is with mandate
 
-*Ownership enforcement:* `@submission_has_access` issues HTTP 403 if the
+Ownership enforcement: `@submission_has_access` issues HTTP 403 if the
 `submission_id` in the URL was not created by the current submitter.
 
 ==== Trainer (type 4)
 
-*Creation:* Self-registration via `GET /signin` (Needs a confirmation from admin).
+Creation: Self-registration via `GET /signin` followed
+by e-mail confirmation and administrator approval.
 
-*Home page redirect:* `GET /marks/search`
+Home page redirect: `GET /marks/search`
 
-*Scope:* Trainers consume mark and tenprint data for examiner-training
-exercises. Their access is read-oriented; they do not create submissions or
+Scope: Trainers use mark and tenprint data for examiner-training
+exercises. Their access is only for reading the library. They do not create submissions or
 manage donors.
 
-*Permitted operations:*
+Permitted operations:
 
 #figure(
 table(
@@ -564,7 +565,7 @@ table(
   stroke: 0.5pt,
   fill: (col, row) => if row == 0 { luma(220) } else { white },
   align: (left, left),
-  table.header[*Route*][*Purpose*],
+  table.header[Route][Purpose],
   [`GET  /marks/search`],              [Search and filter marks for training.],
   [`GET  /marks/exercise/<id>`],       [View a training exercise.],
   [`GET  /marks/folder/<id>`],         [Browse an exercise folder.],
@@ -576,15 +577,16 @@ caption: [Routes of interest for Trainer role]
 
 ==== AFIS (type 5)
 
-*Creation:* Self-registration via `GET /signin` (Needs a confirmation from admin).
+Creation: Self-registration via `GET /signin` followed
+by e-mail confirmation and administrator approval.
 
-*Home page redirect:* `GET /afis/list/targets`
+Home page redirect: `GET /afis/list/targets`
 
-*Scope:* AFIS users work on fingerprint identification targets: they receive
+Scope: AFIS users work on fingerprint identification targets: they receive
 candidate match assignments, upload and annotate search results, and set
 comparison decisions. This seems like a big part of the application.
 
-*Permitted operations:*
+Permitted operations:
 
 #figure(
   table(
@@ -592,7 +594,7 @@ comparison decisions. This seems like a big part of the application.
     stroke: 0.5pt,
     fill: (col, row) => if row == 0 { luma(220) } else { white },
     align: (left, left),
-    table.header[*Route*][*Purpose*],
+    table.header[Route][Purpose],
     [`GET  /afis/list/targets`],                              [List assigned AFIS targets.],
     [`GET  /afis/incidental/donors/list`],                    [List incidental donors.],
     [`GET  /afis/incidental/donor/<uuid>/list`],              [Browse a specific incidental donor's data.],
@@ -614,12 +616,13 @@ comparison decisions. This seems like a big part of the application.
 )
 ==== Selection (type 6)
 
-*Creation:* Self-registration via `GET /signin` (Needs a confirmation from admin).
+Creation: Self-registration via `GET /signin` followed
+by e-mail confirmation and administrator approval.
 
-*Home page redirect:* Default (`/`) — no specialised redirect is defined in
+Home page redirect: Default (`/`), no specialised redirect is defined in
 `views/base/__init__.py` for this role.
 
-*Scope:* The Selection role is defined in the database and the registration
+Scope: The Selection role is defined in the database and the registration
 flow but has no dedicated routes or decorators at this time. A Selection user
 can log in and reach any route guarded only by `@login_required` (shared
 utilities, UUID search, image preview, donor views, etc.), but cannot access submission,

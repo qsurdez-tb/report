@@ -332,9 +332,9 @@ If the `dek_check` verification fails, the DEK is not written to the database an
 
 === DEK Session Reconstruction by the Submitter or Administrator
 
-When the DEK column is empty but the `salt` is still present, the submitter or admin can access encrypted files for the duration of their session. This path is triggered automatically in `utils.encryption.get_dek_from_submissionid` when the database lookup returns no value.
+When the DEK column is empty but the `salt` is still present, the submitter or admin can access encrypted files for the duration of their session. This path is triggered automatically in `utils.encryption.get_dek_from_submissionid`.
 
-the submitter's session or admin's session must contain the AES-encrypted email `email_aes` for the submission. The code decrypts it using the session id, recomputes the DEK, verifies it against `dek_check`, and stores the result in the session under `session["dek_{submission_id}"]`.
+The submitter's session or admin's session must contain the AES-encrypted email `email_aes` for the submission. The code decrypts it using the session id, recomputes the DEK, verifies it against `dek_check`, and stores the result in the session under `session["dek_{submission_id}"]`.
 
 #figure(
     ```python
@@ -352,6 +352,8 @@ the submitter's session or admin's session must contain the AES-encrypted email 
 )
 
 The reconstructed DEK is never written back to `donor_dek`. It exists only in the server-side session for the duration of the submitter's or admin's login.
+
+#note[I'm not sure I understood this perfectly and which user is which. Have to take more time for that at some point!]
 
 #figure(
     image("../assets/dek-lifecycle.drawio.png", width: 80%),
