@@ -105,6 +105,12 @@ Once the dumps are written, the passphrase variable is overwritten:
 
 This replaces the in memory value of `PASS` with fresh random data. The passphrasae is never written to disk by the script itself. This makes sure that it can only be reconstructed by the shareholders.
 
+#figure(
+  image("../assets/backup-encryption.drawio.png"),
+  caption: [Encryption steps]
+)
+
+
 == Backup Storage
 
 #note[An analysis on the production database would be interesting as well as the production backup.]
@@ -146,4 +152,9 @@ Once the passphrase is printed to stdout, the admin can decrypt each backup file
       | pg_restore -h <HOST> -U <USER> -d <DB>
   ```,
   caption: [Expected restore script]
+)
+
+#figure(
+  image("../assets/backup-decryption.drawio.png"),
+  caption: [Decryption steps]
 )
