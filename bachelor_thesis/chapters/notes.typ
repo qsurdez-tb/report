@@ -530,3 +530,6 @@ Sick day
 1152 - Food time !
 
 1300 - begin the crypto utils document to add some documentation of the basic 
+
+1447 - It's a bit hard as I still don't have all the knowledge to properly understand all of it
+
