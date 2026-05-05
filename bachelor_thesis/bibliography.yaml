@@ -37,3 +37,13 @@ pg_dump-doc:
   type: Web
   title: pg_dump documentation
   url: https://www.postgresql.org/docs/current/app-pgdump.html
+
+random-doc:
+  type: Web
+  title: random python documentation
+  url: https://docs.python.org/3/library/random.html
+
+entropy-wiki:
+  type: Web
+  title: Entropy (information theory)
+  url: https://en.wikipedia.org/wiki/Entropy_(information_theory)
