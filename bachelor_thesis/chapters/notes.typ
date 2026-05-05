@@ -533,3 +533,4 @@ Sick day
 
 1447 - It's a bit hard as I still don't have all the knowledge to properly understand all of it
 
+1600 - Finish the crypto utils chapter
