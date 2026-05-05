@@ -35,5 +35,5 @@ ssss-gnu:
 
 pg_dump-doc:
   type: Web
-  title: `pg_dump` documentation
+  title: pg_dump documentation
   url: https://www.postgresql.org/docs/current/app-pgdump.html
