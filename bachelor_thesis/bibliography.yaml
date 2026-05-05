@@ -27,3 +27,13 @@ cve_site:
   type: Web
   title: CVE 
   url: https://cve.org
+
+ssss-gnu:
+  type: Web
+  title: SSSS GNU implementation
+  url: http://point-at-infinity.org/ssss/
+
+pg_dump-doc:
+  type: Web
+  title: `pg_dump` documentation
+  url: https://www.postgresql.org/docs/current/app-pgdump.html
