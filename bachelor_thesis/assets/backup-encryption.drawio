@@ -1,0 +1,140 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Backup Encryption" id="backup-encryption">
+    <mxGraphModel dx="2405" dy="1027" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="s1" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="backup.sh triggered" vertex="1">
+          <mxGeometry height="40" width="160" x="334" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Step 1: Generate passphrase&lt;br&gt;openssl rand -base64 32 | sha256sum" vertex="1">
+          <mxGeometry height="60" width="320" x="254" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="s1" style="edgeStyle=orthogonalEdgeStyle;" target="s2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="PASS (256-bit digest)" vertex="1">
+          <mxGeometry height="40" width="214" x="307" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="s2" style="edgeStyle=orthogonalEdgeStyle;" target="s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Step 2: Split passphrase&lt;br&gt;ssss-split -t 2 -n 5&lt;br&gt;5 shares generated" vertex="1">
+          <mxGeometry height="70" width="200" x="30" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="s3" style="edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="130" y="240" />
+              <mxPoint x="130" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="GPG encrypt each share&lt;br&gt;gpg --encrypt --armor&lt;br&gt;--recipient &lt;email&gt;" vertex="1">
+          <mxGeometry height="70" width="200" x="30" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="s4" style="edgeStyle=orthogonalEdgeStyle;" target="s5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="5 × _ssss_&lt;email&gt;.asc&lt;br&gt;(each readable only with&lt;br&gt;recipient&#39;s private key)" vertex="1">
+          <mxGeometry height="70" width="200" x="30" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="s5" style="edgeStyle=orthogonalEdgeStyle;" target="s6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Step 3: Three pg_dump operations" vertex="1">
+          <mxGeometry height="40" width="517" x="280" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="s3" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="538" y="240" />
+              <mxPoint x="538" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="pg_dump -T donor_dek -T cf&lt;br&gt;(full DB, excl. DEK &amp; CF)" vertex="1">
+          <mxGeometry height="60" width="155" x="280" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="s7" style="edgeStyle=orthogonalEdgeStyle;" target="s8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="pg_dump -t donor_dek&lt;br&gt;(only donor_dek table)" vertex="1">
+          <mxGeometry height="60" width="155" x="460" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="s7" style="edgeStyle=orthogonalEdgeStyle;" target="s9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="pg_dump -t cf&lt;br&gt;(only cf table)" vertex="1">
+          <mxGeometry height="60" width="155" x="640" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="s7" style="edgeStyle=orthogonalEdgeStyle;" target="s10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="gpg --symmetric AES256" vertex="1">
+          <mxGeometry height="40" width="155" x="280" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="s8" style="edgeStyle=orthogonalEdgeStyle;" target="s11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="gpg --symmetric AES256" vertex="1">
+          <mxGeometry height="40" width="155" x="460" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="s9" style="edgeStyle=orthogonalEdgeStyle;" target="s12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="gpg --symmetric AES256" vertex="1">
+          <mxGeometry height="40" width="155" x="640" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="s10" style="edgeStyle=orthogonalEdgeStyle;" target="s13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" value="_data.backup" vertex="1">
+          <mxGeometry height="40" width="155" x="280" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="s11" style="edgeStyle=orthogonalEdgeStyle;" target="s14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" value="_dek.backup" vertex="1">
+          <mxGeometry height="40" width="155" x="460" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="s12" style="edgeStyle=orthogonalEdgeStyle;" target="s15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" value="_cf.backup" vertex="1">
+          <mxGeometry height="40" width="155" x="640" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="s13" style="edgeStyle=orthogonalEdgeStyle;" target="s16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="/mnt/escnas/backup/&lt;br&gt;All 3 dump files stored here (30-day retention)" vertex="1">
+          <mxGeometry height="50" width="517" x="280" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="s14" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.2;entryY=0;entryDx=0;entryDy=0;" target="s17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="s15" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="s16" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.8;entryY=0;entryDx=0;entryDy=0;" target="s17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="s6" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="s17">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="130" y="700" />
+              <mxPoint x="130" y="735" />
+              <mxPoint x="280" y="735" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Step 4: Erase passphrase&lt;br&gt;PASS = $(openssl rand -base64 32)&lt;br&gt;No copy of PASS persisted on disk" vertex="1">
+          <mxGeometry height="70" width="320" x="378.5" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="s17" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

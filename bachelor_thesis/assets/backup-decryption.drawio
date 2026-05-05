@@ -1,0 +1,119 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Backup Decryption" id="backup-decryption">
+    <mxGraphModel dx="1990" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="d1" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Restore needed" vertex="1">
+          <mxGeometry height="40" width="160" x="334" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Stakeholder A&lt;br&gt;(1 of ≥2 required)" vertex="1">
+          <mxGeometry height="60" width="180" x="160" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="d1" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="d2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="414" y="90" />
+              <mxPoint x="250" y="90" />
+              <mxPoint x="250" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Stakeholder B&lt;br&gt;(2 of ≥2 required)" vertex="1">
+          <mxGeometry height="60" width="180" x="490" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="d1" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="d3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="414" y="90" />
+              <mxPoint x="580" y="90" />
+              <mxPoint x="580" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Each decrypts their _ssss_&lt;email&gt;.asc&lt;br&gt;with their GPG private key&lt;br&gt;(combine.sh: gpg -d --yes *.asc)" vertex="1">
+          <mxGeometry height="70" width="510" x="160" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="d2" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.2;entryY=0;entryDx=0;entryDy=0;" target="d4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="d3" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.8;entryY=0;entryDx=0;entryDy=0;" target="d4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="≥2 ssss_key shares extracted from messages" vertex="1">
+          <mxGeometry height="40" width="400" x="215" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="d4" style="edgeStyle=orthogonalEdgeStyle;" target="d5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ssss-combine -t 2&lt;br&gt;Passphrase reconstructed" vertex="1">
+          <mxGeometry height="60" width="300" x="265" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="d5" style="edgeStyle=orthogonalEdgeStyle;" target="d6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="PASS (256-bit hex), printed to stdout" vertex="1">
+          <mxGeometry height="40" width="360" x="235" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="d6" style="edgeStyle=orthogonalEdgeStyle;" target="d7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="gpg --decrypt&lt;br&gt;_data.backup" vertex="1">
+          <mxGeometry height="60" width="180" x="70" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="d7" style="edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="d8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="590" />
+              <mxPoint x="160" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="gpg --decrypt&lt;br&gt;_dek.backup" vertex="1">
+          <mxGeometry height="60" width="180" x="325" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="d7" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="d9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" value="gpg --decrypt&lt;br&gt;_cf.backup" vertex="1">
+          <mxGeometry height="60" width="180" x="580" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="d7" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="d10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="668" y="590" />
+              <mxPoint x="668" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" value="pg_restore&lt;br&gt;→ icnml DB (main data)" vertex="1">
+          <mxGeometry height="60" width="180" x="70" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="d8" style="edgeStyle=orthogonalEdgeStyle;" target="d11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" value="pg_restore&lt;br&gt;→ icnml DB (donor_dek)" vertex="1">
+          <mxGeometry height="60" width="180" x="325" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="d9" style="edgeStyle=orthogonalEdgeStyle;" target="d12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" value="pg_restore&lt;br&gt;→ icnml DB (cf)" vertex="1">
+          <mxGeometry height="60" width="180" x="580" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="d10" style="edgeStyle=orthogonalEdgeStyle;" target="d13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="No restore script exists for steps below the dashed line.&lt;br&gt;The admin must run gpg --decrypt and pg_restore manually." vertex="1">
+          <mxGeometry height="60" width="690" x="70" y="910" as="geometry" />
+        </mxCell>
+        <mxCell id="UfbY8iGQYhGtU3qmXlnC-1" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="70" y="640" as="sourcePoint" />
+            <mxPoint x="760" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
