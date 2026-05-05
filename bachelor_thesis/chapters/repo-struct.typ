@@ -108,10 +108,10 @@ The analysis of the `requirements.txt` file from the web repository showed sever
 
 #figure(
   table(
-      columns: (auto, auto, auto, 1fr),
+      columns: (auto, 1fr),
       stroke: 0.5pt,
       fill: (col, row) => if row == 0 { luma(220) } else { white },
-      align: (center + horizon, left, center, left),
+      align: (center + horizon, left),
       table.header[Library][Risk],
       [`pycrypto==2.6.1`], [Last updated 11 years ago. Has two known CVEs: CVE-2018-6594 (High), CVE-2013-7459 (Critical). The library is abandoned and should be removed as it's not used in the app.],
       [`cryptography==3.3.2`], [Old version with multiple known CVEs: CVE-2026-26007 (High), CVE-2023-50782 (High), among others. The newest version has no known vulnerabilities.],
