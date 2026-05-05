@@ -507,4 +507,26 @@ Sick day
 
 0954 - I cannot find the code that I copied on my machine previously... That seems very very strange... It seems the previous dev, whose access are still valid on the machine, removed it for some reason
 
-1013 - Taking a break 
+1150 - End of the day
+
+== 05.05
+
+0757 - Getting back into it 
+
+0814 - Getting started on the backup encryption chapter 
+
+1000 - Finished the backup encryption chapter 
+
+1005 - Creating the different schemas for the chapter
+
+1030 - Update with supervisor (talk about the assistant post?, talk about the presentation to the mandate at the enf of May, talk about how confident I feel, talk about the focus I wanna give to the encryption and hash utils files to document them as they're the backbone of the encryption, talk about the images that have no steganogaphy and can be downloaded easily without any watermark) -> Aussi présentation de ce qui sera la suite. Faire une proposition de cve que je souhaite pour la suite.
+
+1050 - End of update + break
+
+1142 - end of the schemas
+
+1147 - Add the schemas to the report, not the most aesthetic but for now it's okkay
+
+1152 - Food time !
+
+1300 - begin the crypto utils document to add some documentation of the basic 
