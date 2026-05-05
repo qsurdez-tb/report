@@ -159,3 +159,62 @@ Decryption splits on `$` decodes both fields and reconstructs the cipher:
     caption: [Decryption (`utils/aes.py`, ln 90-104)]
 )
 
+=== Plaintext prefix
+
+`do_encrypt` prepends the string `"icnml$"` to every plaintext before encrypting. `do_decrypt` checks for this prefix after decryption and returns `"-"` if it's absent:
+
+#figure(
+    ```python
+    encryption_prefix = "icnml$"
+
+    def do_encrypt( data, password ):
+        return AESCipher( password ).encrypt( encryption_prefix + data )
+
+    def do_decrypt( data, password ):
+        try:
+            data = AESCipher( password ).decrypt( data )
+            if data.startswith( encryption_prefix ):
+                return data[ len( encryption_prefix ): ]
+            else:
+                return "-"
+        except:
+            return "-"
+    ```,
+    caption: [Public wrappers (`utils/aes.py`, ln 10-36)]
+)
+
+The prefix serves as an integrity marker. If decryption returns an output that does not start with `"icnml$"`, the result is discarded.
+
+== `utils/encryption.py`, high level encryption level
+
+This file is above `aes.py` and `hash.py` and provides the two main encryption contexts used throughout the application. 
+
+=== Session-scoped password hash
+
+When a user completes the password step of login, a password hash is stored in the session: 
+
+#figure(
+    ```python
+    session[ "password" ] = utils.hash.pbkdf2(
+        form_password, "AES256", config.PASSWORD_NB_ITERATIONS
+    ).hash()
+    ```,
+    caption: [Session password hash at login (`views/login/__init__.py`, ln 221)]
+)
+
+`form-password` is the client-side pre-hashed password (already PBKDF2 hashed client-side) with `"icnml_"+username` as salt. The server applies a second PBKDF2 with the fixed salt `"AES256"` and 50000 iterations. This produces a deterministic hash for the session lifetime.
+
+`do_encrypt_user_session` and `do_decrypt_user_session` read this value and pass it directly to `aes.do_encrypt`/`aes.do_decrypt`:
+
+#figure(
+    ```python
+    def do_encrypt_user_session( data ):
+        return aes.do_encrypt( data, session[ "password" ] )
+
+    def do_decrypt_user_session( data ):
+        return aes.do_decrypt( data, session[ "password" ] )
+    ```,
+    caption: [Session-scoped wrappers (`utils/encryption.py`, ln 218-230)]
+)
+
+=== DEK stuff already talked about in per-donor so maybe not retalking about it
