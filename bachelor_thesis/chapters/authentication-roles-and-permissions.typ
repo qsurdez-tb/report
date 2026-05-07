@@ -10,7 +10,7 @@ This section covers the authentication processes, more precisely the session str
 
 === Session Structure
 
-All session variables is stored server-side in Redis. Sessions are not permanent and are refreshed on every request.
+All session variables is stored server-side in Redis.
 
 #figure(
   ```python
@@ -36,7 +36,7 @@ In production, the session cookie is created with `Secure` and `SameSite=Strict`
 )
 
 The `SECRET_KEY` used to sign the session cookie is read from the `SECRET_KEY` environment variable. 
-If the variable is not set, a random value of 20 characters is generated at startup using the non-cryptographic `random` module.
+If the variable is not set, a random value of 20 characters is generated at startup using the `random` module.
 
 #note[This seems like an easy fix as one would just need to replace the `random` library by the `secret` library]
 
@@ -90,7 +90,7 @@ The login endpoint is `POST /do/login`. It is called once per authentication ste
   caption: [Session initialissation before login (`views/login/__init__.py`, ln 59-63)]
 )
 
-The usual sequence for an account with TOTP is: `password` -> `totp` -> logged. There is also another sequence for when a security key is activated for the user: `password` -> `securitykey` -> logged. With this sequence, the form will call the `webauthn_begin_assertion` function instead of the login one.
+The usual sequence for an account is: `password` -> `totp` -> logged as the seond factor authentication is mandatory. There is also another sequence for when a security key is activated for the user: `password` -> `securitykey` -> logged. With this sequence, the form will call the `webauthn_begin_assertion` function instead of the login one.
 
 #note[I haven't been able to test the path with the security key on the development server or the production one. There's quite a lot of code linked to it but nothing very critical, I may leave it on the side after a talk with my supervisor.]
 
@@ -108,12 +108,14 @@ Rate limiting is computed before any credential checks on every call to `POST /d
 
 The default configuration sets the `login_rate_limiting_base` setting to 2 and `login_rate_limiting_limit` to 5. The counter is incremented on both wrong password and unknown username. This means that the rate limiting mechanism does not reveal whether a username exists.
 
+#note[The supernet makes it impossible for anyone on the same network to connect if someone tried a few times and forgot the password. It happened when we tried to create the admin account for myself and another colleague. This could be changed perhaps ?]
+
 ==== Step 2, Password Verification
 
 The password is hashed in the browser first before transmission:
 
 #figure(
-  ```python
+  ```js
   password = await generateKey( password, "icnml_" + username, 20000 );
   password = password.substring( 0, 128 );
   password = "pbkdf2$sha512$icnml_" + username + "$20000$" + password;
@@ -216,10 +218,7 @@ On next logins from the same remote address, the presence of the key bypasses th
   caption: [Login Flow password steps]
 )
 
-#figure(
-  image("../assets/totp-login.drawio.png"),
-  caption: [Login Flow TOTP steps]
-)
+
 
 ==== Should do the WebAuthn login flow ? Doesn't seem to be used in the app today ???
 
@@ -260,6 +259,11 @@ The user may request a new secret at any time via `GET /new_secret` before commi
     )
     ```,
     caption: [TOTP secret commitment to the database (`views/login/__init__.py`, ln 1064)]
+)
+
+#figure(
+  image("../assets/totp-login.drawio.png"),
+  caption: [TOTP setup on first login]
 )
 
 ==== Reset
