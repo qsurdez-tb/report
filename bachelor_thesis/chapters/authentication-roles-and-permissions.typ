@@ -434,7 +434,7 @@ make decorator out of functions.
 ==== `@login_required`
 
 The first decorator is the one that requires the user to be logged in. 
-It checks that the `session["logged"]` key is set to `True`. Any unauthenticated.
+It checks that the `session["logged"]` key is set to `True`. Any unauthenticated request qill be redirected to the login page.
 
 
 ==== `@admin_required`
