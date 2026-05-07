@@ -534,3 +534,10 @@ Sick day
 1447 - It's a bit hard as I still don't have all the knowledge to properly understand all of it
 
 1600 - Finish the crypto utils chapter
+
+== 07.05
+
+0850 - Rereading the whole document to proofread it
+
+1016 - Should make smth of a flow for the first login also for the account that can request the account
+
