@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Deployment Sequence" id="deployment-seq">
+    <mxGraphModel dx="2886" dy="1232" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" value="Developer" vertex="1">
+          <mxGeometry height="40" width="100" x="60" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" value="Docker CI" vertex="1">
+          <mxGeometry height="40" width="100" x="220" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="Registry" vertex="1">
+          <mxGeometry height="40" width="100" x="380" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" value="Config CI" vertex="1">
+          <mxGeometry height="40" width="100" x="540" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" value="Swarm" vertex="1">
+          <mxGeometry height="40" width="100" x="700" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="20" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#666666;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="100" as="sourcePoint" />
+            <mxPoint x="110" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#6c8ebf;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="100" as="sourcePoint" />
+            <mxPoint x="270" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="22" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#9673a6;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="430" y="100" as="sourcePoint" />
+            <mxPoint x="430" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#82b366;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="100" as="sourcePoint" />
+            <mxPoint x="590" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="24" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#d6b656;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="100" as="sourcePoint" />
+            <mxPoint x="750" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="30" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;startArrow=none;fontSize=11;edgeStyle=none;" value="git push master">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="170" as="sourcePoint" />
+            <mxPoint x="270" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="31" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;startArrow=none;fontSize=11;edgeStyle=none;" value="push web + redis images">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="260" as="sourcePoint" />
+            <mxPoint x="430" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="32" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;startArrow=none;fontSize=11;edgeStyle=none;dashed=1;" value="git push (web tag → :SHA)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="350" as="sourcePoint" />
+            <mxPoint x="590" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="33" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;startArrow=none;fontSize=11;edgeStyle=none;" value="docker stack deploy">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="590" y="440" as="sourcePoint" />
+            <mxPoint x="750" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="34" edge="1" parent="1" style="html=1;endArrow=open;endFill=0;startArrow=none;fontSize=11;edgeStyle=none;dashed=1;strokeColor=#9673a6;" value="pull images">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="520" as="sourcePoint" />
+            <mxPoint x="430" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
