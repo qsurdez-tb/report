@@ -204,3 +204,10 @@ Both services define an `update_config` block that controls how Swarm performs r
   ),
   caption: [`web` service update policy]
 )
+
+== Deployment summary
+
+#figure(
+  image("../assets/deployment-sequence.drawio.png"),
+  caption: [Diagram of the sequence to deploy on production server]
+)
