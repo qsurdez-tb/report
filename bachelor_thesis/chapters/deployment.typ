@@ -167,3 +167,40 @@ The `deploy` command calls `docker stack deploy` with a remote Docker daemon via
 
 The `clean` command removes the `${CONFIGURATION}` file. The envionment file that was placed on the runner for the duration of this job.
 
+== Production Docker Compose
+
+The production `docker-compose.yml` is a Docker Swarm with 2 services:
+
+#figure(
+  table(
+    columns: (auto, auto, auto, auto, 1fr),
+    stroke: 0.5pt,
+    fill: (col, row) => if row == 0 { luma(220) } else { white },
+    align: (left, left, center, center, left),
+    table.header[Service][Image][Replicas][Memory][Notes],
+    [`web`],   [`cr.unil.ch/icnml/docker/web:<sha>`],   [15], [512 MB], [Pinned to the deploying commit's short SHA],
+    [`redis`], [`cr.unil.ch/icnml/docker/redis:latest`], [1],  [1 GB],  [Always the most recent master build],
+  ),
+  caption: [Production stack services]
+)
+
+The services communicate over an overlay network with a fixed subnet (`10.254.252.0/24`). Redis data is persisted in a named volume. 
+
+=== Update and Rollback Policy
+
+Both services define an `update_config` block that controls how Swarm performs rolling updates. For the `web` service:
+
+#figure(
+  table(
+    columns: (auto, 1fr),
+    stroke: 0.5pt,
+    fill: (col, row) => if row == 0 { luma(220) } else { white },
+    align: (left, left),
+    table.header[Parameter][Value],
+    [`parallelism`],    [5, update five replicas at a time],
+    [`delay`],          [10 seconds between batches],
+    [`order`],          [`start-first`, new replica starts and passes health check before old one stops],
+    [`failure_action`], [`rollback`, on failure, revert all updated replicas to the previous image],
+  ),
+  caption: [`web` service update policy]
+)
