@@ -552,3 +552,11 @@ Sick day
 0925 - Finally managed to get to the prod db. I was thinking of dumping the prod db to use as an dev environment to have some data to use as tests. 
 
 1000 - With the ok of the mandate, dumping the db so that I will be able to use it during the development phase !
+
+1104 - End of the deployment documentation
+
+1116 - Creating a schema for the deployment steps. I still don't understand why it's in different repositories and not just one ?
+
+1400 - Finished the sequence diagram + embedded in the report 
+
+1445 - Add section to tell about the broken pipeline !
