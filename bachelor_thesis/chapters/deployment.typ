@@ -1,0 +1,84 @@
+#import "../macros.typ": note
+
+= Deployment
+
+This chapter documents the deployment pipeline and production infrastructure of ICNML. The pipeline follows a GitOps patter: a push to the `master` branch in the source repository triggers an image builds and then propagates a configuration change to a dedicated configuration production repository. Another pipeline in the configuration production repository will do the actual deployment on a Docker Swarm cluster. 
+
+== Repositories involved
+
+Two separate Git repositories are involved in the deployment: 
+
+#figure(
+  table(
+    columns: (auto, 1fr),
+    stroke: 0.5pt,
+    fill: (col, row) => if row == 0 { luma(220) } else { white },
+    align: (left, left),
+    table.header[*Repository*][*Role*],
+    [`esc-md-git.unil.ch/ICNML/docker`],      [Docker repository for deployment. Contains the Flask application, libraries as submodules and the build pipeline (`.gitlab-ci.yml`). This is where the dev update the commit reference of the submodules to update the project.],
+    [`esc-md-git.unil.ch/ICNML/conf/production`], [Production configuration repository. Holds the `docker-compose.yml.template` that describes the production stack. Commits to its `master` branch trigger the deployment pipeline.],
+  ),
+  caption: [The two repositories involved in the deployment chain]
+)
+
+A push to `master` in the docker repository initiates the first pipeline. That pipeline's final step commits a change to the configuration repository, which launches the second pipeline. Neither pipeline requires manual intervention after the initial push.
+
+== Docker Repository Pipeline
+
+The docker repository's pipeline (`.gitlab-ci.yml`) defines two stages: `build` and `deploy`.
+
+=== Default Image and Submodules
+
+The build job in the pipeline runs inside the Kaniko executor image (`gcr.io/kaniko-project/executor:debug`), the deploy job runs on the base icnml image (`cr.unil.ch/icnml/base:latest`). Kaniko builds Docker images from inside an unprivileged container, without requiring Docker-in-Dcoker or a privileged runner. 
+
+#note[Kaniko is a project that is now archived and is no longer developed or maintained.]
+
+The variable `GIT_SUBMODULE_STRATEGY: recursive` causes GitLab CI to clone all submodules before each script or before_script. This ensures the web application and its dependencies are present in the build context. 
+
+#note[Today, the urls for the WSQ, MDmisc, NIST and PMlib, return a 404. This means that the pipeline is broken today.]
+
+#note[Today, the pipeline fails with this error: tls: failed to verify certificate: x509: certificate is valid for bunny.unil.ch, not cr.unil.ch. This has been written about in the dev setup environment.]
+
+=== Before Script
+
+A `before_script` block runs before every job in the pipeline. It performs three tasks. 
+
+First, it generates `web/app/version.py` by echoing Python assignments for the following GitLab variables: 
+
+#figure(
+  ```yaml
+  before_script:
+      - echo "__branch__ = '${CI_COMMIT_REF_NAME}'"     >  ./web/app/version.py
+      - echo "__commit__ = '${CI_COMMIT_SHA}'"          >> ./web/app/version.py
+      - echo "__commitshort__ = '${CI_COMMIT_SHORT_SHA}'" >> ./web/app/version.py
+      - echo "__commiturl__ = '${CI_PROJECT_URL}/commit/${CI_COMMIT_SHA}'" >> ./web/app/version.py
+      - echo "__treeurl__ = '${CI_PROJECT_URL}/tree/${CI_COMMIT_SHA}'"     >> ./web/app/version.py
+      - echo "__date__ = '${CI_COMMIT_TIMESTAMP}'"       >> ./web/app/version.py
+      - echo "__version__ = ' - '.join( [ __commitshort__, __date__ ] )"   >> ./web/app/version.py
+      - echo "__author_name__ = '${GITLAB_USER_NAME}'"  >> ./web/app/version.py
+      - echo "__author_email__ = '${GITLAB_USER_EMAIL}'" >> ./web/app/version.py
+      - echo "__author__ = __author_name__ + ' <' + __author_email__ + '>'" >> ./web/app/version.py
+  ```,
+  caption: [`version.py` generation in `before_script`]
+)
+
+This includes the build source with the branch, full and short commit SHA, commit and tree URLs, timestamp and author into the application image. 
+
+Then, it copies the GPG keys from `./config/keys` into `./web/keys`, putting them in the Docker build context so the web image can inlcude them.
+
+Third, it writes Kaniko's registry authentication file: 
+
+#figure(
+  ```yaml
+  - mkdir -p /kaniko/.docker
+  - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(echo -n $CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD | base64)\"}}}" > /kaniko/.docker/config.json
+  ```,
+  caption: [Kaniko registry authentication setup]
+)
+
+The credentials are encoded with base64 from the GitLab CI predefined vairables `CI_REGISTRY_USER` and `CI_REGISTRY_PASSWORD`. 
+
+=== Build Stage
+
+
+
