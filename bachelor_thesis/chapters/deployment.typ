@@ -4,6 +4,8 @@
 
 This chapter documents the deployment pipeline and production infrastructure of ICNML. The pipeline follows a GitOps patter: a push to the `master` branch in the source repository triggers an image builds and then propagates a configuration change to a dedicated configuration production repository. Another pipeline in the configuration production repository will do the actual deployment on a Docker Swarm cluster. 
 
+As of the time of writing, this pipeline is no longer operational. Two independent failures prevent it from completing. First, The external library submodules it depends on are unreachable. Second, the container registry has an invalid TLS certificate. Further discussed in @pipeline-status
+
 == Repositories involved
 
 Two separate Git repositories are involved in the deployment: 
@@ -29,9 +31,7 @@ The docker repository's pipeline (`.gitlab-ci.yml`) defines two stages: `build` 
 
 === Default Image and Submodules
 
-The build job in the pipeline runs inside the Kaniko executor image (`gcr.io/kaniko-project/executor:debug`), the deploy job runs on the base icnml image (`cr.unil.ch/icnml/base:latest`). Kaniko builds Docker images from inside an unprivileged container, without requiring Docker-in-Dcoker or a privileged runner. 
-
-#note[Kaniko is a project that is now archived and is no longer developed or maintained.]
+The build job in the pipeline runs inside the Kaniko executor image (`gcr.io/kaniko-project/executor:debug`), the deploy job runs on the base icnml image (`cr.unil.ch/icnml/base:latest`). Kaniko builds Docker images from inside an unprivileged container, without requiring Docker-in-Dcoker or a privileged runner. The Kaniko project has since been archived and is no longer maintained, which is a concern for the maintenance of the pipeline.
 
 The variable `GIT_SUBMODULE_STRATEGY: recursive` causes GitLab CI to clone all submodules before each script or before_script. This ensures the web application and its dependencies are present in the build context. 
 
@@ -126,6 +126,16 @@ The job does the following actions:
 )
 
 The automated commit message records the short SHA and links back to the full commit in the source repository, providing an history from any production configuration state back to the changes from the Docker repository.
+
+=== Current Pipeline Status <pipeline-status>
+
+The pipeline is broken by two independent failures that both must be resolved before a build can succeed. 
+
+First the submodule URLs returning 404. The build relies on `GIT_SUBMODULE_STRATEGY: recursive` to clone the external libraries WSQ, MDmisc, NIST and PMlib before any job. The URLs for all four of these submodules return a 404. Because GitLab CI fetches submodules before executing any script, the pipeline fails at the very first step and no job runs. This also means that setting up a new development environment from the repository alone is impossible. 
+
+Second, the TLS certificate mismatch on the container registry. Kaniko fails to push images to `cr.unil.ch` because the server presents a certificate issued for `bunny.unil.ch` rather than `cr.unil.ch`. Even if the submodule issue was fixed, the build stage would complete but every push to the registry would be rejected. This issue was also encountered during the developement environment setup.
+
+Together, these two failures mean that no developer can currently build or deploy ICNML through the automated pipeline.
 
 == Production Configuration Repository Pipeline
 
