@@ -541,3 +541,14 @@ Sick day
 
 1016 - Should make smth of a flow for the first login also for the account that can request the account
 
+== 12.05
+
+0750 - Getting back into it
+
+0800 - Starting the deployment document
+
+0852 - All the pipeline cannot work because of the 404 on the submodules url AND the tls error with the cr.unil.ch !!! I'll keep writing the doc but the one thing I understand now is that no one can actually develop on the applicaiton...
+
+0925 - Finally managed to get to the prod db. I was thinking of dumping the prod db to use as an dev environment to have some data to use as tests. 
+
+1000 - With the ok of the mandate, dumping the db so that I will be able to use it during the development phase !
