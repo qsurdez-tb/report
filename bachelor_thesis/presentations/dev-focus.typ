@@ -38,6 +38,16 @@ Then having the dependencies of the application stored somewhere known and acces
 I would also suggest trying to upgrade the Python version so that the libraries can be upgraded as well to versions without known CVEs. I don't have a clear estimate for this.
 
 
+=== Improve watermarking per downloader
+
+Imagine an attack risk, keep historic of you downloaded whom. List of email adress and then the platform keep the email with a code in the email for better auditing. Having the code so that we can authenticate this very person ! Estimate at 5 days. 
+
+
+=== Having log of the access to the images
+
+Having logs of IDs and the accessed objects. This seems like a big undertaking.
+
+
 === Steganography on all images 
 
 I'm very interested exploring the steganography that would be possible on the images to make it robust to image transformation. It would be a very interesting task and I'm quite motivated by researching the literature to understand the current state of it. Then discussing the possibilities with my supervisor and implementing it on every image served so that every images has a trace of the user it is served to. My estimate would be about 10 days for the research and the implementation.

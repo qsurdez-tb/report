@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Development Focus Points - ICNML</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2/dist/theme/white.css">
+
+  <style>
+    /* ── Variables ──────────────────────────────────────────── */
+    :root {
+      --red:       #c8102e;
+      --red-pale:  #fdf2f4;
+      --red-mid:   rgba(200, 16, 46, 0.12);
+      --dark:      #111827;
+      --mid:       #374151;
+      --muted:     #6b7280;
+      --border:    #e5e7eb;
+      --bg:        #ffffff;
+    }
+
+    /* ── Base ───────────────────────────────────────────────── */
+    .reveal-viewport { background: var(--bg); }
+
+    .reveal {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 36px;
+      color: var(--dark);
+      background: var(--bg);
+    }
+
+    .reveal .slides { text-align: left; }
+
+    .reveal .slides section {
+      padding: 48px 64px 64px;
+      box-sizing: border-box;
+    }
+
+    /* ── Typography reset ───────────────────────────────────── */
+    .reveal h1,
+    .reveal h2,
+    .reveal h3 {
+      font-family: 'Inter', system-ui, sans-serif;
+      text-transform: none;
+      color: var(--dark);
+      text-shadow: none;
+      margin: 0;
+    }
+
+    /* ── Title slide ────────────────────────────────────────── */
+    .reveal .slides section.title-slide {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 80px;
+      /* subtle dot-grid accent */
+      background-image: radial-gradient(circle, rgba(200,16,46,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .title-eyebrow {
+      font-size: 0.35em;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin: 0 0 1.1em;
+    }
+
+    .title-main {
+      font-size: 1.95em;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin: 0 0 0.45em;
+    }
+
+    .title-bar {
+      width: 48px;
+      height: 4px;
+      background: var(--red);
+      border-radius: 2px;
+      margin: 0 auto 1.3em;
+    }
+
+    .title-meta {
+      font-size: 0.38em;
+      color: var(--muted);
+      line-height: 2;
+    }
+
+    .title-meta-name {
+      display: block;
+      font-weight: 700;
+      font-size: 1.15em;
+      color: var(--dark);
+      margin-bottom: 0.1em;
+    }
+
+    /* ── Content headings ───────────────────────────────────── */
+    h2.slide-title {
+      font-size: 0.82em;
+      font-weight: 700;
+      color: var(--dark);
+      letter-spacing: -0.02em;
+      padding-bottom: 0.45em;
+      border-bottom: 3px solid var(--red);
+      display: inline-block;
+      margin-bottom: 0.75em;
+    }
+
+    /* ── Badge ──────────────────────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      background: var(--red-pale);
+      color: var(--red);
+      border: 1px solid rgba(200, 16, 46, 0.2);
+      border-radius: 100px;
+      padding: 2px 11px;
+      font-size: 0.5em;
+      font-weight: 600;
+      margin-left: 10px;
+      vertical-align: middle;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── List ───────────────────────────────────────────────── */
+    ul.item-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+
+    ul.item-list > li {
+      position: relative;
+      padding: 0.55em 0 0.55em 1.25em;
+      font-size: 0.6em;
+      font-weight: 400;
+      color: var(--mid);
+      border-bottom: 1px solid var(--border);
+      line-height: 1.6;
+    }
+
+    ul.item-list > li:last-child { border-bottom: none; }
+
+    ul.item-list > li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.98em;
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+    }
+
+    ul.item-list > li small {
+      display: block;
+      font-size: 0.87em;
+      color: var(--muted);
+      margin-top: 0.2em;
+    }
+
+    ul.item-list > li code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.9em;
+      background: #f3f4f6;
+      color: #b91c1c;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    /* ── Fragments ──────────────────────────────────────────── */
+    .reveal .slides section .fragment {
+      opacity: 0;
+      transform: translateY(9px);
+      transition: opacity 0.28s ease, transform 0.28s ease;
+      will-change: opacity, transform;
+    }
+
+    .reveal .slides section .fragment.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Progress bar ───────────────────────────────────────── */
+    .reveal .progress {
+      height: 3px;
+      background: rgba(200, 16, 46, 0.12);
+    }
+
+    .reveal .progress span { background: var(--red); }
+
+    /* ── Slide number ───────────────────────────────────────── */
+    .reveal .slide-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      background: transparent;
+      right: 18px;
+      bottom: 50px;
+    }
+
+    /* ── Controls ───────────────────────────────────────────── */
+    .reveal .controls button { color: var(--red); }
+
+  </style>
+</head>
+<body>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ─── 1. Title ─────────────────────────────────────────── -->
+    <section class="title-slide">
+      <p class="title-eyebrow">ICNML · Bachelor Thesis</p>
+      <h1 class="title-main">Development<br>Focus Points</h1>
+      <div class="title-bar"></div>
+      <div class="title-meta">
+        <span class="title-meta-name">Quentin Surdez</span>
+        HEIG-VD · 2025-2026
+      </div>
+    </section>
+
+    <!-- ─── 2. Current State ─────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">Current State</h2>
+      <ul class="item-list">
+        <li class="fragment">Broken CI/CD pipeline, no new development possible</li>
+        <li class="fragment">Python 2.7 end-of-life: security and technical debt, libraries with known CVEs</li>
+        <li class="fragment">Images served without watermark or steganography, easy to copy</li>
+        <li class="fragment">Existing watermark easily bypassed, not resilient to image transformation</li>
+        <li class="fragment">Dead code: unused roles, non-functional PiAnoS integration</li>
+        <li class="fragment">Cryptography layer is obscure and hard to reason about</li>
+        <li class="fragment">Poor ergonomics, app not actively used by researchers today</li>
+      </ul>
+    </section>
+
+    <!-- ─── 3. Focus 1 ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">1. Sound Deployment <span class="badge">~3-4 days</span></h2>
+      <ul class="item-list">
+        <li class="fragment">
+          Redeploy to a new machine controlled by the ESC IT service
+          <small>Replace Docker Swarm with a simple <code>docker compose</code></small>
+        </li>
+        <li class="fragment">
+          Configure reverse proxy and import production database
+          <small>Locate and copy the private GPG key (unknown effort)</small>
+        </li>
+        <li class="fragment">
+          Store custom dependencies (MDmisc, NIST…) in the ESC GitLab
+          <small>Currently only available on one machine, ~1-2 hours</small>
+        </li>
+        <li class="fragment">
+          Upgrade Python version to 3.9+ to unlock modern, CVE-free libraries
+          <small>Effort not yet estimated</small>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ─── 4. Focus 2 ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">2. Watermarking per Downloader <span class="badge">~5 days</span></h2>
+      <ul class="item-list">
+        <li class="fragment">Embed a unique, per-user mark in every downloaded image</li>
+        <li class="fragment">Maintain a download history: who downloaded which images and when</li>
+        <li class="fragment">
+          Encode a secret code into the watermark tied to the requester's email
+          <small>Enables forensic attribution if a leaked image is found</small>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ─── 5. Focus 3 ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">3. Access Logs for Images</h2>
+      <ul class="item-list">
+        <li class="fragment">Record every access: user ID + object ID + timestamp</li>
+        <li class="fragment">Provides an audit trail for all image requests</li>
+        <li class="fragment">Significant undertaking, scope to be discussed</li>
+      </ul>
+    </section>
+
+    <!-- ─── 6. Focus 4 ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">4. Steganography on All Images <span class="badge">~10 days</span></h2>
+      <ul class="item-list">
+        <li class="fragment">
+          Research state-of-the-art steganography robust to image transformation
+          <small>Review literature, define scope with supervisor</small>
+        </li>
+        <li class="fragment">Embed a hidden per-user trace in every served image</li>
+        <li class="fragment">
+          Goal: traceability that survives cropping, compression, and format conversion
+          <small>~10 days for research + implementation</small>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ─── 7. Focus 5 ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">5. User Experience <span class="badge">~7 days</span></h2>
+      <ul class="item-list">
+        <li class="fragment">
+          Focus on the Trainer role, most actively used today
+          <small>Remove image from folder, delete a folder, ~2 days</small>
+        </li>
+        <li class="fragment">
+          Quality-based filtering
+          <small>Automatic quality detection + search/filter by print quality, ~5 days</small>
+        </li>
+        <li class="fragment">Goal: make the platform usable enough that researchers actually adopt it</li>
+      </ul>
+    </section>
+
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'fast',
+    controls: true,
+    controlsTutorial: false,
+    center: true,
+    progress: true,
+  });
+</script>
+</body>
+</html>
