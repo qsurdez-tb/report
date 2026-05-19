@@ -567,3 +567,8 @@ Sick day
 
 0800 - Getting back into it 
 
+0810 - Relauching the export of the prod database as it's stopped midway last time
+
+0811 - Writing docs on the development interest 
+
+0920 - First draft of the dev-focus document according to my interests
