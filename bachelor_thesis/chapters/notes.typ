@@ -560,3 +560,10 @@ Sick day
 1400 - Finished the sequence diagram + embedded in the report 
 
 1445 - Add section to tell about the broken pipeline !
+
+1509 - Thinking about what the dev timeline should be about
+
+== 19.05
+
+0800 - Getting back into it 
+
