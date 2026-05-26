@@ -31,6 +31,8 @@
       font-size: 36px;
       color: var(--dark);
       background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .reveal .slides { text-align: left; }
@@ -184,7 +186,6 @@
       opacity: 0;
       transform: translateY(9px);
       transition: opacity 0.28s ease, transform 0.28s ease;
-      will-change: opacity, transform;
     }
 
     .reveal .slides section .fragment.visible {
@@ -214,6 +215,96 @@
     /* ── Controls ───────────────────────────────────────────── */
     .reveal .controls button { color: var(--red); }
 
+    /* ── Estimates slide ────────────────────────────────────── */
+    .est-table {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 0.4em;
+    }
+
+    .est-row {
+      display: grid;
+      grid-template-columns: 1.5em 1fr 30% 2.8em;
+      align-items: center;
+      column-gap: 0.55em;
+      padding: 0.33em 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .est-idx {
+      font-size: 0.46em;
+      font-weight: 700;
+      color: var(--red);
+    }
+
+    .est-name {
+      font-size: 0.46em;
+      font-weight: 500;
+      color: var(--mid);
+    }
+
+    .est-track {
+      height: 7px;
+      background: var(--red-pale);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .est-fill {
+      height: 100%;
+      background: var(--red);
+      border-radius: 4px;
+    }
+
+    .est-val {
+      font-size: 0.46em;
+      font-weight: 700;
+      color: var(--dark);
+      text-align: right;
+    }
+
+    .est-total {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.6em;
+      padding-top: 0.5em;
+      border-top: 2px solid var(--red);
+    }
+
+    .est-total-label {
+      font-size: 0.46em;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .est-total-nums {
+      display: flex;
+      align-items: center;
+      gap: 0.45em;
+    }
+
+    .est-total-est {
+      font-size: 0.46em;
+      font-weight: 700;
+      color: var(--red);
+    }
+
+    .est-total-avail {
+      font-size: 0.46em;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .est-note {
+      margin-top: 0.45em;
+      font-size: 0.44em;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.5;
+    }
+
   </style>
 </head>
 <body>
@@ -233,17 +324,25 @@
     </section>
 
     <!-- ─── 2. Current State ─────────────────────────────────── -->
-    <section>
+    <section style="position: relative;">
       <h2 class="slide-title">Current State</h2>
       <ul class="item-list">
-        <li class="fragment">Broken CI/CD pipeline, no new development possible</li>
-        <li class="fragment">Python 2.7 end-of-life: security and technical debt, libraries with known CVEs</li>
-        <li class="fragment">Images served without watermark or steganography, easy to copy</li>
-        <li class="fragment">Existing watermark easily bypassed, not resilient to image transformation</li>
-        <li class="fragment">Dead code: unused roles, non-functional PiAnoS integration</li>
-        <li class="fragment">Cryptography layer is obscure and hard to reason about</li>
-        <li class="fragment">Poor ergonomics, app not actively used by researchers today</li>
+        <li class="fragment" data-fragment-index="0">Broken CI/CD pipeline, no new development possible</li>
+        <li class="fragment" data-fragment-index="2">Python 2.7 end-of-life: security and technical debt, libraries with known CVEs</li>
+        <li class="fragment" data-fragment-index="3">Images served without watermark or steganography, easy to copy</li>
+        <li class="fragment" data-fragment-index="4">Existing watermark easily bypassed, not resilient to image transformation</li>
+        <li class="fragment" data-fragment-index="5">Dead code: unused roles, non-functional PiAnoS integration</li>
+        <li class="fragment" data-fragment-index="6">Cryptography layer is obscure, hard to reason about and uses old algo (AES-CBC)</li>
+        <li class="fragment" data-fragment-index="7">Poor ergonomics, app not actively used by researchers today</li>
       </ul>
+
+      <div class="fragment fade-in-then-out" data-fragment-index="1"
+          style="position:absolute; inset:0; display:flex; align-items:center;
+                  justify-content:center; gap:1em; padding:1em;
+                  background: rgba(255,255,255,0.95);">
+        <img src="./assets/ICNML-docker-jobs-failing.png" style="width:48%; border-radius:6px;" />
+        <img src="./assets/ICNML-prod-deploy-failing-reason.png" style="width:48%; border-radius:6px;" />
+      </div>
     </section>
 
     <!-- ─── 3. Focus 1 ───────────────────────────────────────── -->
@@ -277,14 +376,14 @@
         <li class="fragment">Maintain a download history: who downloaded which images and when</li>
         <li class="fragment">
           Encode a secret code into the watermark tied to the requester's email
-          <small>Enables forensic attribution if a leaked image is found</small>
+          <small>Allows for traceability if a leaked image is found</small>
         </li>
       </ul>
     </section>
 
     <!-- ─── 5. Focus 3 ───────────────────────────────────────── -->
     <section>
-      <h2 class="slide-title">3. Access Logs for Images</h2>
+      <h2 class="slide-title">3. Access Logs for Images <span class="badge">~5 days</span></h2>
       <ul class="item-list">
         <li class="fragment">Record every access: user ID + object ID + timestamp</li>
         <li class="fragment">Provides an audit trail for all image requests</li>
@@ -322,6 +421,63 @@
         </li>
         <li class="fragment">Goal: make the platform usable enough that researchers actually adopt it</li>
       </ul>
+    </section>
+
+    <!-- ─── 8. Planning ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">Planning</h2>
+
+      <div class="est-table">
+
+        <div class="est-row fragment">
+          <span class="est-idx">1</span>
+          <span class="est-name">Sound Deployment</span>
+          <div class="est-track"><div class="est-fill" style="width:30%"></div></div>
+          <span class="est-val">3d</span>
+        </div>
+
+        <div class="est-row fragment">
+          <span class="est-idx">2</span>
+          <span class="est-name">Watermarking per Downloader</span>
+          <div class="est-track"><div class="est-fill" style="width:50%"></div></div>
+          <span class="est-val">5d</span>
+        </div>
+
+        <div class="est-row fragment">
+          <span class="est-idx">3</span>
+          <span class="est-name">Access Logs for Images</span>
+          <div class="est-track"><div class="est-fill" style="width:50%"></div></div>
+          <span class="est-val">5d</span>
+        </div>
+
+        <div class="est-row fragment">
+          <span class="est-idx">4</span>
+          <span class="est-name">Steganography on All Images</span>
+          <div class="est-track"><div class="est-fill" style="width:100%"></div></div>
+          <span class="est-val">10d</span>
+        </div>
+
+        <div class="est-row fragment" style="border-bottom:none;">
+          <span class="est-idx">5</span>
+          <span class="est-name">User Experience</span>
+          <div class="est-track"><div class="est-fill" style="width:70%"></div></div>
+          <span class="est-val">7d</span>
+        </div>
+
+      </div>
+
+      <div class="est-total fragment">
+        <span class="est-total-label">Total</span>
+        <div class="est-total-nums">
+          <span class="est-total-est">30 days estimated</span>
+          <span class="est-total-avail">/ 27 available</span>
+        </div>
+      </div>
+
+      <div class="est-note fragment">
+        Scope selection needed,  not all focus areas fit within the available timeline.
+      </div>
+
     </section>
 
   </div>
