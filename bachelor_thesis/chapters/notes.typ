@@ -607,4 +607,4 @@ Sick day
 
 1232 - Still writing it. Good to know that all the code from the libraries are under GNU licence so I can post them anywhere and make any change that I want !
 
-
+1330 - Finished analysis
