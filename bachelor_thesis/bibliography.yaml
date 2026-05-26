@@ -57,3 +57,23 @@ dockerD-doc:
   type: Web
   title: dockerd CLI reference
   url: https://docs.docker.com/reference/cli/dockerd/
+
+py3-whatsnew:
+  type: Web
+  title: What's New In Python 3.0
+  author: Guido van Rossum
+  url: https://docs.python.org/3/whatsnew/3.0.html
+  publisher:
+    name: Python Software Foundation
+
+redis-doc:
+  type: Web
+  title: redis-py guide
+  url: https://redis.io/docs/latest/develop/clients/redis-py/
+
+py-webauthn-changelog:
+  type: Web
+  title: py_webauthn Changelog
+  url: https://github.com/duo-labs/py_webauthn/blob/master/CHANGES.md
+  publisher:
+    name: Duo Labs
