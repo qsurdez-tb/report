@@ -572,3 +572,39 @@ Sick day
 0811 - Writing docs on the development interest 
 
 0920 - First draft of the dev-focus document according to my interests
+
+1001 - Screenshots for explaining what's missing
+
+1003 - Exploring reveal.js for the presentation
+
+1030 - Start meeting
+
+1115 - End meeting
+
+1120 - Starting work on the presentation
+
+1230 - Finished first draft of presentation
+                                        
+== 26.05
+
+0730 - Getting back into it
+
+0806 - Seeing if a surface attack document could be interesting ? Mentioning cPickle, SQL injection possible in certain context, etc...
+
+0827 - I regained access to my desk at Unil Yay
+
+0828 - Trying to find how difficult it's gonna be to upgrade from Python 2.7 to Python 3.9+
+
+0924 - Refine the presentation
+
+0926 - Talking with colleague how possible it is to have a new VM for ICNML ? He's not here too bad
+
+0934 - Checking where the GPG private key could be held as it will be needed for the deployment on a new server ...
+
+1015 - The key is not found on the container or the server. It will be asked at next meeting. I must amend what I said, it's not necessary for deployment but only for decrypting the encrypted PDF forms
+
+1020 - I think having a doc on the upgrade from python 2.7 to python 3.9 can be interesting. Like smth of an analysis where I can highlight the points where it's necessary to spend efforts and what tools exist, what the litterature says about it etc etc...
+
+1232 - Still writing it. Good to know that all the code from the libraries are under GNU licence so I can post them anywhere and make any change that I want !
+
+
