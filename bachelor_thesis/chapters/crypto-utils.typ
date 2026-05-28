@@ -1,6 +1,6 @@
 #import "../macros.typ": note
 
-= Cryptographic Utilities
+= Cryptographic Utilities <crypto-utils>
 
 This chapter documents the four utility files that are the base of all cryptographic operations in ICNML: `utils/rand.py`, `hash.py`, `utils/aes.py` and `utils/encryption.py`. These files are called from every layer of the application, password storage, donor email protection, biometric file encryption and DEK lifecycle. Their behaviour and limitations have broad impact.
 

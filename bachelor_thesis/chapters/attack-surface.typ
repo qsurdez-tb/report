@@ -53,7 +53,11 @@ Applying a whitelist check after retrieving the account type name would be an ea
 
 == High Findings
 
+=== Insecure PRNG for Security-Critical Random Values
 
+Python's built-in `random` module uses Mersenne Twister, which is designed for statistical simulations and is not cryptographically secure @random-doc. Its internal state can be reconstructed from a sufficiently large set of observed outputs. The `random_data` function in `utils/rand.py`, which uses this module, is the unique source of randomness for all security-critical values in the application. This is documented in the cryptographic utilities chapter @crypto-utils.
+
+The fix is to change the `random_data` to use `os.urandom` or `secrets`, which reads from the operating system entropy source.
 
 == Medium Findings
 
