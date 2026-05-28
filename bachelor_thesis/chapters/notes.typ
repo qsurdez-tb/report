@@ -608,3 +608,18 @@ Sick day
 1232 - Still writing it. Good to know that all the code from the libraries are under GNU licence so I can post them anywhere and make any change that I want !
 
 1330 - Finished analysis
+
+1336 - Practising the presentation 
+
+1343 - Quite satisfied 
+
+== 28.05
+
+0800 - Getting back into it
+
+0850 - Read an article https://www.geeksforgeeks.org/python/latest-update-on-python-4/ That further aliments my point on upgrading to Python 3 !!!
+
+0900 - I'm a bit lost on what I could do ? 
+
+0910 - Doing a surface attack document ??? It would be interesting as it would further aliments the arguments on upgrading to Python 3 ?
+
