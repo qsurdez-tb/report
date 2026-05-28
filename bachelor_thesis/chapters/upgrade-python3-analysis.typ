@@ -193,7 +193,7 @@ The application uses four classes from the old library across `views/login/__ini
   caption: [WebAuthn classes used in the application]
 )
 
-The database stores `credential_id` and `pub_key` as text columns. `py_webauthn 2.x` uses `bytes` for `credential_id` and a different public key serialization format @py-webauthn-changelog. Existing hardware keys may require re-enrollement after migration.
+The database stores `credential_id` and `pub_key` as text columns. `py_webauthn 2.x` uses `bytes` for `credential_id` and a different public key serialization format @py-webauthn-changelog. Existing hardware keys may require re-enrollement after migration. There may also be a change needed in the frontend.
 
 
 == Suggested Migration Roadmap
@@ -209,13 +209,13 @@ The following roadmap was thought our so that each step is verifiable before the
     align: (center, left, left),
     table.header[Step][Target][Rationale],
     [1], [Fix syntax (`print`, `xrange`, `.iteritems()`)],               [`2to3` handles these automatically. No logic changes. Required before the interpreter can import any module.],
-    [2], [Replace removed modules (`cPickle` → JSON, `cStringIO`, `urlparse`)], [Import errors, fixes are isolated. Switching `cPickle` to JSON at this step also eliminates the RCE vector.],
+    [2], [Replace removed modules (`cPickle` → JSON, `cStringIO`, `urlparse`)], [Import errors, fixes are isolated. Switching `cPickle` to JSON at this step also eliminates a vulnerability.],
     [3], [Upgrade `redis-py`, add `decode_responses=True` to all clients], [Prevents the silent TOTP bypass and all other `bytes`/`str` comparison failures across the auth flow.],
     [4], [Fix `base64` and PBKDF2 `bytes` encoding in the application],  [Affects login, consent form, and DEK flows. Validate against the existing database with a test account before proceeding.],
     [5], [Fix integer division in PMlib (`//` where integer intent)],    [Isolated to one library. Can be tested independently without the full application stack.],
     [6], [Migrate NIST library (Option C Latin-1 decode, `bytes` for data fields)], [Highest-risk change. All fingerprint upload and retrieval flows depend on it. Run the NIST doctester (`python3 doctester.py` in `library/NIST/`) as the primary check.],
     [7], [Upgrade all dependencies, audit Pillow API],                   [Run `python -W error::DeprecationWarning` to surface deprecations before they become runtime removals.],
-    [8], [Rewrite WebAuthn integration],                                 [Requires a FIDO2 hardware key for end-to-end testing. We can keep the old implementation on a branch until the new one is validated for both the login and the new-user validation flows.],
+    [8], [Rewrite WebAuthn integration],                                 [Requires a FIDO2 hardware key for end-to-end testing. We can keep the old implementation on a branch until the new one is validated for both the login (if it's still used) and the new-user validation flows.],
   ),
   caption: [Recommended migration order]
 )
