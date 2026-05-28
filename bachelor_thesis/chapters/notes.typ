@@ -623,3 +623,4 @@ Sick day
 
 0910 - Doing a surface attack document ??? It would be interesting as it would further aliments the arguments on upgrading to Python 3 ?
 
+1102 - It's taking quite long as it's not smth I'm used to 
