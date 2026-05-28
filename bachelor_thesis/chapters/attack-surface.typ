@@ -65,6 +65,37 @@ The `_unpad` method in `utils/aes.py` removes PKCS\#7 padding by reading the las
 
 The correct fix would be to replace AES-CBC with an authenticated encryption mode such as AES-GCM, which combines confidentiality and integrity in a single primitive and eliminates the orcale condition.
 
+=== Missing Authentication on `do_validation_reject`
+
+The route `POST /do/validation_reject` updates a pending registration request to the status `rejected`. It accepts the request ID from the POST body but applies no authentication decorator.
+
+#figure(
+  ```python
+  @newuser_view.route( "/do/validation_reject", methods = [ "POST" ] )
+  def do_validation_reject():
+      request_id = request.form.get( "id" )
+      sql = "UPDATE signin_requests SET status = 'rejected' WHERE id = %s"
+      config.db.query( sql, ( request_id, ) )
+  ```,
+  caption: [Unauthenticated route for rejecting registration requests (`views/newuser/__init__.py`, ln 268-278)]
+)
+
+All other registration validation routes require `@admin_required`. This route was left unprotected. 
+
+=== Live TOTP Codes Written to Application Logs
+
+During TOTP verification, both the expected code and the code given by the user are written to the application log at `INFO` level:
+
+#figure(
+  ```python
+  current_app.logger.info( "TOTP expected now: {}".format( totp_db.now() ) )
+  current_app.logger.info( "TOTP provided:     {}".format( totp_user ) )
+  ```,
+  caption: [TOTP codes logged in plaintext during verification (`views/login/__init__.py`, ln 272-273)]
+)
+
+A TOTP code is valid for a 30-second window. Any system that receives application log output can extract the live code for any account whose login is being attempted.
+
 == Medium Findings
 
 == Attack scenarios for Critical Findings
