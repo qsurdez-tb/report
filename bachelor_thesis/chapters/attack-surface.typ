@@ -59,6 +59,12 @@ Python's built-in `random` module uses Mersenne Twister, which is designed for s
 
 The fix is to change the `random_data` to use `os.urandom` or `secrets`, which reads from the operating system entropy source.
 
+=== Padding Oracle in AES Unpadding
+
+The `_unpad` method in `utils/aes.py` removes PKCS\#7 padding by reading the last byte as the pad length and slicing without validating that all padding bytes carry the same value or that the length is within the valid range of one to sixteen. The `do_decrypt` wrapper catches all exceptions and returns `"-"` on failure. A successfult decryption returns a string beginning by `icnml$`. Together, these two behaviours create a padding orcale. An attacker can submit modified ciphertexts and use the binary response to determine, block by block, whether a candidate plaintext byte is correct @padding-oracle-wiki.
+
+The correct fix would be to replace AES-CBC with an authenticated encryption mode such as AES-GCM, which combines confidentiality and integrity in a single primitive and eliminates the orcale condition.
+
 == Medium Findings
 
 == Attack scenarios for Critical Findings

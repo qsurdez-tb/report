@@ -96,3 +96,8 @@ owasp-sqli:
   url: https://owasp.org/www-community/attacks/SQL_Injection
   publisher:
     name: OWASP Foundation
+
+padding-oracle-wiki:
+  type: Web
+  title: Padding oracle attack
+  url: https://en.wikipedia.org/wiki/Padding_oracle_attack
