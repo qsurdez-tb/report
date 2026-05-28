@@ -89,3 +89,10 @@ payloads-pickle:
   type: Web
   title: "PayloadsAllTheThings: Insecure Deserialization — Python Pickle"
   url: https://swisskyrepo.github.io/PayloadsAllTheThings/Insecure%20Deserialization/Python/#pickle
+
+owasp-sqli:
+  type: Web
+  title: "SQL Injection"
+  url: https://owasp.org/www-community/attacks/SQL_Injection
+  publisher:
+    name: OWASP Foundation
