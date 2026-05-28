@@ -77,3 +77,15 @@ py-webauthn-changelog:
   url: https://github.com/duo-labs/py_webauthn/blob/master/CHANGES.md
   publisher:
     name: Duo Labs
+
+python-pickle-docs:
+  type: Web
+  title: "pickle, Python object serialization"
+  url: https://docs.python.org/2/library/pickle.html
+  publisher:
+    name: Python Software Foundation
+
+payloads-pickle:
+  type: Web
+  title: "PayloadsAllTheThings: Insecure Deserialization — Python Pickle"
+  url: https://swisskyrepo.github.io/PayloadsAllTheThings/Insecure%20Deserialization/Python/#pickle
