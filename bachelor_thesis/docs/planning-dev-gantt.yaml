@@ -1,136 +1,87 @@
-# Whether or not to show today as a 'milestone' on the gantt chart.
 show-today: false
-
 headers:
-  - month
-# A start date. Not required.
-start: 2026-02-16
-# An end date. Not required.
+- month
+start: 2026-06-02
 end: 2026-07-23
-# A list of tasks
 tasks:
-    # The name of the task.
-  - name: Starting
-    subtasks:
-      - name: Planning Creation (4h)
-        start: 2026-02-17
-        end: 2026-02-19
-        x:
-          estimate: 4
-
-      - name: Specification Draft (4h)
-        start: 2026-02-19
-        end: 2026-02-19
-        x: 
-          estimate: 4
-
-  - name: First steps in codebase (45h)
-    subtasks:
-      - name: Code Analysis
-        start: 2026-02-24
-        end: 2026-03-26
-        x:
-          estimate: 45
-        subtasks:
-          - name: First look around the codebase + app (8h)
-            start: 2026-02-24
-            end: 2026-02-26
-            x:
-              estimate: 8
-
-          - name: Creating dev env (10h)
-            start: 2026-02-26
-            end: 2026-03-03
-            x:
-              estimate: 10
-          
-          - name: Schema and dev env explanation (10h)
-            start: 2026-03-05
-            end: 2026-03-17
-            x:
-              estimate: 10
-
-          - name: Crunch time
-            start: 2026-03-09
-            end: 2026-03-13
-
-          - name: Docs template creation (3h)
-            start: 2026-03-19
-            end: 2026-03-19
-            x:
-              estimate: 3
-
-  - name: User management (36h)
-    subtasks:
-      - name: User walkthrough (12h)
-        start: 2026-04-07
-        end: 2026-04-09
-        x:
-          estimate: 12
-
-      - name: Per-donor security processes (12h)
-        start: 2026-04-14
-        end: 2026-04-16
-        x:
-          estimate: 12
-
-  - name: Watermark management (27h)
-    subtasks:
-      - name: Biometric data management (15h)
-        start: 2026-04-23
-        end: 2026-04-30
-        x:
-          estimate: 15
-
-  - name: Backup management (17h)
-    subtasks:
-      - name: Backup walkthrough (12h)
-        start: 2026-05-07
-        end: 2026-05-12
-        x:
-          estimate: 12
-
-  - name: Deployment management (12h)
-    subtasks:
-      - name: Deployment walkthrough (6h)
-        start: 2026-05-12
-        end: 2026-05-14
-        x:
-          estimate: 6
-
-  - name: Development (360h)
-    subtasks:
-      - name: TBA (360h)
-        start: 2026-05-20
-        end: 2026-07-10
-        x:
-          estimate: 360
-
-  - name: Admin end of the project (40h)
-    start: 2026-07-13
-    end: 2026-07-23
+- name: Focus 1 - Stable Deployment (42h)
+  subtasks:
+  - name: Copy repo to ESC GitLab (2h)
+    start: 2026-06-03
+    end: 2026-06-03
     x:
-      estimate: 40
-
-  - name: Report (60h)
-    intervals:
-      - start: 2026-03-17
-        end: 2026-04-02
-      - start: 2026-04-21
-        end: 2026-04-23
-      - start: 2026-05-05
-        end: 2026-05-07
-      - start: 2026-05-12
-        end: 2026-05-20
-
-milestones:
-  - name: Intermediary report
-    date: 2026-05-20
-    # Optional: whether or not the date should be shown in this milestone
-
-  - name: Development focus decided
-    date: 2026-05-20
-
-  - name: Final report
-    date: 2026-07-23 
-
+    estimate: 2
+  - name: Store homemade deps in ESC GitLab (2h)
+    start: 2026-06-03
+    end: 2026-06-03
+    x:
+    estimate: 2
+  - name: Redeploy on new ESC machine, docker compose (4h)
+    start: 2026-06-05
+    end: 2026-06-05
+    x:
+    estimate: 4
+  - name: Configure reverse proxy + import prod DB (4h)
+    start: 2026-06-10
+    end: 2026-06-10
+    x:
+    estimate: 4
+  - name: Upgrade Python to 3.9+ + update deps (30h)
+    start: 2026-06-10
+    end: 2026-06-19
+    x:
+    estimate: 30
+- name: Focus 4 - Steganography on all served images (112h)
+  subtasks:
+  - name: Literature review + scope definition (24h)
+    start: 2026-06-19
+    end: 2026-06-23
+    x:
+    estimate: 24
+  - name: Implement hidden per-user trace (56h)
+    start: 2026-06-23
+    end: 2026-07-01
+    x:
+    estimate: 56
+  - name: Robustness testing (crop, compression, format) (32h)
+    start: 2026-07-01
+    end: 2026-07-06
+    x:
+    estimate: 32
+- name: Focus 5 - User Experience (80h)
+  subtasks:
+  - name: Delete action on Trainer folder (16h)
+    start: 2026-07-06
+    end: 2026-07-08
+    x:
+    estimate: 16
+  - name: Delete image from Trainer folder (16h)
+    start: 2026-07-08
+    end: 2026-07-09
+    x:
+    estimate: 16
+  - name: Search/filter by donor (username) (16h)
+    start: 2026-07-09
+    end: 2026-07-13
+    x:
+    estimate: 16
+  - name: openLQM quality detection + sort by quality (16h)
+    start: 2026-07-13
+    end: 2026-07-14
+    x:
+    estimate: 16
+  - name: Toggleable quality heatmap overlay (8h)
+    start: 2026-07-14
+    end: 2026-07-15
+    x:
+    estimate: 8
+  - name: Trainer chooses exemplar for a single trace (8h)
+    start: 2026-07-15
+    end: 2026-07-16
+    x:
+    estimate: 8
+- name: Report + Deliverables
+  start: 2026-07-17
+  end: 2026-07-23
+  x:
+  estimate: 36

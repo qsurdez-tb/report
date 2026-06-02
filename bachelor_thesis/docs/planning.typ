@@ -20,5 +20,5 @@ This document is a draft of the planning for the different development focus poi
 #figure(
   gantt(yaml("planning-dev-gantt.yaml")),
   caption: [
-    Inital planning for the project
+    Planning of the Dev phase project
   ])<gantt>
