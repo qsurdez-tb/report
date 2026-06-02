@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Points de développement - ICNML</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2/dist/theme/white.css">
+
+  <style>
+    /* ── Variables ──────────────────────────────────────────── */
+    :root {
+      --red:       #c8102e;
+      --red-pale:  #fdf2f4;
+      --red-mid:   rgba(200, 16, 46, 0.12);
+      --dark:      #111827;
+      --mid:       #374151;
+      --muted:     #6b7280;
+      --border:    #e5e7eb;
+      --bg:        #ffffff;
+    }
+
+    /* ── Base ───────────────────────────────────────────────── */
+    .reveal-viewport { background: var(--bg); }
+
+    .reveal {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 36px;
+      color: var(--dark);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .reveal .slides { text-align: left; }
+
+    .reveal .slides section {
+      padding: 48px 64px 64px;
+      box-sizing: border-box;
+    }
+
+    /* ── Typography reset ───────────────────────────────────── */
+    .reveal h1,
+    .reveal h2,
+    .reveal h3 {
+      font-family: 'Inter', system-ui, sans-serif;
+      text-transform: none;
+      color: var(--dark);
+      text-shadow: none;
+      margin: 0;
+    }
+
+    /* ── Title slide ────────────────────────────────────────── */
+    .reveal .slides section.title-slide {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 80px;
+      background-image: radial-gradient(circle, rgba(200,16,46,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .title-eyebrow {
+      font-size: 0.35em;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin: 0 0 1.1em;
+    }
+
+    .title-main {
+      font-size: 1.95em;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin: 0 0 0.45em;
+    }
+
+    .title-bar {
+      width: 48px;
+      height: 4px;
+      background: var(--red);
+      border-radius: 2px;
+      margin: 0 auto 1.3em;
+    }
+
+    .title-meta {
+      font-size: 0.38em;
+      color: var(--muted);
+      line-height: 2;
+    }
+
+    .title-meta-name {
+      display: block;
+      font-weight: 700;
+      font-size: 1.15em;
+      color: var(--dark);
+      margin-bottom: 0.1em;
+    }
+
+    /* ── Content headings ───────────────────────────────────── */
+    h2.slide-title {
+      font-size: 0.82em;
+      font-weight: 700;
+      color: var(--dark);
+      letter-spacing: -0.02em;
+      padding-bottom: 0.45em;
+      border-bottom: 3px solid var(--red);
+      display: inline-block;
+      margin-bottom: 0.75em;
+    }
+
+    /* ── Badge ──────────────────────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      background: var(--red-pale);
+      color: var(--red);
+      border: 1px solid rgba(200, 16, 46, 0.2);
+      border-radius: 100px;
+      padding: 2px 11px;
+      font-size: 0.5em;
+      font-weight: 600;
+      margin-left: 10px;
+      vertical-align: middle;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── List ───────────────────────────────────────────────── */
+    ul.item-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+
+    ul.item-list > li {
+      position: relative;
+      padding: 0.55em 0 0.55em 1.25em;
+      font-size: 0.6em;
+      font-weight: 400;
+      color: var(--mid);
+      border-bottom: 1px solid var(--border);
+      line-height: 1.6;
+    }
+
+    ul.item-list > li:last-child { border-bottom: none; }
+
+    ul.item-list > li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.98em;
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+    }
+
+    ul.item-list > li small {
+      display: block;
+      font-size: 0.87em;
+      color: var(--muted);
+      margin-top: 0.2em;
+    }
+
+    ul.item-list > li code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.9em;
+      background: #f3f4f6;
+      color: #b91c1c;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    /* ── Fragments ──────────────────────────────────────────── */
+    .reveal .slides section .fragment {
+      opacity: 0;
+      transform: translateY(9px);
+      transition: opacity 0.28s ease, transform 0.28s ease;
+    }
+
+    .reveal .slides section .fragment.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Progress bar ───────────────────────────────────────── */
+    .reveal .progress {
+      height: 3px;
+      background: rgba(200, 16, 46, 0.12);
+    }
+
+    .reveal .progress span { background: var(--red); }
+
+    /* ── Slide number ───────────────────────────────────────── */
+    .reveal .slide-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      background: transparent;
+      right: 18px;
+      bottom: 50px;
+    }
+
+    /* ── Controls ───────────────────────────────────────────── */
+    .reveal .controls button { color: var(--red); }
+
+    /* ── Estimates slide ────────────────────────────────────── */
+    .est-table {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 0.4em;
+    }
+
+    .est-row {
+      display: grid;
+      grid-template-columns: 1.5em 1fr 30% 2.8em;
+      align-items: center;
+      column-gap: 0.55em;
+      padding: 0.33em 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .est-idx {
+      font-size: 0.46em;
+      font-weight: 700;
+      color: var(--red);
+    }
+
+    .est-name {
+      font-size: 0.46em;
+      font-weight: 500;
+      color: var(--mid);
+    }
+
+    .est-track {
+      height: 7px;
+      background: var(--red-pale);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .est-fill {
+      height: 100%;
+      background: var(--red);
+      border-radius: 4px;
+    }
+
+    .est-val {
+      font-size: 0.46em;
+      font-weight: 700;
+      color: var(--dark);
+      text-align: right;
+    }
+
+    .est-total {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.6em;
+      padding-top: 0.5em;
+      border-top: 2px solid var(--red);
+    }
+
+    .est-total-label {
+      font-size: 0.46em;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .est-total-nums {
+      display: flex;
+      align-items: center;
+      gap: 0.45em;
+    }
+
+    .est-total-est {
+      font-size: 0.46em;
+      font-weight: 700;
+      color: var(--red);
+    }
+
+    .est-total-avail {
+      font-size: 0.46em;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .est-note {
+      margin-top: 0.45em;
+      font-size: 0.44em;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ─── 1. Title ─────────────────────────────────────────── -->
+    <section class="title-slide">
+      <p class="title-eyebrow">ICNML · Travail de Bachelor</p>
+      <h1 class="title-main">Points de<br>développement</h1>
+      <div class="title-bar"></div>
+      <div class="title-meta">
+        <span class="title-meta-name">Quentin Surdez</span>
+        HEIG-VD · 2025-2026
+      </div>
+    </section>
+
+    <!-- ─── 2. Current State ─────────────────────────────────── -->
+    <section style="position: relative;">
+      <h2 class="slide-title">État actuel</h2>
+      <ul class="item-list">
+        <li class="fragment" data-fragment-index="0">Pipeline CI/CD cassé, aucun nouveau développement possible</li>
+        <li class="fragment" data-fragment-index="2">Python 2.7 en fin de vie : dette technique et de sécurité, librairies avec CVEs connus</li>
+        <li class="fragment" data-fragment-index="3">Images servies sans watermark ni stéganographie, faciles à copier</li>
+        <li class="fragment" data-fragment-index="4">Le watermark existant est facilement contournable, peu résistant aux transformations d'image</li>
+        <li class="fragment" data-fragment-index="5">Code mort : rôles inutilisés, intégration PiAnoS non fonctionnelle</li>
+        <li class="fragment" data-fragment-index="6">La couche de cryptographie est obscure, difficile à analyser et utilise un ancien algorithme (AES-CBC)</li>
+        <li class="fragment" data-fragment-index="7">Ergonomie insuffisante, l'application n'est pas activement utilisée par les chercheurs aujourd'hui</li>
+      </ul>
+
+      <div class="fragment fade-in-then-out" data-fragment-index="1"
+          style="position:absolute; inset:0; display:flex; align-items:center;
+                  justify-content:center; gap:1em; padding:1em;
+                  background: rgba(255,255,255,0.95);">
+        <img src="./assets/ICNML-docker-jobs-failing.png" style="width:48%; border-radius:6px;" />
+        <img src="./assets/ICNML-prod-deploy-failing-reason.png" style="width:48%; border-radius:6px;" />
+      </div>
+    </section>
+
+    <!-- ─── 3. Focus 1 ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">1. Déploiement stable <span class="badge">~3-4 jours</span></h2>
+      <ul class="item-list">
+        <li class="fragment">
+          Redéployer sur une nouvelle machine gérée par le service informatique de l'ESC
+          <small>Remplacer Docker Swarm par un simple <code>docker compose</code></small>
+        </li>
+        <li class="fragment">
+          Configurer le reverse proxy et importer la base de données de production
+          <small>Via Caddy et la sauvegarde de la base de données effectuée le 19.05, ~2 heures</small>
+        </li>
+        <li class="fragment">
+          Stocker les dépendances homemade (<code>MDmisc</code>, <code>NIST</code>…) dans le GitLab de l'ESC
+          <small>Actuellement disponibles sur une seule machine, ~1-2 heures</small>
+        </li>
+        <li class="fragment">
+          Mettre à jour Python vers la version 3.9+ pour accéder à des librairies modernes et sans CVE
+          <small>Tâche la plus importante car elle s'étend aux dépendances <code>NIST</code>, <code>MDmisc</code>, etc.</small>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ─── 4. Focus 2 ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">2. Watermarking par downloader <span class="badge">~5 jours</span></h2>
+      <ul class="item-list">
+        <li class="fragment">Envoyer un lien pour télécharger le zip aux downloaders avec code</li>
+        <li class="fragment">Intégrer une marque unique par utilisateur dans chaque image téléchargée</li>
+        <li class="fragment">Maintenir un historique des téléchargements : qui a téléchargé quelles images et quand</li>
+        <li class="fragment">
+          Encoder un code secret dans le watermark, lié à l'adresse e-mail du demandeur
+          <small>Permet la traçabilité si une image divulguée est retrouvée</small>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ─── 5. Focus 3 ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">3. Logs d'accès aux images <span class="badge">~5 jours</span></h2>
+      <ul class="item-list">
+        <li class="fragment">Enregistrer chaque accès : ID utilisateur + ID objet + horodatage</li>
+        <li class="fragment">Fournit une piste d'audit pour toutes les requêtes d'images</li>
+        <li class="fragment">Périmètre conséquent</li>
+      </ul>
+    </section>
+
+    <!-- ─── 6. Focus 4 ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">4. Stéganographie sur toutes les images servies <span class="badge">~10 jours</span></h2>
+      <ul class="item-list">
+        <li class="fragment">
+          Étudier l'état de l'art en stéganographie robuste aux transformations d'image
+          <small>Revue de littérature, définition du périmètre avec le superviseur</small>
+        </li>
+        <li class="fragment">Intégrer une trace cachée par utilisateur dans chaque image servie</li>
+        <li class="fragment">
+          Objectif : une traçabilité qui résiste au recadrage, à la compression et à la conversion de format
+          <small>~10 jours pour la recherche et l'implémentation</small>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ─── 7. Focus 5 ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">5. Expérience utilisateur <span class="badge">~7 jours</span></h2>
+      <ul class="item-list">
+        <li class="fragment">
+          Priorité au rôle Trainer, le plus activement utilisé aujourd'hui
+          <small>Retirer une image d'un dossier, supprimer un dossier, ~2 jours</small>
+        </li>
+        <li class="fragment">
+          Filtrage par qualité
+          <small>Détection automatique de la qualité + recherche/filtrage par qualité d'impression, ~5 jours</small>
+        </li>
+        <li class="fragment">Objectif : rendre la plateforme suffisamment utilisable pour que les chercheurs l'adoptent réellement</li>
+      </ul>
+    </section>
+
+    <!-- ─── 8. Planning ───────────────────────────────────────── -->
+    <section>
+      <h2 class="slide-title">Planification</h2>
+
+      <div class="est-table">
+
+        <div class="est-row fragment">
+          <span class="est-idx">1</span>
+          <span class="est-name">Déploiement stable</span>
+          <div class="est-track"><div class="est-fill" style="width:30%"></div></div>
+          <span class="est-val">4j</span>
+        </div>
+
+        <div class="est-row fragment">
+          <span class="est-idx">2</span>
+          <span class="est-name">Watermarking par téléchargeur</span>
+          <div class="est-track"><div class="est-fill" style="width:50%"></div></div>
+          <span class="est-val">5j</span>
+        </div>
+
+        <div class="est-row fragment">
+          <span class="est-idx">3</span>
+          <span class="est-name">Logs d'accès aux images</span>
+          <div class="est-track"><div class="est-fill" style="width:50%"></div></div>
+          <span class="est-val">5j</span>
+        </div>
+
+        <div class="est-row fragment">
+          <span class="est-idx">4</span>
+          <span class="est-name">Stéganographie sur toutes les images</span>
+          <div class="est-track"><div class="est-fill" style="width:100%"></div></div>
+          <span class="est-val">10j</span>
+        </div>
+
+        <div class="est-row fragment" style="border-bottom:none;">
+          <span class="est-idx">5</span>
+          <span class="est-name">Expérience utilisateur</span>
+          <div class="est-track"><div class="est-fill" style="width:70%"></div></div>
+          <span class="est-val">7j</span>
+        </div>
+
+      </div>
+
+      <div class="est-total fragment">
+        <span class="est-total-label">Total</span>
+        <div class="est-total-nums">
+          <span class="est-total-est">31 jours estimés</span>
+          <span class="est-total-avail">/ 27 disponibles</span>
+        </div>
+      </div>
+
+      <div class="est-note fragment">
+        Une sélection du périmètre est nécessaire, tous les axes ne tiennent pas dans le calendrier disponible.
+      </div>
+
+    </section>
+
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'fast',
+    controls: true,
+    controlsTutorial: false,
+    center: true,
+    progress: true,
+  });
+</script>
+</body>
+</html>
