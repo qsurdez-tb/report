@@ -7,27 +7,27 @@ tasks:
 - name: Focus 1 - Stable Deployment (42h)
   subtasks:
   - name: Copy repo to ESC GitLab (2h)
-    start: 2026-06-03
-    end: 2026-06-03
+    start: 2026-06-04
+    end: 2026-06-04
     x:
     estimate: 2
   - name: Store homemade deps in ESC GitLab (2h)
-    start: 2026-06-03
-    end: 2026-06-03
+    start: 2026-06-04
+    end: 2026-06-04
     x:
     estimate: 2
   - name: Redeploy on new ESC machine, docker compose (4h)
-    start: 2026-06-05
-    end: 2026-06-05
+    start: 2026-06-09
+    end: 2026-06-09
     x:
     estimate: 4
   - name: Configure reverse proxy + import prod DB (4h)
-    start: 2026-06-10
-    end: 2026-06-10
+    start: 2026-06-09
+    end: 2026-06-09
     x:
     estimate: 4
   - name: Upgrade Python to 3.9+ + update deps (30h)
-    start: 2026-06-10
+    start: 2026-06-11
     end: 2026-06-19
     x:
     estimate: 30
@@ -80,7 +80,7 @@ tasks:
     end: 2026-07-16
     x:
     estimate: 8
-- name: Report + Deliverables
+- name: Report + Deliverables (36h)
   start: 2026-07-17
   end: 2026-07-23
   x:
