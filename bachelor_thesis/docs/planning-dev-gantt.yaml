@@ -4,84 +4,83 @@ headers:
 start: 2026-06-02
 end: 2026-07-23
 tasks:
-- name: Focus 1 - Stable Deployment (42h)
+- name: Focus 1 - Stable Deployment (5.25d)
   subtasks:
-  - name: Copy repo to ESC GitLab (2h)
+  - name: Copy repo to ESC GitLab (0.25d)
     start: 2026-06-04
-    end: 2026-06-04
+    end: 2026-06-05
     x:
-    estimate: 2
-  - name: Store homemade deps in ESC GitLab (2h)
+    estimate: 0.25
+  - name: Store homemade deps in ESC GitLab (0.25d)
     start: 2026-06-04
-    end: 2026-06-04
+    end: 2026-06-05
     x:
-    estimate: 2
-  - name: Redeploy on new ESC machine, docker compose (4h)
+    estimate: 0.25
+  - name: Redeploy on new ESC machine, docker compose (0.5d)
     start: 2026-06-09
-    end: 2026-06-09
+    end: 2026-06-10
     x:
-    estimate: 4
-  - name: Configure reverse proxy + import prod DB (4h)
+    estimate: 0.5
+  - name: Configure reverse proxy + import prod DB (0.5d)
     start: 2026-06-09
-    end: 2026-06-09
+    end: 2026-06-10
     x:
-    estimate: 4
-  - name: Upgrade Python to 3.9+ + update deps (30h)
+    estimate: 0.5
+  - name: Upgrade Python to 3.9+ + update deps (3.75d)
     start: 2026-06-11
-    end: 2026-06-19
+    end: 2026-06-17
     x:
-    estimate: 30
-- name: Focus 4 - Steganography on all served images (112h)
+    estimate: 3.75
+- name: Focus 4 - Steganography on all served images (14d)
   subtasks:
-  - name: Literature review + scope definition (24h)
-    start: 2026-06-19
-    end: 2026-06-23
+  - name: Literature review + scope definition (3d)
+    start: 2026-06-17
+    end: 2026-06-22
     x:
-    estimate: 24
-  - name: Implement hidden per-user trace (56h)
-    start: 2026-06-23
+    estimate: 3
+  - name: Implement hidden per-user trace (7d)
+    start: 2026-06-22
     end: 2026-07-01
     x:
-    estimate: 56
-  - name: Robustness testing (crop, compression, format) (32h)
+    estimate: 7
+  - name: Robustness testing (crop, compression, format) (4d)
     start: 2026-07-01
-    end: 2026-07-06
+    end: 2026-07-07
     x:
-    estimate: 32
-- name: Focus 5 - User Experience (80h)
+    estimate: 4
+- name: Focus 5 - User Experience (7.25d)
   subtasks:
-  - name: Delete action on Trainer folder (16h)
-    start: 2026-07-06
+  - name: Delete action on Trainer folder (1d)
+    start: 2026-07-07
     end: 2026-07-08
     x:
-    estimate: 16
-  - name: Delete image from Trainer folder (16h)
+    estimate: 1
+  - name: Delete image from Trainer folder (0.5d)
     start: 2026-07-08
     end: 2026-07-09
     x:
-    estimate: 16
-  - name: Search/filter by donor (username) (16h)
+    estimate: 0.5
+  - name: Search/filter by donor (username) (1.75d)
     start: 2026-07-09
-    end: 2026-07-13
+    end: 2026-07-11
     x:
-    estimate: 16
-  - name: openLQM quality detection + sort by quality (16h)
-    start: 2026-07-13
-    end: 2026-07-14
-    x:
-    estimate: 16
-  - name: Toggleable quality heatmap overlay (8h)
-    start: 2026-07-14
+    estimate: 1.75
+  - name: openLQM quality detection + sort by quality (3d)
+    start: 2026-07-11
     end: 2026-07-15
     x:
-    estimate: 8
-  - name: Trainer chooses exemplar for a single trace (8h)
+    estimate: 3
+  - name: Toggleable quality heatmap overlay (1d)
     start: 2026-07-15
-    end: 2026-07-16
+    end: 2026-07-17
     x:
-    estimate: 8
-- name: Report + Deliverables (36h)
+    estimate: 1
+- name: Report + Deliverables (4d)
   start: 2026-07-17
   end: 2026-07-23
   x:
-  estimate: 36
+  estimate: 4
+
+- name: Total (30.5d)
+  start: 2026-07-23
+  end: 2026-07-23
