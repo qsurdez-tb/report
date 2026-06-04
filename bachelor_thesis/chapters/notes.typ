@@ -624,3 +624,35 @@ Sick day
 0910 - Doing a surface attack document ??? It would be interesting as it would further aliments the arguments on upgrading to Python 3 ?
 
 1102 - It's taking quite long as it's not smth I'm used to 
+
+== 02.06
+
+0730 - Getting back into it + translating the presentation to french
+
+0745 - Transalted the presentation !
+
+0745 - Reading the feedback from the supervisor
+
+0750 - Creating a typst file or md file so that I can reference the feedback would be interesting I think ?
+
+0832 - Not sure what the underline sentences or words are supposed to mean ? Otherwise it's often the obscurity of the codebase that makes what I say not that clear. Or more likely I didn't clarify it enough ! I like the suggeested structure with explanation first and the how it's implemented. I will lose less people ^^
+
+1008 - A bit stressed about the presentation ...
+
+1124 - It went well !
+
+
+1244 - Getting back to it
+
+1305 - Simple doc for priority done, i feel like having images with exemples would be interesting even if with Gimp or another simple software to draw the features 
+
+1600 - Finished writing the planning
+
+== 04.06
+
+0800 - Changed the planning a bit but it took a long time and I hate doing gantt chart Urrrgh
+
+0900 - Sent the email
+
+0922 - Created a repo in the ICNML copy project on ESC gitlab with all the homemade deps 
+
