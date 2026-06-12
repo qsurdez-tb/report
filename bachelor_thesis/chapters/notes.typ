@@ -656,3 +656,32 @@ Sick day
 
 0922 - Created a repo in the ICNML copy project on ESC gitlab with all the homemade deps 
 
+0943 - Successfully installed docker on the dev server
+
+1011 - Setup a github token to access to the icnml-dev repo and the icnml repo and copied them on the 
+
+1018 - Downloading rsync so that I can upload the db dump on the remote server and even if connection is lost it can retake from where it left. It will take ~9h 
+
+== 09.06
+
+Sick day
+
+== 12.06
+
+1138 - Task for today is to deploy the application as if it were in prod. The db needs to be copied into the /data disk
+
+1139 - First I wanna check that the db is what it's supposed to be by mounting it on a docker on my machine ... 
+
+1207 - The pgrestore command takes a very long time which is kinda expected...
+
+1247 - It's not working as expected as the restore needs another 471Go of storage and I can't really afford that on my machine. I'll have to stream the restore to the /data on the dev server so we can test it on there !
+
+1251 - Pushed the changes made on the dev machine where I changed the env variable to its own url 
+
+1308 - Made it so that we can connect via HTTPS and realized that the WebAuthn will need to be reregister as the domain has changed
+
+1337 - Launched the script to stream the restore so that there's only one file on my machine and the usable data in the dev machine
+
+1356 - Tried to create a Python3 migration guide with Opus 4.8 and the result is quite astounding...
+
+
