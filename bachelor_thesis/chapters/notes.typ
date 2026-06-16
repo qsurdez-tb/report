@@ -684,4 +684,33 @@ Sick day
 
 1356 - Tried to create a Python3 migration guide with Opus 4.8 and the result is quite astounding...
 
+== 16.06
+
+0730 - Getting back into it
+
+0740 - Change need to be made in the dev machine as we now have a DNS record for the machine. Will install Caddy so that we can connect from the UNIL network and act as if this was prod
+
+0806 - Working, connecting to the login page on my browser at the address https://esc-icnml-qs.unil.ch
+
+0807 - Now streaming the dump into the live db on the ethernet cable 
+
+0825 - Drop the db as it created the base table, and now streaming. The 500Go should be transferred in about 1h. Discovering caffeinate to make sure the Mac doesn't sleep ^^
+
+0852 - I shouldn't have trusted the sysadmin and should have done it over the nigt :(( as it's taking quite a long time 
+
+0907 - Might as well start upgrading from python2 to 3 MDmisc and other libraries if time allows 
+
+0916 - Setup an environment so that I can call python3 and python2 (binaries are only available for Rosetta ... so had to do some magic tricks)
+
+0918 - Need to pip freeze those requirements that are so empty ... 
+
+1026 - The migration is smooth sailing
+
+Qui attaquerait le système et pourquoi ? A la fin analyser ce qu'on a fait et qu'est-ce que ça a résolu!
+
+1338 - Finished MDmisc, all tests pass but there are still stuff that has idiomatic Python2
+
+1350 - Realised that it's not finished ... as the doctester is a bit of a smoke test and I need to check the other files as well
+
+1520 - Finished first file of NIST. Will stop here for today
 
