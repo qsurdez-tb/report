@@ -714,3 +714,30 @@ Qui attaquerait le système et pourquoi ? A la fin analyser ce qu'on a fait et q
 
 1520 - Finished first file of NIST. Will stop here for today
 
+== 17.06
+
+0733 - Getting back into it. Had to remove some stuff on the computer as the storage was filling up
+
+0909 - When trying to run the NIST tests, the other modules are not on the path. The thing is that I keep encountering small problems that get added up and it's getting frustrating. How can someone code so badly ?
+
+1003 - Ran the tests and encountering bytes/str issues 
+
+1008 - Chose to transform at the IO/bytes boundary bytes into string so I don't have to change everythign. 114 tests passing, 46 failing
+
+1029 - Ran into platfoirm problem as WSQ can only work on x_86 arch not arm
+
+1036 - Will create a Dockerfile with platform amd so I can actually test with WSQ ?
+
+1050 - That added some complexity but now the tests are FAIL and no more ERROR which means that the outptu mismatches
+
+1105 - The except: pass swallow all the exceptions so it's hard to debug 
+
+1117 - 1 last test with md5 drift because of 
+Pillow transfo and I guess it's because of the version so will ignore it
+
+1323 - Okayyy, I think the migration of the libraries is done !
+
+1346 - Made all the PRs so that it's clean in the project
+
+
+
