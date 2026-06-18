@@ -739,5 +739,27 @@ Pillow transfo and I guess it's because of the version so will ignore it
 
 1346 - Made all the PRs so that it's clean in the project
 
+1419 - Starting the work on the webapp
 
+1509 - Crypto has the same behavior in Py2 to Py3 and all the import problems
 
+1602 - Logging page running with Py3, let's gooooo
+
+== 18.06
+
+0855 - Getting back into it 
+
+0913 - Wrote docs on the changes for Python3 Migration. Have to focus on webauthn upgrade now... But that's big big and I don't have a fidokey :(( so we'll see how we can handle that ? 
+
+0957 - the webauthn migration is not an easy task
+
+1003 - Templates are using Jinja which exposes the methods of dict and thus iteritems so had to recheck all templates 
+
+1102 - Testing all the changes on the dev server with old data 
+
+1324 - Debugged some encoding problems at the NIST load function anbde basically turned everything into latin-1 to have a 1:1 byte char ratio and it works yaaaaay
+So I'm pretty sure the dev server is working well on prod data and there's just the connection to a smtp server to have a parity in terms of features.
+
+1335 - The smtpauth is not smth I can really work with, or maybe I will check in prod the value of the password and paste it here ? It's worth a try atleast
+
+1446 - Confirmed that the new user path is working correctly with the right email sent with the correct link so I think the miration is over ! Yay
