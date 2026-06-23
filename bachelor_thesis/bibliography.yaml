@@ -101,3 +101,144 @@ padding-oracle-wiki:
   type: Web
   title: Padding oracle attack
   url: https://en.wikipedia.org/wiki/Padding_oracle_attack
+
+# State of the art: watermarking / fingerprinting / traitor tracing
+
+# What are the approaches for robust watermarking
+cox07:
+  type: Book
+  title: Digital Watermarking and Steganography
+  author: ["Ingemar J. Cox", "Matthew L. Miller", "Jeffrey A. Bloom", "Jessica Fridrich", "and Ton Kalker"]
+  date: 2007
+  edition: 2
+  page-range: 298-308
+  publisher:
+    name: Morgan Kaufmann
+
+# Abstract prove why spread-spectrum is interesting for our case
+cox97:
+  type: Article
+  title: Secure Spread Spectrum Watermarking for Multimedia
+  author: ["Ingemar J. Cox", "Joe Kilian", "F. Thomson Leighton", "and Talal Shamoon"]
+  date: 1997
+  parent:
+    type: Periodical
+    title: IEEE Transactions on Image Processing
+    volume: 6
+    issue: 12    
+  page-range: 1673-1687
+  doi: 10.1109/83.650120
+
+# History of watermarking
+cox02:
+  type: Article
+  title: The First 50 Years of Electronic Watermarking
+  author: ["Ingemar J. Cox", "and Matt L. Miller"]
+  date: 2002
+  parent:
+    type: Periodical
+    title: EURASIP Journal on Applied Signal Processing
+    volume: 2002
+    issue: 2
+  page-range: 126-132
+  doi: 10.1155/S1110865702000525
+
+# Marking assumption + problem of collusion in Intro
+bs98:
+  type: Article
+  title: Collusion-Secure Fingerprinting for Digital Data
+  author: ["Dan Boneh", "and James Shaw"]
+  date: 2006
+  parent:
+    type: Periodical
+    title: IEEE Transactions on Information Theory
+    volume: 44
+    issue: 5
+  page-range: 1897-1905
+  doi: 10.1109/18.705568
+
+# Original Tardos codes
+tardos08:
+  type: Article
+  title: Optimal Probabilistic Fingerprint Codes
+  author: Gábor Tardos
+  date: 2008
+  parent:
+    type: Periodical
+    title: Journal of the ACM
+    volume: 55
+    issue: 2
+  page-range: 1-24
+  doi: 10.1145/1346330.1346335
+
+# Shorter codewords than original Tardos
+laarhoven14:
+  type: Article
+  title: Optimal Symmetric Tardos Traitor Tracing Schemes
+  author: ["Thijs Laarhoven", "and Benne de Weger"]
+  date: 2014
+  parent:
+    type: Periodical
+    title: Designs, Codes and Cryptography
+    volume: 71
+    issue: 1
+  page-range: 83-103
+  doi: 10.1007/s10623-012-9718-y
+  
+# Confirm that Tardos Codes are state of the art but asymmetric -> out of scope
+charpentier11:
+  type: Article
+  title: An Asymmetric Fingerprinting Scheme Based on Tardos Codes
+  author: ["Ana Charpentier", "Caroline Fontaine", "Teddy Furon", "and Ingemar Cox"]
+  date: 2011
+  parent:
+    type: Proceedings
+    title: "Information Hiding (IH 2011), LNCS 6958"
+    publisher:
+      name: Springer
+  page-range: 43-58
+  doi: 10.1007/978-3-642-24178-9_4
+
+# Compare Tardos Codes encoder/decoder + pair with DWT 
+rehman22:
+  type: Article
+  title: DWT Collusion Resistant Video Watermarking Using Tardos Family Codes
+  author: ["Abdul Rehman", "Gaëtan Le Guelvouit", "Jean Dion", "Frédéric Guilloud", "and Matthieu Arzel"]
+  date: 2022-12
+  doi: 10.1109/IPAS55744.2022.10053023
+  serial-number:
+    hal: hal-03767220
+  parent:
+    type: Proceedings
+    title: Fifth IEEE International Conference on Image Processing, Applications and Systems (IPAS 2022)
+    location: Genoa, Italy
+    publisher: IEEE
+
+# Error correcting codes in color images
+abdul13:
+  type: Article
+  title: Error Correcting Codes for Robust Color Wavelet Watermarking
+  author: ["Wadood Abdul", "Philippe Carré", "and Philippe Gaborit"]
+  date: 2013
+  parent:
+    type: Periodical
+    title: EURASIP Journal on Information Security
+    volume: 2013
+    issue: 1
+  page-range: 1-17
+  doi: 10.1186/1687-417X-2013-1
+
+# Reed Solomon and check how robust against lots of attacks with Error Correcting Codes
+liu25:
+  type: Article
+  title: Robust and Secure Image Watermarking Algorithm Resisting JPEG Compression and Cropping Based on Reed Solomon (RS) Codes
+  author: ["Yushi Liu", "Canghong Shi", "Xuefei Hu", "Chao Qi", "and Xianhua Niu"]
+  date: 2025
+  parent:
+    type: Periodical
+    title: Signal, Image and Video Processing
+    volume: 19
+    issue: 3
+  serial-number:
+    article: 253
+  doi: 10.1007/s11760-024-03803-z
