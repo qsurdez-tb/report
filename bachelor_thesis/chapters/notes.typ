@@ -763,3 +763,61 @@ So I'm pretty sure the dev server is working well on prod data and there's just 
 1335 - The smtpauth is not smth I can really work with, or maybe I will check in prod the value of the password and paste it here ? It's worth a try atleast
 
 1446 - Confirmed that the new user path is working correctly with the right email sent with the correct link so I think the miration is over ! Yay
+
+== 19.06
+
+0742 - Getting back into it
+
+0802 - Getting new info on the message sent by Sylvain
+
+0807 - 1 real question is should the operation be AFIS-invisible
+
+0826 - Doing a quick fix to paginate the trainre search page cause it was overloading the gevent thread with the added str to PIL object conversion in Py3
+
+
+Réu Christophe: DEMANDE si la stégano doit être invisible aux AFIS et à combien de personnes les images sont généralement partagées.
+
+0921 - Debug the absence of the download button
+
+1109 - Went into a sidetrack for a colleague, it's haaard to do the state of the art I don't want to :((
+
+1310 - Skimming through articles, updating the bibliography, finding some interesting stuff about Tardos
+
+1530 - Finsished establishing a bib that I will read next week
+
+== 22.06
+
+0830 - Getting back into it
+
+0919 - Reading the history of electronic watermarking to start with context
+
+0942 - Very cool and interesting to have a context for watermarking and defining what I want for ICNML -> transaction tracking (or fingerprinting). Interesting with spread-spectrum and gonna read the chapter about it from the book of the author !
+
+1010 - The Approches for Robust Watermarking chapter is very very interesting so that I can see all strategies that were implemented. I'd like to find and read more up-to-date papers though. I saw 
+
+1110 - Introduction of Collusion-secure Fingerprinting for Digital Data was quite intense but it's referenced by lots of paper and it explains more clearly the problem of collision and the MArking Assumption.
+
+1111 - What about knowing when the file has been tampered with ? It's out of scope but Rabin algo on Wikipedia could be interesting. Nope Rabin is integrity of data while Tardos is traitor tracing and that's what I want
+
+1120 - Getting to read the Optimal Probabilistic Fingerprint Codes. It says optimal, it sounds pretty good to my ears
+
+1224 - Coming back from the break and continuing reading the 
+
+1309 - I'm a bit lost with this paper. It's very tough and mathematical. It's interesting for me, but good lord it's hard to read !
+
+1418 - Going through other articles to understand better the embedding layer of the bits. 
+
+1444 - Read intro of Optimal symmetric Tardos traitor tracing schemes. IT's basically an optimized version of Tardos and I feel like I begin to understand better and better.
+
+1503 - Reading short paper on biometric data
+
+1514 - Not very very interesting except for the fact that's it's biometric data 
+
+1523 - Reading another article about asymmetric fingerprinting scheme based on Tardos
+
+1525 - Reading the abstract Tardos Codes are a state-of-the-art for collusion-resistant fingerprinting codes but the problem of an untrustworthy provider is not ours as there is only one, the server.
+
+1534 - Looking at the Tardos implementation. We need a vector when we apply the fingerprinting and we need to know how many users are gonna access it... We don't really have that in ICNML. Is that a requirement that would make things far worse if I don't, or I initialize a vector for N=100 users and then reference it when I have to ? 
+
+== 23.06
+
