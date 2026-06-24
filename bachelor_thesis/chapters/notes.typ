@@ -821,3 +821,61 @@ Réu Christophe: DEMANDE si la stégano doit être invisible aux AFIS et à comb
 
 == 23.06
 
+0745 - Reading An Optimized Hybrid Algorithm for Blind Watermarking Scheme Using Singular Value Decomposition in RDWT-DCT Domain 
+
+0800 - They are a lot of grammatical errors which make me unconfident about the paper and I discard it
+
+0805 - Reading DWT Collusion Resitant Video Watermarking Using Tardos Family Codes which seems to be quite in the scope of what I want to do 
+
+0828 - This seems like the Graal. Woaaw I begin to understand aékjfhgasjdhf happy
+
+0853 - Found a follow-up article which goes in more detail for a robust watermarking scheme using Tardos-Skoric codes from the same authors ! yaaaaay
+
+1001 - Big thinking about actually whether or not we want collusion-resistant fingerprinting codes ? Have to make a message to my supervisor to understand better !
+
+1024 - Well after the message is sent I'm a bit lost on what I could do now ? 
+
+1134 - Read an interesting paper on Robust and Secure Watermarking if we move away from Tardos codes 
+
+1211 - I tried to make sense of the different techniques and their implications but the field is so vast and I'm not sure I understand every parameters that will allow me to make a smart decision...
+
+1336 - Reading more papers on on watermarking schemes that would be robust so I can advance without the feedback from my supervisor
+
+1400 - Gonna write scripts to understand better and check with real values and data for a better argument 
+
+1600 - Finished writing the tardos-simulation with an attack of JPEG compression quality and below 30% the bit error ratio is above 50% so it's not usable as the image is still very exploitable !
+
+== 24.06 
+
+0730 - Getting back into it
+
+0740 - Confirming the results from yesterday. 
+
+0813 - I want to have more hands-on experience and create more simulations to see and understand this Tardos Codes and the watermarking schemes. It's a bit hard but it's better than staying in the abstract without clear material feedbacks.
+
+0929 - I'm realizing that the TIFF images are in GrayScale and we want to embed the fingerprint via watermarking and keep the image as a TIFF in GrayScale. Will that change smth ? Cause currently the only lib I found made me convert the TIFF to PNG to embed it...
+
+1013 - With DWT-DCT-SVD pipeline it works quite okay except for the 20 quality which may come from SVD. I wanna test out the DWT-DCT pipeline without SVD and see the results on JPEG compression.
+
+1106 - Comparing DWT-DCT and the previous one I see that SVD is quite important. I feel like I'm going into places and I want to refocus on reading papers and writing the state of the art cause it's necessary by now !
+
+1118 - Can't find access to https://link.springer.com/chapter/10.1007/978-981-95-3616-0_22 which seemed quite interesting for me. Maybe I should focus on grayscale image watermarking
+
+1133 - Found A sophisticated and provably grayscale image watermarking system
+using DWT-SVD domain this article where they claim to be able to embed 8 bits per pixel with watermaring which seems quite huge. I will double-check when coming back from eating
+
+1243 - Reading more about DWT based blind watermarking. The thing is that all these methods are quite well-known and could be inferred by an attacker ? Hmmm this is a side of the problem I didn't consider
+
+1259 - Searching for comparison of watermarking scheme so I can choose one cause it's difficult being so lost
+
+1312 - Trying out stuff in the test scripting. Not sure where this is leading but at least it's a bit more concrete than reading articles upon articles.
+
+1322 - Reading paper on st-dm qim which looks promising as there wouldn't be any svd applied.
+
+1337 - Well refactored the code to create new attacks and the results are terrible ... for rotation of 5deg everything is a miss nothing can be accused ... This feels like a bottleneck and the length of the codeword is definitely a part of this bottlneck
+
+1343 - Back at being lost ...
+
+1413 - Created a sync to conteract the rotation attack and the results are very good !
+
+1507 - Results are good and now writing the state of the art.
