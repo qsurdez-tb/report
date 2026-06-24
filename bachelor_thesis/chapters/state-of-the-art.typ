@@ -8,4 +8,20 @@ The two layers are studied by communities that rarely cite each other.
 Fingerprinting-code papers treat the channel that carries the bits abstractly, as a binary symmetric channel with adversarial noise. Watermarking papers treat the payload abstractly, as an opaque bit-string of fixed length. The contribution of this thesis lives in the seam between them, so this chapter surveys both layers surveys both layers and the interface they share. It first reviews the code layer, where the choice of construction fixes the bit budget every later decision must respect . It then reviews the embedding substrate, where the competing designs diverge most sharply, wheighing each candidate against the requirements ICNML actually imposes.
 
 
+== The Collusion-Resistant Code Layer
 
+== The Watermark layer
+
+== The Embedding Substrate
+
+== Candidate Embedding Families
+
+=== Decomposition based hybrids (DWT-SVD)
+
+=== Spread-spectrum watermarking
+
+=== Informed embedding: QIM and spread-transform dither modulation
+
+=== Learned embedders
+
+== Positioning of This Work
