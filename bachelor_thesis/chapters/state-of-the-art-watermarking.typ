@@ -68,3 +68,7 @@ Once the image is realigned, only small scattered errors remain, the kind the co
 
 == Retained approach
 
+This thesis combines a transform-domain watermark with a Reed-Solomon code layer, rather than a collusion-resistant fingerprintg code. Because only a single recipient is in scope, Reed-Solomon is enough. 
+
+Everyday distortions such as compression, mild cropping are handled by the code's built-in error correction. Rotation and rescaling, which throw the whole image out of alignment, are dealt with only if needed by a synchronisation approach. 
+
