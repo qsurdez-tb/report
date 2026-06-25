@@ -327,3 +327,13 @@ li23:
   serial-number:
     article: 8195
   doi: 10.3390/s23198195
+
+# Geometric resync, deep watermark predicts image corners to realign (unrotate) before decoding
+syncseal25:
+  type: Article
+  title: Geometric Image Synchronization with Deep Watermarking
+  author: ["Pierre Fernandez", "Tomáš Souček", "Nikola Jovanović", "Hady Elsahar", "Sylvestre-Alvise Rebuffi", "Valeriu Lacatusu", "Tuan Tran", "and Alexandre Mourachko"]
+  date: 2025-09
+  serial-number:
+    arxiv: 2509.15208
+  url: https://arxiv.org/abs/2509.15208
