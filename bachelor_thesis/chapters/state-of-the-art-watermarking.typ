@@ -44,15 +44,27 @@ $ t = floor((n - k) / 2)$
 
 corrupted ones. Working on symbols is the key advantage here, because a localised attack such as cropping damages a contiguous region of the image, which maps to a few whole symbols rather than many scattered bits, exactly what RS corrects the most efficiently and what is probably one of the most likely attack for ICNML biometric images. RS has been used as the codeing layer of wavelet-domain schemes @abdul13 and of a schemed designed specifically to resist JPEG compression and cropping @liu25. It recovers the payload in a determinist way and costs only $n - k$ extra symbols. This is very interesting if the embedded bits are an encrypted token as this ensures all the bits will be extracted and then the token can be decrypted by the server to accuse the leaker with precision.
 
-== The watermark substrate
-
-=== Decomposition-based hybrids
-
-The robustness of the embedding itself
+== The watermarking scheme
 
 === Spread-spectrum watermarking
 
+The foundational principle for robust embedding is spread spectrum. The payload is treated as a low-power signal spread across many perceptually significant components of the image, so that no single component reveals or carries the whole mark and an attacker cannot remove it without degrading the image @cox97. This principle, introduced for multimedia by Cox et al. and consolidated in the reference text on the subject @cox07. 
+
+It underlies the transform-domain schemes in use today and frames how a recipient identifier can be hidden robustly enough to be recovered after a leak.
+
+=== Decomposition-based hybrids
+
+The robustness of the embedding itself comes largely from the domain in which symbols are inserted. Rathen than the spatial domain, modern robust schemes work in a transform doamin, where the payload is spread across coefficients that survive compression and geometric edits. Hybrid constructions that combine several decompositions, for example a wavelet transform (DWT) with a singular value decomposition (SVD), concentrate robustness while preserving imperceptibility @abdul13 @liu25.
+
 == Synchronisation against geometric attacks
+
+Geometric distortions, rotation, scaling, translation and cropping, are the hardest class for a block-transform scheme. Indeed, the distortions do not merely flip a few bits, they desynchronise the embedding grid, misaligning every block at once and producing an error rate far beyond what the code layer can correct. A handful bit errors is what an error-correcting code is designed for. However, a loss of synchronisation is not. The recent literature addresses this through two distinct strategies.
+
+the first approach avoids the problem instead of correcting it. The payload is hidden using image features that barely change when the image is rotated, scaled or shifted. This allows the watermark to be read back without ever undoing the distortion. Recent works use image moments which are compact mathematical descriptors of the image whose values stay almost the same under these geometric changes @ma20. The trade-off is that it leaves room for only a small payload.
+
+The second strategy corrects the problem directly. It works out how the image was rotated, scaled or shifted and reverses that transformation before reading the watermark. To find the transformation, some methods finds points in the image that move with it, then realign the image using those points as anchors. A recent scheme combines this with a DWT-SVD scheme @xi24. Other recent work instead trains a neural network to recognise how the image was distorted and undo it before decoding @li23.
+
+Once the image is realigned, only small scattered errors remain, the kind the code layer with RS already corrects. This approach with error correction work hand in hand.
 
 == Retained approach
 
