@@ -26,9 +26,23 @@ is sufficient to accuse, with false-positive probability at mose $epsilon$, at l
 
 === Why Tardos is set aside
 
+Despite their optimality, Tardos codes were investigated and not retained for ICNML for several reasons: 
 
+1. Threat model
+Tardos codes defend against a coalition exploiting the marking assumption. The scenario considered here is a single recipient redistributing one copy. 
 
-=== Error-correcting codes
+2. Capacity cost
+The quadratic dependence on the coalition size $c$ makes the codeword length grow to thousands of symbols even for modest parameters.
+
+=== Erorr-correcting codes
+
+Once colusion it out of scope, the code layer becomes a classical error-correction problem. Indeed, the problem is to send to a recipied an identifier through a noisy channel and recover it intact despite potential distortions.
+
+Reed-Solomon (RS) codes fit this well. They work on symbols, small groups of bits, rather than single bits. An $"RS"(n, k)$ code adds $n - k$ redundant symbols to $k$ data symbols and can repair up to 
+
+$ t = floor((n - k) / 2)$
+
+corrupted ones. Working on symbols is the key advantage here, because a localised attack such as cropping damages a contiguous region of the image, which maps to a few whole symbols rather than many scattered bits, exactly what RS corrects the most efficiently and what is probably one of the most likely attack for ICNML biometric images. RS has been used as the codeing layer of wavelet-domain schemes @abdul13 and of a schemed designed specifically to resist JPEG compression and cropping @liu25. It recovers the payload in a determinist way and costs only $n - k$ extra symbols. 
 
 == The watermark substrate
 
