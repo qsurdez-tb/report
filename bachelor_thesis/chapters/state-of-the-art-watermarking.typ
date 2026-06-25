@@ -8,6 +8,11 @@ The threat considered is a single recipient redistributing the copy they receive
 
 A solution to this problem is built from two largely independent layers. A code layer turns a recipient identifier into a redundant sequence of symbols that can be recovered even if distorted, and a watermark substrate embeds those symbols into the image imperceptibly and robustly.
 
+#figure(
+  image("../assets/watermark-pipeline.drawio.png"),
+  caption: [End-to-end source identfication after a potential leak.]
+)
+
 == Evaluation criteria
 
 Every watermarking scheme is governed by a three-way trade-off between imperceptibility, robustness and capacity. Improving one of these properties degrades at least one of the others @cox07. In the present context, two further criteria refine the picture. The first is traceability. The payload must reliably carry enough information to designate one recipient among all of them. The second is the attack model the scheme is expected to survive. For a single redistributor the relevant attacks are signal-processing distortions (compression, scaling, cropping, rotatino), whereas for a coalition the dominant threat is collusion, where several recipients compare their differently marked copies to forge an untraceable one @cox02. Distinguishing these two attack models is what separates the two code families discussed below.
