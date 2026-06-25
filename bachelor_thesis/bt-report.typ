@@ -305,8 +305,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 #include "chapters/backup-encryption.typ"
 // #include "chapters/dek-donor-generation.typ"
 #include "chapters/db-architecture.typ"
-#include "chapters/upgrade-python3-analysis.typ"
-#include "chapters/attack-surface.typ"
+#include "chapters/state-of-the-art-watermarking.typ"
 #include "chapters/conclusion.typ"
 
 // ------------------------------------
