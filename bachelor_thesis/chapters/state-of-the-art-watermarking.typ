@@ -71,6 +71,11 @@ The second strategy corrects the problem directly. It works out how the image wa
 
 Once the image is realigned, only small scattered errors remain, the kind the code layer with RS already corrects. This approach with error correction work hand in hand.
 
+#figure(
+  image("../assets/example-sync.png"),
+  caption: [Original, Augmented, Resynchronized. Geometric desynchronisation and the result of resynchronisation @syncseal25]
+)
+
 == Retained approach
 
 This thesis combines a transform-domain watermark with a Reed-Solomon code layer, rather than a collusion-resistant fingerprintg code. Because only a single recipient is in scope, Reed-Solomon is enough. 
