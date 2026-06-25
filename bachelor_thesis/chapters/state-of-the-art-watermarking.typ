@@ -42,13 +42,17 @@ Reed-Solomon (RS) codes fit this well. They work on symbols, small groups of bit
 
 $ t = floor((n - k) / 2)$
 
-corrupted ones. Working on symbols is the key advantage here, because a localised attack such as cropping damages a contiguous region of the image, which maps to a few whole symbols rather than many scattered bits, exactly what RS corrects the most efficiently and what is probably one of the most likely attack for ICNML biometric images. RS has been used as the codeing layer of wavelet-domain schemes @abdul13 and of a schemed designed specifically to resist JPEG compression and cropping @liu25. It recovers the payload in a determinist way and costs only $n - k$ extra symbols. 
+corrupted ones. Working on symbols is the key advantage here, because a localised attack such as cropping damages a contiguous region of the image, which maps to a few whole symbols rather than many scattered bits, exactly what RS corrects the most efficiently and what is probably one of the most likely attack for ICNML biometric images. RS has been used as the codeing layer of wavelet-domain schemes @abdul13 and of a schemed designed specifically to resist JPEG compression and cropping @liu25. It recovers the payload in a determinist way and costs only $n - k$ extra symbols. This is very interesting if the embedded bits are an encrypted token as this ensures all the bits will be extracted and then the token can be decrypted by the server to accuse the leaker with precision.
 
 == The watermark substrate
 
 === Decomposition-based hybrids
 
+The robustness of the embedding itself
+
 === Spread-spectrum watermarking
+
+== Synchronisation against geometric attacks
 
 == Retained approach
 
