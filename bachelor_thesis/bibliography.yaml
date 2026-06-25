@@ -171,6 +171,20 @@ tardos08:
   page-range: 1-24
   doi: 10.1145/1346330.1346335
 
+# Symmetric scoring variant of Tardos (two-sided score)
+skoric08:
+  type: Article
+  title: Symmetric Tardos Fingerprinting Codes for Arbitrary Alphabet Sizes
+  author: ["Boris Škorić", "Stefan Katzenbeisser", "and Mehmet U. Celik"]
+  date: 2008
+  parent:
+    type: Periodical
+    title: Designs, Codes and Cryptography
+    volume: 46
+    issue: 2
+  page-range: 137-166
+  doi: 10.1007/s10623-007-9142-x
+
 # Shorter codewords than original Tardos
 laarhoven14:
   type: Article
@@ -242,3 +256,74 @@ liu25:
   serial-number:
     article: 253
   doi: 10.1007/s11760-024-03803-z
+
+# Geometric resync RST-invariant moments (modern Fourier-Mellin successor)
+ma20:
+  type: Article
+  title: Robust Image Watermarking Using Invariant Accurate Polar Harmonic Fourier Moments and Chaotic Mapping
+  author: ["Bin Ma", "Lili Chang", "Chunpeng Wang", "Jian Li", "Xingyuan Wang", "and Yun-Qing Shi"]
+  date: 2020
+  parent:
+    type: Periodical
+    title: Signal Processing
+    volume: 172
+  serial-number:
+    article: 107544
+  doi: 10.1016/j.sigpro.2020.107544
+
+# Geometric resync, statistical decoder on PHFM, resilient to geometric attacks
+xia23:
+  type: Article
+  title: Geometrical Attacks Resilient Statistical Watermark Decoder Using Polar Harmonic Fourier Moments
+  author: ["Zhiqiu Xia", "Chunpeng Wang", "Yongwei Li", "Baosheng Yu", "Yibing Zhan", "Qi Li", "Xingyuan Wang", "and Bin Ma"]
+  date: 2023
+  parent:
+    type: Periodical
+    title: Journal of the Franklin Institute
+    volume: 360
+    issue: 6
+  page-range: 4493-4518
+  doi: 10.1016/j.jfranklin.2023.02.028
+
+# Geometric resync, PHT + differential grid verification vs cut-and-paste
+ma25:
+  type: Article
+  title: A Robust Watermarking Scheme Against Cut-and-Paste Attacks Based on Polar Harmonic Transform and Differential Grid Verification
+  author: ["Shishun Ma", "Guihong Liu", "and Zhenlong Man"]
+  date: 2025
+  parent:
+    type: Periodical
+    title: Journal of the Franklin Institute
+    volume: 362
+  serial-number:
+    article: 107952
+  doi: 10.1016/j.jfranklin.2025.107952
+
+# Geometric resync, feature-point normalized domain + DWT-SVD
+xi24:
+  type: Article
+  title: Desynchronization Attacks Resistant Watermarking for Remote Sensing Images Based on DWT-SVD and Normalized Feature Domain
+  author: ["Xu Xi", "Jie Zhang", "Jinglong Du", "and Zihao Yang"]
+  date: 2024
+  parent:
+    type: Periodical
+    title: Transactions in GIS
+    volume: 28
+    issue: 8
+  page-range: 2705-2721
+  doi: 10.1111/tgis.13262
+
+# Geometric resync, deep network estimates and reverses resampling before decoding
+li23:
+  type: Article
+  title: Resampling-Detection-Network-Based Robust Image Watermarking Against Scaling and Cutting
+  author: ["Hao-Lai Li", "Xu-Qing Zhang", "Zong-Hui Wang", "Zhe-Ming Lu", "and Jia-Lin Cui"]
+  date: 2023
+  parent:
+    type: Periodical
+    title: Sensors
+    volume: 23
+    issue: 19
+  serial-number:
+    article: 8195
+  doi: 10.3390/s23198195
