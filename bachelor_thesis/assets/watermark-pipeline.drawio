@@ -1,0 +1,58 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Watermark Tracing Pipeline" id="_QuASXoEIrgcsYSexY6X">
+    <mxGraphModel dx="1473" dy="649" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;div&gt;Recipient identifier&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="170" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Code layer&lt;br&gt;&lt;br&gt;Reed–Solomon encode&lt;br&gt;(n, k), corrects t = (n−k)/2 symbols" vertex="1">
+          <mxGeometry height="80" width="200" x="280" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Watermark substrate&lt;br&gt;&lt;br&gt;transform-domain embedding&lt;br&gt;(spread spectrum / hybrid)" vertex="1">
+          <mxGeometry height="80" width="220" x="580" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Distributed copy&lt;br&gt;(marked grayscale image)" vertex="1">
+          <mxGeometry height="60" width="200" x="590" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Attacks -&amp;gt; Leak&lt;br&gt;&lt;br&gt;JPEG, crop, scale, rotation" vertex="1">
+          <mxGeometry height="80" width="220" x="320" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-16" edge="1" parent="1" source="V5WNd3Tje8EgrEjwIhQd-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="V5WNd3Tje8EgrEjwIhQd-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;div&gt;Synchronisation&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;counter geometric attack&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="200" x="30" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-7" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Recovered identifier&lt;br&gt;(traced recipient)" vertex="1">
+          <mxGeometry height="60" width="170" x="45" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-8" edge="1" parent="1" source="V5WNd3Tje8EgrEjwIhQd-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="V5WNd3Tje8EgrEjwIhQd-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-9" edge="1" parent="1" source="V5WNd3Tje8EgrEjwIhQd-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="V5WNd3Tje8EgrEjwIhQd-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-10" edge="1" parent="1" source="V5WNd3Tje8EgrEjwIhQd-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="V5WNd3Tje8EgrEjwIhQd-4" value="marked image">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-11" edge="1" parent="1" source="V5WNd3Tje8EgrEjwIhQd-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="V5WNd3Tje8EgrEjwIhQd-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-12" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="V5WNd3Tje8EgrEjwIhQd-6" value="suspect copy">
+          <mxGeometry relative="1" x="0.0133" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="330" y="260" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-15" edge="1" parent="1" source="V5WNd3Tje8EgrEjwIhQd-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="V5WNd3Tje8EgrEjwIhQd-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V5WNd3Tje8EgrEjwIhQd-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Extract + decode&lt;br&gt;&lt;br&gt;recover symbols, correct errors" vertex="1">
+          <mxGeometry height="80" width="200" x="30" y="390" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
