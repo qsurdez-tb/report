@@ -102,6 +102,18 @@ padding-oracle-wiki:
   title: Padding oracle attack
   url: https://en.wikipedia.org/wiki/Padding_oracle_attack
 
+blind-watermark:
+  type: Web
+  title: "blind_watermark: Blind Watermark based on DWT-DCT-SVD"
+  author: Fei Guo
+  url: https://github.com/guofei9987/blind_watermark
+
+reedsolo:
+  type: Web
+  title: "reedsolo: Pure-Python universal errors-and-erasures Reed-Solomon codec"
+  author: ["Tomer Filiba", "and Stephen Karl Larroque"]
+  url: https://github.com/tomerfiliba-org/reedsolomon
+
 # State of the art: watermarking / fingerprinting / traitor tracing
 
 # What are the approaches for robust watermarking
