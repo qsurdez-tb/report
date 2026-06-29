@@ -879,3 +879,74 @@ using DWT-SVD domain this article where they claim to be able to embed 8 bits pe
 1413 - Created a sync to conteract the rotation attack and the results are very good !
 
 1507 - Results are good and now writing the state of the art.
+
+1610 - Finsished the day
+
+== 25.06
+
+0745 - Getting back into it
+
+0800 - Thinking and exchanging with friends on the message sent by my supervisor
+
+0900 - Thinking about going back to Error Correcting Code like Reed-Solomon 
+
+0905 - Need to reframe the SOTA 
+
+1000 - I'm super lost, everything I do seems bad, I'm gonna go check the SOTA of friends 
+
+1211 - Stopping writing the SOTA and taking a well-deserved break.
+
+1315 - Getting back to SOTA
+
+1406 - Finished the first draft ! Yaaay
+
+1435 - Created and added a schema to demonstrate a pipeline with watermarking
+
+1535 - Skimmed through litterature to find a good illustration for the synchronisation and foiund one
+
+1610 - I think the state of the art is finished. Gonna put it aside and reread it tomorrow before sending it to my supervisor
+
+== 26.06
+
+0800 - Rereading the SOTA and thinking about the next steps
+
+1000 - Searching for implementations to add to the SOTA in the bib
+
+1040 - Proof-reading the SOTA 
+
+1110 - Finished proof-reading the SOTA
+
+1140 - Rewriting some part to be more explicit as the supervisor is not certain ECC are interesting in our setting
+
+1320 - Taking the afternoon off cause the situation is a bit too stressful for me
+
+
+== 29.06
+
+0755 - Getting back into it 
+
+0805 - As I wait for the feedback on the SOTA, I want to already work on the email workflow for downloading an image with a code sent to confirm the email inputed by the trainer and then each user can download the exercise folder by themselves. This will be linked to the Users button in the trainer list view and in the admin view as well.
+
+0830 - Drafting the plan for the coding session of today 
+
+0852 - It's a tad complicated as the architecture is really not great and I want the workflow to be clean and understabndable 
+
+0857 - Getting more familiar with the good practice in Flask dev
+
+0912 - It's quite minimal compared to Django for example. I will do a folder for this workflow and have all the relative files within it. Maybe views_internal/public would be a good idea too. I'd like to have a repository that talk with the DB, a service layer that handles the passing of data from the views to the repositoryx and then a HTML layer with only the view and rendering logic 
+
+0935 - Starting coding with first a focus on the rand util functions and the redis config adding a share db to not bleed in the other workflows
+
+0954 - Layed out the architecture for the work. I choose to do everything on one branch as I don't have any colleagues working with me.
+
+1114 - Still coding
+
+1154 - Wanna add a new user type trainee so we can track who has access to what
+
+1336 - Little sender class done
+
+1443 - Setting up the dev mail backend 
+
+1511 - So everything works until the url for the landing which I haven't done yet. We're getting there slowly
+
+1606 - I stop here and will continue tomorrow morning 
