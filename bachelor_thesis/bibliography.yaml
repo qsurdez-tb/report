@@ -349,3 +349,17 @@ syncseal25:
   serial-number:
     arxiv: 2509.15208
   url: https://arxiv.org/abs/2509.15208
+
+# QIM article
+chen01:
+  type: Article
+  title: "Quantization Index Modulation: A Class of Provably Good Methods for Digital Watermarking and Information Embedding"
+  author: ["Brian Chen", "and Gregory W. Wornell"]
+  date: 2001
+  parent:
+    type: Periodical
+    title: IEEE Transactions on Information Theory
+    volume: 47
+    issue: 4
+  page-range: 1423-1443
+  doi: 10.1109/18.923725

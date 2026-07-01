@@ -90,6 +90,12 @@ It underlies the transform-domain schemes in use today and frames how a recipien
 
 The robustness of the embedding itself comes largely from the domain in which symbols are inserted. Rather than the spatial domain, modern robust schemes work in a transform domain, where the payload is spread across coefficients that survive compression and geometric edits. Hybrid constructions that combine several decompositions, for example a wavelet transform (DWT) with a singular value decomposition (SVD), concentrate robustness while preserving imperceptibility @abdul13 @liu25.
 
+=== Quantisation-based embedding
+
+Where spread-spectrum adds the payload to the image, Quantisation Index Modulation (QIM) encodes each symbol by quantising a host feature with one of several quantisers @chen01. Detection reads the symbol back from whichever quantiser the feature is closest to, without the original image. Dither Modulation is its practical form, using dithered uniform quantisers.
+
+Spread-Transform Dither Modulation (ST-DM) combines the two @chen01. The image is projected onto a pseudo-random direction and dither modulation is applied to that projection. It keeps QIM's blind detection while gaining robustness from spreading the mark over many coefficients. Applied per block on the mid-band of a block DCT, it stays on the JPEG grid. Embedding each symbol redundantly across scattered blocks then manges the payload survive cropping, as the surviving blocks still carry every symbol.
+
 == Synchronisation against geometric attacks
 
 Geometric distortions, rotation, scaling, translation and cropping, are the hardest class for a block-transform scheme. Indeed, the distortions do not merely flip a few bits, they desynchronise the embedding grid, misaligning every block at once and producing an error rate far beyond what the code layer can correct. A handful symbol errors is what an error-correcting code is designed for. However, a loss of synchronisation is not. The recent literature addresses this through two distinct strategies.
