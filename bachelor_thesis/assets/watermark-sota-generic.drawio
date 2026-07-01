@@ -1,0 +1,43 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Generic Source Identification" id="genericSourceId01">
+    <mxGraphModel dx="1200" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="g-1" parent="1" vertex="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Recipient&#10;identifier">
+          <mxGeometry height="70" width="150" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g-2" parent="1" vertex="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Embedded&#10;in the image">
+          <mxGeometry height="70" width="170" x="300" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g-3" parent="1" vertex="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Marked copy&#10;given to the recipient">
+          <mxGeometry height="70" width="180" x="600" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g-4" parent="1" vertex="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Shared / leaked&#10;(recompression, resizing,&#10;cropping, rotation)">
+          <mxGeometry height="80" width="180" x="600" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="g-5" parent="1" vertex="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Identifier&#10;recovered from the&#10;suspect copy">
+          <mxGeometry height="80" width="180" x="295" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="g-6" parent="1" vertex="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Traced&#10;recipient">
+          <mxGeometry height="70" width="150" x="40" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="e-12" parent="1" edge="1" source="g-1" target="g-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-23" parent="1" edge="1" source="g-2" target="g-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-34" parent="1" edge="1" source="g-3" target="g-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-45" parent="1" edge="1" source="g-4" target="g-5" value="suspect copy" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-56" parent="1" edge="1" source="g-5" target="g-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
