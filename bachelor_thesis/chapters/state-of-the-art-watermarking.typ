@@ -1,17 +1,46 @@
 #import "../macros.typ": note
 
-= State of the Art <state-of-the-art>
+= State of the Art for Tracing the Source of a Leaked Image <state-of-the-art>
 
 This part of the thesis concerns source identification after a leak. When a grayscale biometric image issued by ICNML reappears outside the system, the goal is to recover which recipient it was given to. Even after the file has been reencoded, rescaled, cropped or rotated.
 
-The threat considered is a single recipient redistributing the copy they received, rather than a coalition of recipients. This framing matters. Indeed, it determines which family of codes is appropriate, and it is the reason a theoretically optimal but collusion-resistant construction is set aside in favour of a simpler error-correcting one. 
+At a high level, the process is a loop. A recipient identifier is embedded into the image, the marked copy is handed to that recipient, the copy is later shared or leaked and possibly distorted and the identifier is finally recovered from the suspect copy to designate the recipient it was issued to.
+
+#figure(
+  image("../assets/watermark-sota-generic.drawio.png", width: 80%),
+  caption: [Generic source identification after a leak.]
+)
 
 A solution to this problem is built from two largely independent layers. A code layer turns a recipient identifier into a redundant sequence of symbols that can be recovered even if distorted, and a watermark scheme embeds those symbols into the image with as little noise as possible and in a robust way so that compression, rescaling, etc... doesn't corrupt the symbols.
 
-#figure(
-  image("../assets/watermark-pipeline.drawio.png", width: 80%),
-  caption: [End-to-end source identfication after a potential leak.]
-)
+== Terminology
+
+The two communities this work draws on, signal processing on one side and coding theory on the other, use a dense and overlapping vocabulary. The terms below are used throughout this chapter with the following meaning.
+
+/ Watermarking : the act of embedding information (the payload) directly into the content of an image so that it is carried by the image itself rather than by a separate file or header. Robust watermarking specifically aims for the payload to survive distortion of the image.
+
+/ Payload : the sequence of bits or symbols actually embedded into the image. Here the payload encodes a recipient identifier.
+
+/ Fingerprinting : watermarking where each distributed copy carries a different payload, one per recipient, so that a recovered copy can be tied back to the specific recipient it was issued to. Also called traitor tracing.
+
+/ Recipient : the entity a marked copy is issued to and that a recovered payload designates. In ICNML this is the party who downloads an image.
+
+/ Collusion : an attack where several recipients, each holding a differently marked copy of the same image, compare their copies to forge a new copy whose payload traces back to none of them. A group of such recipients is a coalition.
+
+/ Marking assumption : the rule that defines what a coalition can do. Where all colluders' copies agree on a symbol, that symbol cannot be altered undetected. Where the copies differ, the coalition may set the symbol freely.
+
+/ Imperceptibility : how little the embedding degrades the visible image. 
+
+/ Robustness : how well the payload survives distortions of the image.
+
+/ Capacity : how many payload bits the image can carry.
+
+/ Transform domain : a representation of the image in terms of frequeny-like coefficients (for example wavelet or cosine coefficients) rather than raw pixels. Embedding in this domain is more robust than embedding in the pixels directly.
+
+/ Code layer : the error-correcting step that turns a short identifier into a longer, redundant sequence of symbols and reconstructs the identifier from a distorted reading.
+
+/ Synchronisation : recovering the alignment of the embedding grid before reading the payload. Geometric distortions desynchronise this grid, which is a distinct problem from ordinary symbol errors.
+
 
 == Evaluation criteria
 
@@ -80,6 +109,11 @@ Once the image is realigned, only small scattered errors remain, the kind the co
 
 This thesis combines a transform-domain watermark with a Reed-Solomon code layer, rather than a collusion-resistant fingerprintg code. Because only a single recipient is in scope, Reed-Solomon is enough. 
 Implementation are found in python package `blind_watermark` @blind-watermark for the transfer-domain watermark and `reedsolo` @reedsolo for the Reed-Solomon encoding and decoding.
+
+#figure(
+  image("../assets/watermark-pipeline.drawio.png", width: 80%),
+  caption: [End-to-end source identfication after a potential leak.]
+)
 
 Everyday distortions such as compression, mild cropping are handled by the code's built-in error correction. Rotation and rescaling, which throw the whole image out of alignment, are dealt with only if needed by a synchronisation approach. 
 
