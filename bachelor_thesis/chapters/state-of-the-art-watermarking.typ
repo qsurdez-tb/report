@@ -41,6 +41,20 @@ The two communities this work draws on, signal processing on one side and coding
 
 / Synchronisation : recovering the alignment of the embedding grid before reading the payload. Geometric distortions desynchronise this grid, which is a distinct problem from ordinary symbol errors.
 
+== Attack model
+
+The scheme is defined by what it is expected to survive, so the adversary and the distortions in scope are stated explicitly.
+
+The adversary is a single recipient who redistributes the one copy they received. Their goal is to reuse or share the image while stripping the traceability, either deliberately or as a side effect of ordinary handling. The attacks in scope are the signal-processing and geometric distortions a redistributed image typically undergoes:
+
+- lossy recompression (for example JPEG)
+- rescaling (down- or up-sampling)
+- cropping of a region of the image
+- rotation and small translations
+
+A threat out of scope is downsampling so aggressive that the biometric content itself is destroyed. Such an attack defeats any watermark, but it also defeats the attacker's purpose, since the image is no longer usable as a biometric.
+
+The defender's goal is to recover the recipient identifier from a leaked copy that has undergone any combination of the in-scope attacks.
 
 == Evaluation criteria
 
@@ -107,7 +121,7 @@ The second strategy corrects the problem directly. It works out how the image wa
 Once the image is realigned, only small scattered errors remain, the kind the code layer with RS already corrects. This approach work hand in hand with error correction.
 
 #figure(
-  image("../assets/example-sync.png"),
+  image("../assets/example-sync.png", width: 70%),
   caption: [Original, Augmented, Resynchronized. Geometric desynchronisation and the result of resynchronisation @syncseal25]
 )
 
