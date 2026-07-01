@@ -44,7 +44,7 @@ The two communities this work draws on, signal processing on one side and coding
 
 == Evaluation criteria
 
-Every watermarking scheme is governed by a three-way trade-off between imperceptibility, robustness and capacity. Improving one of these properties degrades at least one of the others @cox07. In the present context, two further criteria refine the picture. The first is traceability. The payload must reliably carry enough information to designate one recipient among all of them. The second is the attack model the scheme is expected to survive. For a single redistributor the relevant attacks are signal-processing distortions (compression, scaling, cropping, rotatino), whereas for a coalition the dominant threat is collusion, where several recipients compare their differently marked copies to forge an untraceable one @cox02. Distinguishing these two attack models is what separates the two code families discussed below.
+Every watermarking scheme is governed by a three-way trade-off between imperceptibility, robustness and capacity. Improving one of these properties degrades at least one of the others @cox07. In the present context, two further criteria refine the picture. The first is traceability. The payload must reliably carry enough information to designate one recipient among all of them. The second is the attack model the scheme is expected to survive. Distinguishing a single redistributor from a coalition is what separates the two code families discussed below @cox02.
 
 == The code layer
 
@@ -52,11 +52,11 @@ Every watermarking scheme is governed by a three-way trade-off between impercept
 
 Fingerprinting codes assign a distinct codeword to each recipient and are designed to remain traceable even under collision. Their definition constraint is the marking assumption where all colluders' copies agree on a symbol, that symbol cannot be altered without detection, but where the copies differ the coalition may set the symbol freely. The first codes provably secure under this assumption were proposed by Boneh and Shaw @bs98, at the cost of long codewords.
 
-Tardos @tardos08 reduced this length with a probabilistic construction whose length is optimal. Each recipient's codeword is created symbol by symbol from a distribution parametereised by a per-position bias and tracing is performed with an accusation score. A code of length 
+Tardos @tardos08 reduced this length with a probabilistic construction whose length is optimal. Each recipient's codeword is created symbol by symbol from a distribution parameterised by a per-position bias and tracing is performed with an accusation score. A code of length 
 
 $ m = O(c^2 ln(n / epsilon)) $
 
-is sufficient to accuse, with false-positive probability $epsilon$, at least one member of any coalition of up to $c$ recipients among $n$. Following work reduced the length like the method proposed by Skoric et al. @skoric08 that uses symmetric two-sided scoring which improved the accusation power. Then even tighter analyses shortened the codewords further @laarhoven14 and asymmetric variants addressed the buyer-seller trust problem @charpentier11, how a buyer can actually trust the seller in the case of many different sellers and buyers. This family of codes has been paired with transform-domain watermarking for video @rehman22 mostly in litterature. Tardos codes are the state of the art for collusion-resistant fingerprinting.
+is sufficient to accuse, with false-positive probability $epsilon$, at least one member of any coalition of up to $c$ recipients among $n$. Following work reduced the length like the method proposed by Skoric et al. @skoric08 that uses symmetric two-sided scoring which improved the accusation power. Then even tighter analyses shortened the codewords further @laarhoven14 and asymmetric variants addressed the buyer-seller trust problem @charpentier11, how a buyer can actually trust the seller in the case of many different sellers and buyers. This family of codes has been paired with transform-domain watermarking for video @rehman22 mostly in literature. Tardos codes are the state of the art for collusion-resistant fingerprinting.
 
 === Why Tardos is set aside
 
@@ -68,15 +68,15 @@ Tardos codes defend against a coalition exploiting the marking assumption. The s
 2. Capacity cost
 The quadratic dependence on the coalition size $c$ makes the codeword length grow to thousands of symbols even for modest parameters. This can be an actual problem for the watermarking scheme on images as the space available for redundancy is very limited.
 
-=== Erorr-correcting codes
+=== Error-correcting codes
 
-Once colusion is out of scope, the code layer becomes a classical error-correction problem. Indeed, the problem is to send to a recipied an identifier through a noisy channel and recover it intact despite potential distortions.
+Once collusion is out of scope, the code layer becomes a classical error-correction problem. Indeed, the problem is to send to a recipient an identifier through a noisy channel and recover it intact despite potential distortions.
 
 Reed-Solomon (RS) codes fit this well. They work on symbols, small groups of bits, rather than single bits. An $"RS"(n, k)$ code adds $n - k$ redundant symbols to $k$ data symbols and can repair up to 
 
 $ t = floor((n - k) / 2)$
 
-corrupted ones. Working on symbols is the key advantage here, because a localised attack such as cropping damages a contiguous region of the image, which maps to a few whole symbols rather than many scattered bits, exactly what RS corrects the most efficiently and what is probably one of the most likely attack for ICNML biometric images. RS has been used as the coding layer of wavelet-domain schemes @abdul13 and of a schemed designed specifically to resist JPEG compression and cropping @liu25. It recovers the payload in a determinist way and costs only $n - k$ extra symbols. This is very interesting if the embedded bits are an encrypted token as this ensures all the bits will be extracted and then the token can be decrypted by the server to accuse the leaker with precision.
+corrupted ones. Working on symbols is the key advantage here, because a localised attack such as cropping damages a contiguous region of the image, which maps to a few whole symbols rather than many scattered bits, exactly what RS corrects the most efficiently and what is probably one of the most likely attack for ICNML biometric images. RS has been used as the coding layer of wavelet-domain schemes @abdul13 and of a scheme designed specifically to resist JPEG compression and cropping @liu25. It recovers the payload in a determinist way and costs only $n - k$ extra symbols. This is very interesting if the embedded bits are an encrypted token as this ensures all the bits will be extracted and then the token can be decrypted by the server to accuse the leaker with precision.
 
 == The watermarking scheme
 
@@ -88,7 +88,7 @@ It underlies the transform-domain schemes in use today and frames how a recipien
 
 === Decomposition-based hybrids
 
-The robustness of the embedding itself comes largely from the domain in which symbols are inserted. Rather than the spatial domain, modern robust schemes work in a transform doamin, where the payload is spread across coefficients that survive compression and geometric edits. Hybrid constructions that combine several decompositions, for example a wavelet transform (DWT) with a singular value decomposition (SVD), concentrate robustness while preserving imperceptibility @abdul13 @liu25.
+The robustness of the embedding itself comes largely from the domain in which symbols are inserted. Rather than the spatial domain, modern robust schemes work in a transform domain, where the payload is spread across coefficients that survive compression and geometric edits. Hybrid constructions that combine several decompositions, for example a wavelet transform (DWT) with a singular value decomposition (SVD), concentrate robustness while preserving imperceptibility @abdul13 @liu25.
 
 == Synchronisation against geometric attacks
 
@@ -107,12 +107,12 @@ Once the image is realigned, only small scattered errors remain, the kind the co
 
 == Retained approach
 
-This thesis combines a transform-domain watermark with a Reed-Solomon code layer, rather than a collusion-resistant fingerprintg code. Because only a single recipient is in scope, Reed-Solomon is enough. 
-Implementation are found in python package `blind_watermark` @blind-watermark for the transfer-domain watermark and `reedsolo` @reedsolo for the Reed-Solomon encoding and decoding.
+This thesis combines a transform-domain watermark with a Reed-Solomon code layer, rather than a collusion-resistant fingerprinting code. Because only a single recipient is in scope, Reed-Solomon is enough. 
+Implementation are found in python package `blind_watermark` @blind-watermark for the transform-domain watermark and `reedsolo` @reedsolo for the Reed-Solomon encoding and decoding.
 
 #figure(
   image("../assets/watermark-pipeline.drawio.png", width: 80%),
-  caption: [End-to-end source identfication after a potential leak.]
+  caption: [End-to-end source identification after a potential leak.]
 )
 
 Everyday distortions such as compression, mild cropping are handled by the code's built-in error correction. Rotation and rescaling, which throw the whole image out of alignment, are dealt with only if needed by a synchronisation approach. 
