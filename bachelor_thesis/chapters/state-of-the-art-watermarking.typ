@@ -33,11 +33,11 @@ The two communities this work draws on, signal processing on one side and coding
 
 / Robustness : how well the payload survives distortions of the image. Measurement in the litterature is bit error rate (BER).
 
-/ Capacity : how many payload bits the image can carry. Measure with the number of bits the payload carry.
+/ Capacity : how many payload bits the image can carry.
 
 / Transform domain : a representation of the image in terms of frequency-like coefficients (for example wavelet or cosine coefficients) rather than raw pixels. Embedding in this domain is more robust than embedding in the pixels directly.
 
-/ Code layer : the error-correcting step that turns a short identifier into a longer, redundant sequence of symbols and reconstructs the identifier from a distorted reading.
+/ Code layer : the step that turns a short identifier into a longer, redundant sequence of symbols and reconstructs the identifier from a distorted reading.
 
 / Synchronisation : recovering the alignment of the embedding grid before reading the payload. Geometric distortions desynchronise this grid, which is a distinct problem from ordinary symbol errors.
 
@@ -58,13 +58,13 @@ The defender's goal is to recover the recipient identifier from a leaked copy th
 
 == Evaluation criteria
 
-Every watermarking scheme is governed by a three-way trade-off between imperceptibility, robustness and capacity. Improving one of these properties degrades at least one of the others @cox07. In the present context, two further criteria refine the picture. 
+Every watermarking scheme is governed by a three-way trade-off between imperceptibility, robustness and capacity. Improving one of these properties degrades at least one of the others @cox07. In the present context, three further criteria refine the picture. 
 
 The first is traceability. The payload must reliably carry enough information to designate one recipient among all of them. In ICNML the identifier is an encrypted recipient token of a few hundred bits. ICNML images are grayscale biometric high quality images of roughly 1000 x 1000 at 500 dpi, which leaves a lot of capacity for a payload of that size.
 
 The second is the attack model the scheme is expected to survive. Distinguishing a single redistributor from a coalition is what separates the two code families discussed below @cox02.
 
-The third is specific to ICNML and it is the reference observer. Imperceptibility is judged against a forensic examiner, since that is who an image is intended. Preserving automated (AFIS) matching performance on marked copies is not a requirement of this work. Actually a watermark that perturbs automated matching of a leaked copy is beneficial, as it reduces exploitability of leaked biometric image. 
+The third is specific to ICNML and it is the reference observer. Imperceptibility is judged against a forensic examiner, since that is to whose an image is intended. Preserving automated (AFIS) matching performance on marked copies is not a requirement of this work. Actually a watermark that perturbs automated matching of a leaked copy is beneficial, as it reduces exploitability of a leaked biometric image. 
 
 == The code layer
 
@@ -76,7 +76,7 @@ Tardos @tardos08 reduced this length with a probabilistic construction whose len
 
 $ m = O(c^2 ln(n / epsilon)) $
 
-is sufficient to accuse, with false-positive probability $epsilon$, at least one member of any coalition of up to $c$ recipients among $n$. Following work reduced the length like the method proposed by Skoric et al. @skoric08 that uses symmetric two-sided scoring which improved the accusation power. Then even tighter analyses shortened the codewords further @laarhoven14 and asymmetric variants  @charpentier11 remove the need for the buyer to trust the seller. This family of codes has been paired with transform-domain watermarking for video @rehman22 mostly in literature. Tardos codes are the state of the art for collusion-resistant fingerprinting.
+is sufficient to accuse, with false-positive probability $epsilon$, at least one member of any coalition of up to $c$ recipients among $n$. Following work reduced the length like the method proposed by Skoric et al. @skoric08 that uses symmetric two-sided scoring which improved the accusation power. Then even tighter analyses shortened the codewords further @laarhoven14. This family of codes has been paired with transform-domain watermarking for video @rehman22 mostly in literature. Tardos codes are the state of the art for collusion-resistant fingerprinting.
 
 === Why Tardos is set aside
 
@@ -98,7 +98,7 @@ $ t = floor((n - k) / 2)$
 
 corrupted ones. Working on symbols is the key advantage here, because a localised attack such as cropping damages a contiguous region of the image, which maps to a few whole symbols rather than many scattered bits, exactly what RS corrects the most efficiently and what is probably one of the most likely attack for ICNML biometric images. RS has been used as the coding layer of wavelet-domain schemes @abdul13 and of a scheme designed specifically to resist JPEG compression and cropping @liu25. 
 
-It recovers the payload in a determinist way and costs only $n - k$ extra symbols. This is very interesting if the embedded bits are an encrypted token as this ensures all the bits will be extracted, if the corrupted symbols stay within the correction budget $t$, and then the token can be decrypted by the server to accuse the leaker with precision.
+It recovers the payload in a deterministic way and costs only $n - k$ extra symbols. This is very interesting if the embedded bits are an encrypted token as this ensures all the bits will be extracted, if the corrupted symbols stay within the correction budget $t$, and then the token can be decrypted by the server to accuse the leaker with precision.
 
 == The watermarking scheme
 
@@ -137,7 +137,7 @@ The second strategy corrects the problem directly. It works out how the image wa
 Once the image is realigned, only small scattered errors remain, the kind the code layer with RS already corrects. This approach work hand in hand with error correction.
 
 #figure(
-  image("../assets/example-sync.png", width: 60%),
+  image("../assets/example-sync.png", width: 80%),
   caption: [Original, Augmented, Resynchronized. Geometric desynchronisation and the result of resynchronisation @syncseal25]
 )
 
