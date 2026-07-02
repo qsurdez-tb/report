@@ -70,20 +70,20 @@ The third is specific to ICNML and it is the reference observer. Imperceptibilit
 
 === Collusion-resistant fingerprinting
 
-Fingerprinting codes assign a distinct codeword to each recipient and are designed to remain traceable even under collision. Their definition constraint is the marking assumption where all colluders' copies agree on a symbol, that symbol cannot be altered without detection, but where the copies differ the coalition may set the symbol freely. The first codes provably secure under this assumption were proposed by Boneh and Shaw @bs98, at the cost of long codewords.
+Fingerprinting codes assign a distinct codeword to each recipient and are designed to remain traceable even under collusion. Their definition constraint is the marking assumption where all colluders' copies agree on a symbol, that symbol cannot be altered without detection, but where the copies differ the coalition may set the symbol freely. The first codes provably secure under this assumption were proposed by Boneh and Shaw @bs98, at the cost of long codewords.
 
 Tardos @tardos08 reduced this length with a probabilistic construction whose length is optimal. Each recipient's codeword is created symbol by symbol from a distribution parameterised by a per-position bias and tracing is performed with an accusation score. A code of length 
 
 $ m = O(c^2 ln(n / epsilon)) $
 
-is sufficient to accuse, with false-positive probability $epsilon$, at least one member of any coalition of up to $c$ recipients among $n$. Following work reduced the length like the method proposed by Skoric et al. @skoric08 that uses symmetric two-sided scoring which improved the accusation power. Then even tighter analyses shortened the codewords further @laarhoven14 and asymmetric variants addressed the buyer-seller trust problem @charpentier11, how a buyer can actually trust the seller in the case of many different sellers and buyers. This family of codes has been paired with transform-domain watermarking for video @rehman22 mostly in literature. Tardos codes are the state of the art for collusion-resistant fingerprinting.
+is sufficient to accuse, with false-positive probability $epsilon$, at least one member of any coalition of up to $c$ recipients among $n$. Following work reduced the length like the method proposed by Skoric et al. @skoric08 that uses symmetric two-sided scoring which improved the accusation power. Then even tighter analyses shortened the codewords further @laarhoven14 and asymmetric variants  @charpentier11 remove the need for the buyer to trust the seller. This family of codes has been paired with transform-domain watermarking for video @rehman22 mostly in literature. Tardos codes are the state of the art for collusion-resistant fingerprinting.
 
 === Why Tardos is set aside
 
 Despite their optimality, Tardos codes were investigated and not retained for ICNML for several reasons: 
 
 1. Threat model (decisive)
-Tardos codes defend against a coalition exploiting the marking assumption. The scenario in scope is a single recipient redistributing one copy.
+Tardos codes defend against a coalition exploiting the marking assumption. The threat model for this work, agreed with the supervisor, scopes the adversary to a single recipient redisitrbuting the one copy they received. 
 
 2. Capacity cost (secondary)
 The quadratic dependence on the coalition size $c$ makes the codeword length grow to thousands of symbols even for modest parameters. For the full resolution images of ICNML this is not a hard blocker on its own but it reinforces the first reason as there is nothing to offset the cost.
@@ -121,6 +121,10 @@ SVD-based hybrids also carry a known weakness. Because the extracted mark depend
 Where spread-spectrum adds the payload to the image, Quantisation Index Modulation (QIM) encodes each symbol by quantising a host feature with one of several quantisers @chen01. Detection reads the symbol back from whichever quantiser the feature is closest to, without the original image. Dither Modulation is its practical form, using dithered uniform quantisers.
 
 Spread-Transform Dither Modulation (ST-DM) combines the two @chen01. The image is projected onto a pseudo-random direction and dither modulation is applied to that projection. It keeps QIM's blind detection while gaining robustness from spreading the mark over many coefficients. Applied per block on the mid-band of a block DCT, it stays on the JPEG grid. Embedding each symbol redundantly across scattered blocks then manages the payload survive cropping, as the surviving blocks still carry every symbol.
+
+=== Learned watermarking
+
+A more recent family trains end-to-end neural encoder-decoder pairs to embed and extract the payload, starting with HiDDeN @zhu18 and its successors. These schemes are set aside here as the substrate they've been trained on is mainly composed of small colour images which is not the kind of image ICNML works on. They also require GPU inference at embedding time and their learned behaviour is harder to audit than a deterministic scheme. This is a relevant concern when the extracted payload is meant to support an accusation.
 
 == Synchronisation against geometric attacks
 
