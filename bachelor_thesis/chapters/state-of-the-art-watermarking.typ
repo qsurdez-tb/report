@@ -60,7 +60,7 @@ The defender's goal is to recover the recipient identifier from a leaked copy th
 
 Every watermarking scheme is governed by a three-way trade-off between imperceptibility, robustness and capacity. Improving one of these properties degrades at least one of the others @cox07. In the present context, two further criteria refine the picture. 
 
-The first is traceability. The payload must reliably carry enough information to designate one recipient among all of them. In ICNML the identifier is an encrypted recipient token of 128 bits. ICNML images are grayscale biometric high quality images of roughly 1000 x 1000 at 500 dpi, which leaves a lot of capacity for a payload of that size.
+The first is traceability. The payload must reliably carry enough information to designate one recipient among all of them. In ICNML the identifier is an encrypted recipient token of a few hundred bits. ICNML images are grayscale biometric high quality images of roughly 1000 x 1000 at 500 dpi, which leaves a lot of capacity for a payload of that size.
 
 The second is the attack model the scheme is expected to survive. Distinguishing a single redistributor from a coalition is what separates the two code families discussed below @cox02.
 
