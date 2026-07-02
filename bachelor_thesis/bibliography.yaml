@@ -363,3 +363,31 @@ chen01:
     issue: 4
   page-range: 1423-1443
   doi: 10.1109/18.923725
+
+# SVD ambiguity / false-positive attack on SVD-based watermarking
+zhang05:
+  type: Article
+  title: "Comments on 'An SVD-Based Watermarking Scheme for Protecting Rightful Ownership'"
+  author: ["Xin-Ping Zhang", "and Kan Li"]
+  date: 2005
+  parent:
+    type: Periodical
+    title: IEEE Transactions on Multimedia
+    volume: 7
+    issue: 3
+  page-range: 593-594
+  doi: 10.1109/TMM.2005.843357
+
+# Deep-learning watermarking, cited as the family excluded from scope
+zhu18:
+  type: Article
+  title: "HiDDeN: Hiding Data with Deep Networks"
+  author: ["Jiren Zhu", "Russell Kaplan", "Justin Johnson", "and Li Fei-Fei"]
+  date: 2018
+  parent:
+    type: Proceedings
+    title: "Computer Vision — ECCV 2018"
+    publisher:
+      name: Springer
+  page-range: 682-697
+  doi: 10.1007/978-3-030-01267-0_40
