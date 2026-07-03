@@ -950,3 +950,75 @@ using DWT-SVD domain this article where they claim to be able to embed 8 bits pe
 1511 - So everything works until the url for the landing which I haven't done yet. We're getting there slowly
 
 1606 - I stop here and will continue tomorrow morning 
+
+== 30.06
+
+0755 - Getting back into it
+
+0807 - Writing the landing page for the share folder feature
+
+0850 - I feel like the code in the same ShareToken is not a very good idea in the end. It should be its own 
+
+0924 - Confirmed it works until the download path ! Cool !
+
+Intitulé à changer et donner les définitions. Avoir un processus plus générique dans l'image. Donner les définitions. Vraiment y'a bcp de définition. Définir le modèle d'attaque. Figure dans le SOTA plus générique. Identifiant -> Dans l'image -> partage -> retrouvé le fingerprinting. Le plus compliqué et le plus encourageant. Remettre le schéma pour faire en sorte d'avoir la retained approach. 
+
+1322 - Finishing the download path so that the feature is ready and work 
+
+1439 - Okay it works and it seems quite sound I'm happy happy ^^
+
+1545 - Drafting the PR after some bugs 
+
+== 01.07
+
+0733 - Getting back into it
+
+0740 - Finishing the PR 
+
+0832 - Had to work on answering RTI questions + working a bit on the SEAL project 
+
+0938 - Have to work on some test scripts to explore the different possibilities for the pipeline. And rewrite/work on the SOTA, which is a bit annoying right now ^^'
+
+1035 - Created a test script to see if the idea of AESGCM + RS is interesting or not ?
+
+1125 - Had to handle an emergency at work where the thunderstorm rained a bit too much and someone left the windows opened in another desk ^^'
+
+1225 - Added the output of each attacks and embedding to see whether or not it's okay to add more noise into the image. And honestly you can see the noise but it doesn't feel very annoying compared to the original, it would be acceptable in my view. Have to check with Christophe whether or not it's acceptable.
+
+1333 - Continuing the tests 
+
+1352 - I feel like it's time to get back to the SOTA and be done with it...
+
+1424 - Finished the terminology part 
+
+1517 - I added a section on QIM as this seems quite important to me if we use it in the implementation.
+
+1529 - Need to defined the attack model 
+
+1640 - Finished defining the attack model 
+
+== 02.07
+
+0830 - Getting back into it
+
+0912 - Tried some stuff on the test scripts but getting back into the SOTA so that it's finished and behind me.
+
+0943 - Adding the watermarking with 
+
+1009 - I will let the SOTA marinate for a bit and then keep on testing watermarking schemes 
+
+1039 - Testing out Fable on the test scripts repository
+
+1200 - It was very interesting and we made the schemes better with compression and added new attacks aswell
+
+1310 - Getting back into it and rereading one last time the SOTA
+
+1340 - Finished proof-reading the SOTA 
+
+1409 - Thinking about the structure for the design and architecture document ? 
+
+== 03.07
+
+0800 - Getting back into it
+
+
