@@ -1021,4 +1021,42 @@ Intitulé à changer et donner les définitions. Avoir un processus plus génér
 
 0800 - Getting back into it
 
+0846 - Refactorign the test scripts files so I can understand better what I did. Everything lives a bit everywhere so it needs order.
 
+1148 - Refactored the code so that I can run a compare with all the watermarking schemes created and have a csv to analyse the data later on.
+
+1149 - Checking the automatic minutiae detector and the difference between the OG image and the watermarked one.
+
+1515 - Made it work and now I have a nice CSV file for comparisons
+
+== 06.07
+
+0730 - Getting back into it
+
+0736 - Wanna change and start working on the quality feature so that I can check and estimate how much time I have left for this thesis. I estimated it would be the longest task in the UX part so wanna work on it quite a bit.
+
+0754 - Exploring the existing shiny app Christophe made with OpenLQM and ILFQM
+
+0839 - So OpenLQM is a free software given by NIST. It has realeases on Github and one for debian distro. I'm thinking of going for a microservice where we can send images to on the Docker Network. I feel like it's not vulnerable to do it that way. Otherwise I would have to change my base image. Generation of heatmap could act like thumbnails probably or in the db ? That's a bit unclear for now. The sorting could be on the metrics which will be in the db for sure that makes sense.
+
+0928 - I'm not too sure it's a good idea the microservice ? It feels a bit too complicated as I realized OpenLQM CLI does not expose a command to get the heatmap which we'll need after getting the metrics ... 0
+
+0948 - Okay so no building the thingie from source is not a possibility according to the dev as it takes about 30min for all the dependencies to download... And I can't change my bookworm image as it requires Python3.12 and I m igrated to 3.11 ... Soooo back to the first solution 
+
+1011 - Okay the service is running and the endpoints are working as expected ! This looks like a good victory ^^ I'm happy 
+
+1040 - Working on the integration with icnml !
+
+1233 - Keep working on the integration with schema def done and now lqm utils
+
+1303 - The lqm utils file is done and I now have to test it out and see whether or not it works !
+
+1449 - Had some problems but now I get all the info I need except the heatmap that's all black ?
+
+1458 - Found out the reason as all pixels have a value from 0-4 
+
+1558 - Okay it's quite difficult cause I never tested the submission workflow and it's difficult as there are some bugs left over from the migration to Python3 ... 
+
+1621 - Okay confirmed that the mark has a quality score and that it works ! Pfiouuuu I'm commiting the changes for the submission and stuff in another branch 
+
+1640 - Gonna work on the Watermarking tomorrow so that I can advance on this part. I need to be very knowledgeable about the algorithm used !
