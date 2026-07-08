@@ -1060,3 +1060,68 @@ Intitulé à changer et donner les définitions. Avoir un processus plus génér
 1621 - Okay confirmed that the mark has a quality score and that it works ! Pfiouuuu I'm commiting the changes for the submission and stuff in another branch 
 
 1640 - Gonna work on the Watermarking tomorrow so that I can advance on this part. I need to be very knowledgeable about the algorithm used !
+
+== 07.07
+
+0750 - Getting back into it
+
+0841 - Had to work on the SEAL project a bit to be sure everything runs smoothly before the 
+
+0843 - I will try to finish the OpenLQM feature today so that I can go back to the 
+
+0943 - Confirmed the creation of the colorised heatmap with a dedicated endpoint. Added a TIFF mark target and the heatmap created well. I did follow the same pattern of storing within the db the heatmap directly in b64. I wonder if I should go back on that ? As the db is already verrrrry big and that would only make it bigger especially if we create the files for every stored mark ?
+
+0955 - I'm changing everything to bytes so that it's not too much overhead and we're following good practices when storing images in a db
+
+1004 - It's done and now I feel a bit better ^^
+
+1047 - Okay, I chose veridis colour palette so I can check if the colors are good or not (colorblind friendly). It looks okay and the sorting works. Now I have to check if it works on the dev server
+
+1109 - Just launched the migration script ! Let's hope I don't overbloat the db with these heatmaps as they're 6074 marks ^^'
+
+1123 - According to my estimations, there's about 4.5 hours left until all images have a heatmap ! Then the feature will be finished and over, yay!
+
+1259 - Working a bit for the project SEAL
+
+1423 - Finished creating the PR. I'm taking a small break waiting for the end of the backfill !
+
+1458 - I'm waiting for the backfill script to run so I can check how well it ran on the dev server.
+
+1542 - Well just implemented the search by username so it's going better than expected ^^ And I just won 3 days of work 
+
+1556 - Finished the PR. That was quite easy ^^
+
+1616 - Still waiting for the backfill to finish
+
+
+1700 - Going back home
+
+== 08.07
+
+0735 - Fixing \_load_encrypted so that it returns None when resolution is outside so that the migration script is faster 
+
+0745 - Relaunching the script so that we can see it end ! And put that behind us ^^
+
+0817 - Just merged the searcheable by username in the marks 
+
+0819 - I hesistate on doing a new UX feature or advancing on the watermarking 
+
+0849 - Coding the feature for soft-deletion by trainer of their folder and hard/restore action by admin with distinctive 
+
+0933 - Okay, the logic for soft deletion from trainer side is working and hard delete as well from admin side ! Now onto the delete image within a folder via a button !
+
+1012 - Created the PR for the deletion buttons
+
+1015 - Had a mail from Christophe for the quality feature where he wants more metrics and a better granular search ... That's gonna be a bit harder and maybe I will have to add some columns to the table ^^
+
+1407 - Been trying to do the update but the backfill script keep failing because of some docker cache build image or other.
+
+1414 - Found a bug in the UPSERT query ... aie aie aie, Claude found it and corrected it
+
+1424 - Lauchned the script from the container so even if my SSH session is out it keeps continuing.
+
+1451 - Adding the sorting buttons as requested by Christophe to see how it is with both asc and desc order with all lqm metrics 
+
+1502 - Chose a dropdown menu and it feels pretty neat as the metric of interest is what is showing on the card 
+
+
