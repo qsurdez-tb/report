@@ -1124,4 +1124,59 @@ Intitulé à changer et donner les définitions. Avoir un processus plus génér
 
 1502 - Chose a dropdown menu and it feels pretty neat as the metric of interest is what is showing on the card 
 
+1536 - Okay it works quite well on the remote dev server with the prod data so I'm happy happy.
+
+== 10.07
+
+0830 - Getting back into it 
+
+0835 - Checking the state on the dev server with prod data... It's great !
+
+0841 - Wanna make the Dockerfile more maintainable and not too download dependent.
+
+0900 - Finished by pinning the vendor stb_image_write and better linkage of cpp 
+
+0906 - Realized that the images are sorted by page but not inside the page, wanna fix that
+
+0924 - Pinpointed the bug and fixed it !
+
+0930 - Merged the PR with the delete actions buttons
+
+0932 - Creating the PR for the new feature of adding all LQM metrics within the db and the search per metric and asc/desc
+
+0945 - Finished writing the PR for the feature of all 13 OpenLQM metrics
+
+0943 - Fuck, the version of ICNML is not the last one... I need to check what were the changes just like the Add selected exemplar or Add tenprints when clicking on a mark... Urrrgh so annoying...
+
+1028 - Just analysing takes quite a lot of time ...
+
+1056 - There's unfortunately quite a lot of changes that I will need to port to my version .... urrrrgh that's soooo annoying and so unlogical. I really never wanna work with this guy in my entire life ... I'll take a break, I need it...
+
+1257 - Okay I ran away enough and now I have to get back to it and fix that
+
+1319 - Merged the OpenLQM extension and created a branch where I will do all the edits, all the commits were lost
+
+1333 - I don't want to do this .................
+
+1356 - Finished the first on 6 commits to port ...
+
+1604 - Let's check on the dev server if everything works well 
+
+== 13.07
+
+0800 - Getting back into it
+
+0801 - Thinking about a UI to upload leaked image and choose the corresponding image so that resync can work ? + Extraction of the thingie. Maybe this should come after I created the watermarking pipeline ? Don't know I'm a bit lost ^^'
+
+0807 - First problem there's nothing logging and the website is not accessible ... 
+
+0817 - It's strange and I think the error might come from the firewall or the Caddyfile ? 
+
+0829 - I can reach it from safari but not from firefox since the last update ? What the hell 
+
+0906 - Abandonning the firefox fix and continuing with Safari but now I have to tell the browser to accept passkeys from my password manager 
+
+1042 - Had a super long talk with my collleague about the maintainability of the icnml app for the future especially using my version for the prod. Now have to send an email to Christophe and explains everything that's going on ...  So many admins Urrrgh
+
+
 
