@@ -1178,5 +1178,90 @@ Intitulé à changer et donner les définitions. Avoir un processus plus génér
 
 1042 - Had a super long talk with my collleague about the maintainability of the icnml app for the future especially using my version for the prod. Now have to send an email to Christophe and explains everything that's going on ...  So many admins Urrrgh
 
+1052 - Email sent, now back to the work ^^'
+
+1123 - Relaunching some tests on images with full resolution from the prod server without the tattooing to see the exact behaviour we will have and then check whether I go on the UI or the implementation of the watermarking. I want a bit more data for choosing the watermarking scheme !
+
+1216 - Very long scripts I feel like the morning was harder than expected :((
+
+1222 - Saw that the step parameter needed some tweaking and made a quick script to launch the compare on each image in the assets folder on 12 images and now going to eat hoping it will be over when I come back 
+
+1305 - The script is still ongoing so I will think about the architecture for integrating the watermark scheme we choose in the end.
+
+1329 - Created the plan for integrating the Watermarking scheme to the app ! But then I need to merge the secure folder download first !
+
+1339 - And it has lots of conflicts urrrrgh. That's normal but urrrrgh hate resolving git conflicts 
+
+1355 - The exercises.html is annoying to merge ... 
+
+1403 - Finished merging ! It was a bit complicated ^^
+
+1406 - Okay, so now I have everything in place to add the watermarking package to the app as smth 
+
+1412 - Well no, cause I haven't applied the migration for this new feature ... urrrgh this is a lot in fact should have done the merge earlier 
+
+1414 - Gonna work on making it more maintainable 
+
+1441 - Done, now check that it works. It does but it writes Network error even though it downloaded correctly and the name is generic not the name of the folder in ICNML so I have to fix that and then end the day
+
+1556 - Created the PR for the UX improvements and now the data for comparing the 
+
+1605 - Committing the changes in test-scripts
+
+1611 - Made commits clean for test scripts !
+
+1619 - Thinking about how I could use the data the most effectivly possible with some images next to it ? 
+
+1630 - I think I'm gonna leave it here... and start back tomorrow
+
+1638 - Okay, I'm stopping now cause I'm a bit tired 
+
+== 14.07
+
+0700 - Getting back into it
+
+0715 - Reflecting on the script made yesterday and wanting to create smth better. With refactoring the existing one and making PSNR, SSIM and minutiae retention plots. Having the RS-margin apparent would be interesting to further justify its use. Maybe I could also create a 
+
+0749 - Created with Fable nice plots with explicit data. Now I can see that the suggested implementation in libraries are a bit meeh. I want to remove the two and have 11 images for them. I will download more and more images to build a nice corpus of images (marks, but also tenprints) so I can argue to use the watermark at every point in the application ? 
+
+0756 - Still have to go on the branch where the download is possible. The thing is that the download button is here in the UI so yeah. I have to think about it a bit more whether I allow the admin to download or not ? 
+
+0810 - Created a corpus a bit randomly and discovered color images, PNG images and very very large images as well. Relaunched the script that skips the already created CSV and removing the two libraries watermarking schemes as they were taking forever and their output is not so good. Let's see what the plots look like afterwards !
+
+0827 - It's taking its time but still less time than before ! 
+
+0853 - Thinking about the fact that having a timestamp would be interesting for who accesses the folders ? As I reused the previously created exercise_trainee_list table it didn't have a created_at timestamp field. And I'm thinking about encrypting the email sent to ? So that the db doesn't have plain email ? Is it really interesting maybe not to be fair ?
+
+0901 - I now have all the data I can work with and graphs that are quite informative. I now need visual comparison of the embedded images and the original data, so I can also compare through that ! 
+
+0908 - Okay Fable is really amazing and the output is exactly what I wanted... It's scary 
+
+0932 - I think the gain variant of stdm is quite interesting even though it's not the most robust one as the SSIM is the highest ! I'm a bit torn that Christophe is in the US on holidays when I'm faced with the choice of the algorithm and all the data to support the choice as well ^^'
+
+0936 - I have to remember to rewrite the README of the icnml-dev as it's not up to date anymore
+
+0951 - I have lost all motivations I wanna be on holidays ... Urrrrgh 
+
+1002 - Okay, the comparison of the images is very good. I'm quite happy with it.
+
+1009 - Checking everything is working nice in the dev remote server
+
+1029 - FIXME need to fix the bug when clicking on Asc/Desc button for upload order and the app freezes ... That's not the behavior expected ! Needs to be corrected pronto ! maybe right after the meeting with the supervisor. If he shows up ^^' 
+
+1114 - Okay pfiouu not easy all that, not easy ...
+
+1229 - I'm a bit lost on what to do as I'm waiting for scripts to run 
+
+1329 - working on forensic usual transform attacks so that I can measure the schemes against those as well
+
+1445 - Finished rerunning the script and then working on the data and plots
+
+1640 - Choosing the gain or block variant after the careful analysis of the plots and images 
+
+== 15.07
+
+0700 - Getting back into it 
+
+
 
 
