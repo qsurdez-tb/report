@@ -1,283 +1,113 @@
-= Application overview <application-overview>
+#import "../macros.typ": note, concept
 
-This chapoter is an overview of the ICNML application from the point of view of different type of accounts. 
+= Application Overview <application-overview>
 
-== Login
+#concept[
+  ICNML is used through a web interface, and the quickest way to grasp what the platform does is to see what its users see. This chapter is a guided tour, mostly from the Administrator's viewpoint since that role reaches every screen, of the main pages: how one logs in, how a donor's biometric data is organised, and where the interface still shows rough edges. It closes with an honest read of the interface's strengths and weaknesses.
+]
 
-The Login page (@fig-login) is minimal with a username and password field. It contains the link to request a password reset as well as the link tho request an account. It displays the version with the git commit hash as well as the timestamp of the commit.
+== The first view: logging in
 
-#figure(
-  image(
-    "../assets/screenshots/00-login.png"
-  ),
-  caption: [Login page]
-) <fig-login>
+Access to ICNML is not open. The platform is reachable on the web, but every account must be approved by an administrator before it can be used, and in production a second authentication factor is mandatory (@roles-and-permissions). The login page (@fig-login) is deliberately minimal: a username and password, links to reset a password or request an account, and the running version shown as a git commit hash and timestamp. A visitor without an account uses the request form (@fig-request-account), giving their name, e-mail, and the role they want, chosen from the subset of roles open to public request. An administrator then approves or rejects the request.
 
-== Request an account
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 10pt,
+  [#figure(image("../assets/screenshots/00-login.png", width: 100%), caption: [Login page.]) <fig-login>],
+  [#figure(image("../assets/screenshots/01-request-account.png", width: 100%), caption: [Request-an-account form.]) <fig-request-account>],
+)
 
-The request an account page (@fig-request-account) is where a user without an account can request to the Administrator an account for the ICNML application. The form needs the first name, last name, email and what kind of account the user would like to be given. The selection is a subset of all the accounts of the application, see @roles-and-permissions.
+== The Administrator's interface
 
-#figure(
-  image(
-    "../assets/screenshots/01-request-account.png"
-  ),
-  caption: [Request an account page]
-) <fig-request-account>
+The Administrator reaches every screen, so their view is the most complete. It is organised around a persistent left-hand navigation menu, Submissions, Tables, Trainer folders, AFIS assign, CNM list, PiAnoS, and New users, with a header bar carrying the current username and links to TOTP setup, security keys, and logout.
 
-== Administrator 
+=== Submissions: a donor's data
 
-First a focus on what an Administrator sees. The interface is organized around a persistent left-hand navigation menu with eight section: Submissions, Tables, Trainer folders, AFIS assign, CNM list, PiAnoS and New users. The header bar display the current username and has links to TOTP update, security keys and logout.
+The home page is the submissions list, a grid of donor cards each carrying the donor's username and a _View_ button, with warning indicators on donors that may have incomplete data (@fig-submissions-list). Selecting a donor opens its detail page (@fig-donor-detail), which gathers the five data categories held for that donor, General Pattern, Tenprints, Targets, Mark targets, and Mark incidentals, above the donor's UUID and submitter.
 
+#figure(image("../assets/screenshots/admin/01-home-page-admin.png", width: 100%), caption: [Submissions grid (Administrator home).]) <fig-submissions-list>
 
-=== Submissions
+#figure(image("../assets/screenshots/admin/02-donor-page-admin.png", width: 100%), caption: [Donor detail, the five data categories.]) <fig-donor-detail>
 
-The home page for an Administrator is the submissions list. It's displayed as a grid of donor cards (@fig-submissions-list). Each card has the donor username as title and a _View_ button. Warning indicators flag donors that may have incomplete or pending data. // TODO check in code
+*General pattern.* The general-pattern view shows the ten fingerprint classifications, one per finger, each labelled with its pattern type. Any classification can be edited through a modal that presents every pattern type as a selectable icon (@fig-donor-gp, @fig-donor-gp-update).
 
-#figure(
-  image(
-    "../assets/screenshots/admin/01-home-page-admin.png", 
-    width: 80%
-    ),
-    caption: [Administrator home page, submissions grid]
-) <fig-submissions-list>
+#figure(image("../assets/screenshots/admin/03-donor-gp-admin.png", width: 100%), caption: [General-pattern view.]) <fig-donor-gp>
 
-Selecting a donor opens its detail page (@fig-donor-detail), which presents the five data categories associated with that donor: General Pattern, Tenprint(s), Target(s), Mark(s) target and Mark(s) incidental. Green checkmarks indicate something I'm not sure of yet. // TODO check in code 
-The donor's username is displayed above. The donor's uuid and the submitter username are displayed below.
+#figure(image("../assets/screenshots/admin/04-donor-gp-update-admin.png", width: 66%), caption: [Pattern-type edit modal.]) <fig-donor-gp-update>
 
-#figure(
-  image(
-    "../assets/screenshots/admin/02-donor-page-admin.png",
-    width: 80%
-  ),
-  caption: [Donor detail page]
-) <fig-donor-detail>
+*Tenprints.* The tenprint list shows every reference card uploaded for the donor. Selecting one displays the card with its segments annotated (which finger sits where) alongside metadata and controls to update or delete segments, download, or remove the card (@fig-tenprint-list, @fig-donor-tenprint-detail). A separate segments list shows each segment cropped and labelled (@fig-donor-tenprint-segment).
 
-==== General Pattern
+#figure(image("../assets/screenshots/admin/05-donor-tenprints-admin.png", width: 100%), caption: [Tenprint list.]) <fig-tenprint-list>
 
-The general pattern view (@fig-donor-gp) shows the ten fingerprint classificatios, one per finger, each labelled with its dedicated pattern type. The Administrator can edit any classification via a modal (@fig-donor-gp-update) that presents all possible pattern types as selectable icons.
+#figure(image("../assets/screenshots/admin/06-donor-tenprint-detail-admin.png", width: 100%), caption: [Tenprint detail with segments and metadata.]) <fig-donor-tenprint-detail>
 
-#figure(
-  image(
-    "../assets/screenshots/admin/03-donor-gp-admin.png",
-    width: 80%
-  ),
-  caption: [General pattern view]
-) <fig-donor-gp>
+#figure(image("../assets/screenshots/admin/06.05-donor-tenprint-segment-list-admin.png", width: 70%), caption: [Segment list from a tenprint.]) <fig-donor-tenprint-segment>
 
-#figure(
-  image(
-    "../assets/screenshots/admin/04-donor-gp-update-admin.png",
-    width: 100%
-  ),
-  caption: [Modal to update the general pattern of a finger]
-) <fig-donor-gp-update>
+*Targets.* The targets view shows the ten rolled reference prints, one per finger. Opening one reveals four groups of linked images: target annotations, Close Non-Match results, references, and marks (@fig-target, @fig-target-detail).
 
-==== Tenprints
+#figure(image("../assets/screenshots/admin/07-donor-target-admin.png", width: 100%), caption: [Targets view.]) <fig-target>
 
-The tenprint list view (@fig-tenprint-list) displays all the tenprints uploaded for this specific donor.
+#figure(image("../assets/screenshots/admin/08-donor-target-detail-admin.png", width: 100%), caption: [Images linked to a target.]) <fig-target-detail>
 
-#figure(
-  image(
-    "../assets/screenshots/admin/05-donor-tenprints-admin.png",
-    width: 80%
-  ),
-  caption: [Tenprint list view]
-) <fig-tenprint-list>
+*Marks.* Marks come in two subcategories, target and incidental, sharing the same layout: a searchable grid of images (@fig-marks-target, @fig-marks-incidental). Opening a mark shows its metadata with six editable fields (Detection, Surface, Activity, Distortion, Location, Notes) and buttons to download or delete it (@fig-marks-detail).
 
-Selecting a tenprint displays the tenprint itself with all the segments (e.g. where the right thumb is, left ring, etc...) annotated on it (@fig-donor-tenprint-detail). On the right, a list of metadata for the image and different buttons to manage both the segments and the image. 
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 10pt,
+  [#figure(image("../assets/screenshots/admin/09-donor-mark-targets-admin.png", width: 100%), caption: [Target marks grid.]) <fig-marks-target>],
+  [#figure(image("../assets/screenshots/admin/11-donor-mark-incidental-admin.png", width: 100%), caption: [Incidental marks grid.]) <fig-marks-incidental>],
+)
 
-The admin can delete segments informations, update the segment informations, go to the segements list (@fig-donor-tenprint-segment), download the image or delete the tenprint card.
-
-#figure(
-  image(
-    "../assets/screenshots/admin/06-donor-tenprint-detail-admin.png",
-    width: 80%
-  ),
-  caption: [Tenprint detail view with segments and metadata]
-) <fig-donor-tenprint-detail>
-
-Clicking on the Go to segments list, displays the image within each segment with the name of the specfic segment.
-
-#figure(
-  image(
-    "../assets/screenshots/admin/06.05-donor-tenprint-segment-list-admin.png",
-    width: 100%
-  ),
-  caption: [Segment list from tenprint]
-) <fig-donor-tenprint-segment>
-
-==== Targets
-
-The targets view (@fig-target) displays the ten rolled reference prints associated with the donor, one per finger, each labelled with the finger position. A badge is present to give info // TODO check what info specifically 
-
-#figure(
-  image(
-    "../assets/screenshots/admin/07-donor-target-admin.png",
-    width: 100%
-  ),
-  caption: [Targets view list]
-) <fig-target>
-
-
-Clicking on one of the target displays its detail page (@fig-target-detail). There are four groups of images linked to this target: Target annotations, Close Non-Match results, References, Marks. I'm not sure yet how it's orchestrated. // TODO check how it's all linked together
-
-#figure(
-  image(
-    "../assets/screenshots/admin/08-donor-target-detail-admin.png",
-    width: 100%
-  ),
-  caption: [Detail view of images linked to target]
-) <fig-target-detail>
-
-==== Marks
-
-Marks are divided into two subcategories: Mark target and Mark incidental. The two pages share the functionalities. 
-A grid to display all the images in one category with a search bar. Info badge are here to indicate something again // TODO check what in code
-(@fig-marks-target, @fig-marks-incidental)
-
-#figure(
-  image(
-    "../assets/screenshots/admin/09-donor-mark-targets-admin.png",
-    width: 100%
-  ),
-  caption: [Target marks grid]
-) <fig-marks-target>
-
-#figure(
-  image(
-    "../assets/screenshots/admin/11-donor-mark-incidental-admin.png",
-    width: 80%
-  ),
-  caption: [Incidental marks grid]
-) <fig-marks-incidental>
-
-Clicking on a mark, whether incidental or target, displays the detail view for this specific mark (@fig-marks-detail). The metadata of this image are displayed as well as six editable fields that are: Detection, Surface, Activity, Distortion, Location and Notes. Then we have two action buttons: Download image and Delete mark.
-
-#figure(
-  image(
-    "../assets/screenshots/admin/12-donor-mark-incidental-detail-admin.png",
-    width: 80%
-  ),
-  caption: [Detail view for marks]
-) <fig-marks-detail>
+#figure(image("../assets/screenshots/admin/12-donor-mark-incidental-detail-admin.png", width: 62%), caption: [Mark detail with editable fields.]) <fig-marks-detail>
 
 === Tables
 
-The tables page is a view of the relevant information for each created donor. Each row
-corresponds to a donor and displays its UUID with numerical counters: number of latent targets, number of latent incidental targets, number of tenprints for fingers and palms, number of segments and number of targets.
-This view can be useful to have a quick overview of the donor's states.
+The tables page is a per-donor summary: one row per donor showing its UUID and numeric counters (latent targets, latent incidentals, finger and palm tenprints, segments, targets), a quick way to gauge each donor's state (@fig-tables).
 
-#figure(
-  image(
-    "../assets/screenshots/admin/13-tables-admin.png",
-    width: 80%
-  ),
-  caption: [Tables view]
-) <fig-tables>
+#figure(image("../assets/screenshots/admin/13-tables-admin.png", width: 100%), caption: [Per-donor summary table.]) <fig-tables>
 
-=== Trainer Folders
+=== Trainer folders
 
-The trainer folders page displays a table of the created folder exercises created by trainers (@fig-trainer-folders). Each entry shows the name of the folder, the creation time, its UUID, the number of marks it contains and the which trainer created it. There is a list of action buttons: Rename, Show, Users, Dowload. The Users action button does not work in the current version of the application. There's no way to delete a previously created folder.
+This page lists the exercise folders created by trainers, each with its name, creation time, UUID, mark count, and author, plus Rename, Show, Users, and Download actions (@fig-trainer-folders). The Show action displays the folder's images, which are not clickable (@fig-trainer-folders-show).
 
-#figure(
-  image(
-    "../assets/screenshots/admin/14-trainer-folders-admin.png",
-    width: 80%
-  ),
-  caption: [Trainer folders]
-) <fig-trainer-folders>
+#figure(image("../assets/screenshots/admin/14-trainer-folders-admin.png", width: 100%), caption: [Trainer folders list.]) <fig-trainer-folders>
 
-==== Show
+#figure(image("../assets/screenshots/admin/15-trainer-folder-show-admin.png", width: 70%), caption: [Contents of a trainer folder.]) <fig-trainer-folders-show>
 
-The Show action button displays the images that are within the exercise folder of interest
-(@fig-trainer-folders-show). The images are not clickable. 
-
-#figure(
-  image(
-    "../assets/screenshots/admin/15-trainer-folder-show-admin.png",
-    width: 80%
-  ),
-  caption: [Show view of a trainer folder]
-) <fig-trainer-folders-show>
+#note[In the version analysed, the Users button did nothing and there was no way to delete a folder. Both gaps were addressed by the user-experience work of this thesis (@ux-improvements).]
 
 === AFIS assignment
 
-The AFIS assignment page (@fig-afis-assign) supports assignment of targets to AFIS users. 
-The workflow is still a mystery to me. // TODO ask Christophe about the workflow
-There are three steps: select AFIS users, select targets, and generate assignments. // Maybe needs confirmation of the code !
-Each stpe opens a modal pre-populated with structured data: the user list provides `id;username;email` records, the target list provides `uuid:donor_username;fpx;submitter_username` records and the resulting assignment format maps to `folder_uuid;type;username` which can be updated (@fig-afis-assign-assignments).
+The AFIS assignment page assigns targets to AFIS users in three steps: select users, select targets, generate assignments (@fig-afis-assign). Each step opens a modal pre-populated with structured records, and the resulting assignment can be edited (@fig-afis-assign-assignments).
 
-#figure(
-  image(
-    "../assets/screenshots/admin/16-afis-assign-admin.png",
-    width: 80%
-  ),
-  caption: [AFIS assignment]
-) <fig-afis-assign>
+#figure(image("../assets/screenshots/admin/16-afis-assign-admin.png", width: 100%), caption: [AFIS assignment steps.]) <fig-afis-assign>
 
-#figure(
-  image(
-    "../assets/screenshots/admin/19-afis-assign-assignment.png",
-    width: 80%
-  ),
-  caption: [Resulting AFIS assignment update modal]
-) <fig-afis-assign-assignments>
+#figure(image("../assets/screenshots/admin/19-afis-assign-assignment.png", width: 66%), caption: [Assignment edit modal.]) <fig-afis-assign-assignments>
 
 === CNM list
 
-The CNM list (@fig-cnm-list) displays all close non-match images in the library. Each image is labelled with its UUID and status: blue indicates an Incidental Mark, red indicates a Target mark and grey indicates No Mark Value. 
-I have to discuss with the client for the meaning of these indicators !
+The Close Non-Match list gathers every CNM image in the library, each labelled with its UUID and a status colour: blue for an incidental mark, red for a target mark, grey for no mark value (@fig-cnm-list). Opening one shows the CNM documentation form above the linked tenprint cards and the AFIS screenshot with minutiae (@fig-cnm-detail).
 
-#figure(
-  image(
-    "../assets/screenshots/admin/20-cnm-list-admin.png"
-  ),
-  caption: [CNM list view]
-) <fig-cnm-list>
+#figure(image("../assets/screenshots/admin/20-cnm-list-admin.png", width: 100%), caption: [Close Non-Match list.]) <fig-cnm-list>
 
-Clicking on an image displasy the detail view for this object (@fig-cnm-detail). First there is the Close Non-Match upload form where the AFIS user can document the CNM. 
+#figure(image("../assets/screenshots/admin/21-cnm-detail-admin.png", width: 100%), caption: [Close Non-Match detail.]) <fig-cnm-detail>
 
-Below, we have the tenprint cards uploaded linked to this target as well as a screenshot from the AFIS system with the minutiae on the CNM and the uploaded finger from the tenprint.
+=== PiAnoS
 
-#figure(
-  image(
-    "../assets/screenshots/admin/21-cnm-detail-admin.png"
-  ),
-  caption: [Detail view of CNM image]
-) <fig-cnm-detail>
+*PiAnoS* (Picture Annotation System) is a separate web tool, developed at the School of Forensic Science of the University of Lausanne, for viewing fingermarks and annotating their minutiae. This page is meant to bridge ICNML and a PiAnoS instance, offering two buttons, _Copy all accounts to PiAnoS_ and _Open PiAnoS_ (@fig-pianos). Both return a 502 Gateway error on the production deployment, so the integration is effectively inactive.
 
-=== PiAnoS admin
+#figure(image("../assets/screenshots/admin/22-pianos-admin.png", width: 62%), caption: [The (inactive) PiAnoS bridge page.]) <fig-pianos>
 
-This section of the application is to bridge the PiAnoS application and the ICNML application. 
-This page offers two buttons: Copy all accounts to PiAnoS and Open PiAnoS. When the buttons are clicked on the production web applicaiton, a 502 Gateway error is displayed.
+=== New users and security keys
 
-#figure(
-  image(
-    "../assets/screenshots/admin/22-pianos-admin.png"
-  ),
-  caption: [PiAnoS page]
-) <fig-pianos>
+The new-users page is where an administrator validates or rejects account requests for the publicly requestable roles (@fig-new-users). The security-keys page lets a user register or remove WebAuthn hardware keys (@fig-security-keys).
 
-=== New users
+#figure(image("../assets/screenshots/admin/23-new-users-admin.png", width: 100%), caption: [Account-request management.]) <fig-new-users>
 
-The new users page displays the account requests from users (@fig-new-users). This is where the Administrator will validate or reject the account request for a selected subset of the different roles in ICNML, see @roles-and-permissions.
+#figure(image("../assets/screenshots/admin/24-security-keys-admin.png", width: 66%), caption: [Security-key management.]) <fig-security-keys>
 
-The Administrator can validate via the Validate button and reject via the Reject button. The fields are editable, but when edited on the prod version, it was not propagated to the database.
+== User interface: strengths and weaknesses
 
-#figure(
-  image(
-    "../assets/screenshots/admin/23-new-users-admin.png"
-  ),
-  caption: [New users page management]
-) <fig-new-users>
+The interface has real strengths. A single persistent navigation menu keeps the whole platform reachable, the card-and-grid layouts make a donor's many data categories easy to scan, search bars are provided where collections grow large, and the running version is shown openly, which helps support and debugging.
 
-=== Security keys
-
-The security keys page (@fig-security-keys) is where the user can manage its passkeys. They can either add new ones or delete previoulsy existing ones.
-
-#figure(
-  image(
-    "../assets/screenshots/admin/24-security-keys-admin.png"
-  ),
-  caption: [Security keys page management]
-) <fig-security-keys>
+The weaknesses are mostly unfinished edges rather than design faults. Several controls are inert or do not persist: the Users button on trainer folders did nothing, and edits made to the new-users and AFIS records were not saved back to the database. The PiAnoS bridge returns a gateway error in production. Folder deletion was missing entirely, images in a folder are not clickable, and several status indicators (card warnings, the coloured CNM badges) are shown without an in-interface explanation of what they mean. A number of these gaps, folder deletion, safe removal, quality-aware search and secure sharing, were closed by the functional-improvement work of this thesis (@ux-improvements). The remainder are concrete, well-defined items for future work.
