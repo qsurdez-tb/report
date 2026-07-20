@@ -1,0 +1,130 @@
+#import "../macros.typ": note
+
+= Implementing a Traceable Watermark <watermark-implementation>
+
+The previous chapter surveyed how a leaked image can be traced back to the recipient it was issued to, and settled on a design: an error-correcting code layer (Reed-Solomon) carrying an encrypted recipient identifier, embedded by a transform-domain watermark. This chapter describes the working implementation of that design that was added to ICNML, explains each choice, and reports how well it performs when the marked image is attacked.
+
+The goal is worth restating in forensic terms. A biometric image leaves ICNML when an authorised user downloads it. If that image later resurfaces somewhere it should not, the institution needs to answer one question: which download did this copy come from? A watermark answers it by writing an invisible label into the image itself, so the label travels with the picture even after it has been recompressed, resized or cropped. Unlike the existing barcode tattoo (@watermark) which is a visible strip that a simple crop removes, the mark described here is spread invisibly across the whole image.
+
+== What the mark says: the payload <wm-payload>
+
+Before hiding anything, the system decides what to hide. Each marked copy carries a small identity record, the payload, built from three facts already known at download time:
+
+#figure(
+  table(
+    columns: (auto, auto, 1fr),
+    stroke: 0.5pt,
+    align: (left, left, left),
+    fill: (col, row) => if row == 0 { luma(220) } else { white },
+    table.header[Field][Size][Meaning],
+    [`user_id`], [4 bytes], [the authenticated account that requested the download],
+    [`file_uuid`], [16 bytes], [which stored image this copy is of],
+    [`timestamp`], [4 bytes], [when the download happened (Unix time)],
+  ),
+  caption: [The 24-byte identity record embedded in every downloaded copy (`watermark/__init__.py`).]
+)
+
+This record is not embedded as-is. It passes through two protective layers first, in the order shown in @wm-pipeline-fig.
+
+The first layer is encryption with authentication. The record is encrypted with AES-256 in Galois/Counter Mode (AES-GCM) @nist80038d. Encryption matters because the mark should not itself leak who downloaded a file to anyone who learns the embedding recipe. Only ICNML, holding the secret key, can read it back. The "authentication" part adds a short cryptographic seal (a 16-byte tag): when the payload is later recovered, ICNML can verify the seal and be certain the identity it reads is one it actually wrote, not a coincidence or a forgery. This is what lets a recovered mark support an accusation rather than a guess.
+
+The second layer is error correction. The encrypted record is wrapped in a Reed-Solomon code @reed60, which appends 32 bytes of redundancy. Reed-Solomon works on whole bytes (symbols) rather than single bits, and can repair any 16 corrupted bytes out of the codeword. The reason this pairing is deliberate. Indeed, encryption is brittle by design. If even one bit of the encrypted record is wrong, decryption fails completely, there is no "almost right" ciphertext. The lossy channel of a watermarked image will flip bits. Error correction absorbs those flips so that the encryption layer always receives an exact, unmodified record to decrypt. The two layers protect against different things and neither replaces the other.
+
+#figure(
+  image("../assets/watermark-pipeline.drawio.png", width: 78%),
+  caption: [The identity record is encrypted, then error-correction-coded, then spread invisibly across the image. Recovery runs the same steps in reverse.]
+)<wm-pipeline-fig>
+
+The result of these two layers is a fixed-length string of bits, 672 bits in the current configuration (84 bytes: 12 for the encryption nonce, 24 for the record, 16 for the authentication seal, 32 for the Reed-Solomon redundancy), that is now robust enough to survive a noisy channel and is ready to be hidden in the picture.
+
+== Where the mark lives: hiding bits in an image <wm-carrier>
+
+Writing bits into an image so that they survive editing is a signal-processing problem. The core idea, established in the state-of-the-art chapter, is to embed in a transform domain rather than in the raw pixels. Instead of nudging individual pixel brightnesses (which the smallest edit disturbs), the image is described in terms of frequency-like coefficients, and the mark is written into the coefficients that survive ordinary handling.
+
+The implementation follows four principles, each answering a specific way an image gets damaged.
+
+/ Work on 8x8 blocks, in the mid frequencies : The image is cut into small 8x8 tiles, and each tile is transformed with the Discrete Cosine Transform, the same tiling that JPEG itself uses. Within each tile, the mark is written only into the middle frequency band. Low frequencies carry the broad shading a viewer notices immediately, and high frequencies are exactly what JPEG throws away when it compresses. The middle band is the compromise, robust to compression, yet not visually obvious. This is what buys JPEG robustness
+
+/ Scatter every bit across the whole image : No bit is written in a single place. Each bit of the payload is embedded redundantly into many tiles scattered pseudo-randomly across the picture, and recovery pools the evidence from all of them by majority. A crop deletes some copies of each bit, but as long as enough scattered copies survive somewhere in the remaining region, every bit is still recoverable.
+
+/ Encode each bit by quantisation, not by adding a pattern : ICNML's images are mostly grayscale, so the mark has nowhere to hide except in the very luminance the fingerprint ridges are made of. The scheme uses Quantisation Index Modulation @chen01: to write a bit into a tile, a keyed measurement of that tile is nudged onto one of two interleaved "grids", one grid meaning 0, the other meaning 1. Recovery simply checks which grid the measurement is closest to.
+
+/ Make the strength follow the local texture : How hard the mark is pushed into each tile is scaled by how textured that tile already is. Strong marks hide inside strong ridges where the eye cannot see them. Near-blank background tiles receive almost nothing. This is perceptual masking, and it is why the marked images score so well on perceived-similarity measures even where the raw pixel difference is not tiny.
+
+The one refinement worth explaining is gain invariance, because it is the distinguishing feature of the scheme that was retained. A common, innocent transformation is a change of brightness or contrast, or a gamma correction applied by a viewer. Under plain quantisation, multiplying every pixel by, say, 1.1 shifts every measurement off its grid and the mark becomes unreadable, even though the image looks unchanged. The implemented scheme sidesteps this by measuring each tile relative to itself. It divides the quantised measurement by a reference computed from a low-frequency coefficient of the same tile, a coefficient the embedding never touches. When brightness scales up, both the measurement and its reference scale by the same factor, and their ratio, the thing that actually decides the bit, does not move. This is Rational Dither Modulation @perezgonzalez05, adapted here to use a per-tile reference so that it also survives cropping (a global reference would shift whenever a crop changes which part of the image remains).
+
+#note[Two named variants exist in the code (`watermark/scheme.py`): `stdm-block`, the fixed-step baseline, and `stdm-gain`, the gain-invariant variant that is the default. They share all the block machinery and differ only in how the quantiser step is set.]
+
+== Undoing geometry: resynchronisation <wm-resync>
+
+Rotation and rescaling are a harder class of attack than compression or cropping. They do not merely corrupt a few bits, they slide the entire 8x8 grid out of alignment, so the recovery step reads every tile from the wrong place and recovers nothing. The code layer cannot help here. Indeed, error correction fixes scattered errors, not a loss of alignment.
+
+The implementation handles this with an optional resynchronisation step used only during verification, when ICNML still holds the original stored image to compare against (`watermark/resync.py`). It finds distinctive keypoints in both the suspect copy and the original, matches them, and computes the rotation-plus-scale transform that best maps one onto the other (ORB features with a RANSAC fit, discarding mismatches). Applying the inverse transform snaps the suspect copy back onto the original's grid, after which ordinary recovery proceeds. The same step also tries a few forensic-specific normalisations, inverting the grayscale or mirroring the image, since those are edits a fingerprint copy plausibly undergoes.
+
+Verification therefore proceeds in the two following attempts. First read the mark directly, and only if that fails, then resynchronise against the original and read again (`watermark_verify/verify.py`). The direct path covers the common cases (compression, brightness, mild cropping), the resync path is the fallback for geometric distortion.
+
+== How it is wired into ICNML <wm-integration>
+
+The watermark is applied at the moment of download. When an authenticated user downloads a full-resolution image, the serving code embeds a freshly built payload for that user before the bytes leave the server (`watermark/service.py`). At the same time, ICNML writes one row to a `watermark_event` audit table recording the file, the user, the encryption nonce, and a digest of the payload. This row is the server-side ledger. On recovery, the identity read out of a suspect image is cross-checked against it, confirming that the mark corresponds to a real, logged download.
+
+The feature fails safe and fails open. If the watermark keys are not configured, or if embedding raises an error, the download is still served (with the existing visible tags), and the event is logged. A biometric image being available to its authorised user is treated as more important than guaranteeing the invisible mark, an explicit operational choice recorded in the code.
+
+Recovery is exposed to administrators through a dedicated verification page (`watermark_verify` blueprint). An administrator uploads a suspect image, optionally alongside the original, and the page reports the recovered `user_id`, the matching user record, the originating download event, and whether resynchronisation was needed.
+
+#figure(
+  table(
+    columns: (auto, 1fr),
+    stroke: 0.5pt,
+    align: (left, left),
+    fill: (col, row) => if row == 0 { luma(220) } else { white },
+    table.header[Component][Role],
+    [`watermark/base.py`], [image -> luminance conversion, the watermarker interface],
+    [`watermark/codec.py`], [AES-GCM encryption and Reed-Solomon coding of the payload],
+    [`watermark/scheme.py`], [the two embedding schemes and their keyed layout],
+    [`watermark/resync.py`], [geometric resynchronisation for the verification path],
+    [`watermark/service.py`], [download-time embedding and audit logging],
+    [`watermark_verify/`], [the administrator recovery interface],
+  ),
+  caption: [The watermarking module added to ICNML.]
+)
+
+== Two independent secrets <wm-security>
+
+The security of the scheme rests on two keys that do different jobs, and it is worth separating them because they fail differently.
+
+The embedding key seeds the scattering of bits across tiles, the secret directions the measurements are taken along, and the placement of the two quantiser grids. Without it, an attacker who knows the entire published algorithm still cannot read the mark. They do not know where each bit is, nor along which axis it was written. This follows Kerckhoffs's principle @kerckhoff, the algorithm is public, only the key is secret.
+
+The encryption key protects the identity itself. Even a complete break of the embedding key yields only ciphertext. Without the encryption key it cannot be turned into a name, and it cannot be forged into an accusation against someone else, because the authentication seal would not verify.
+
+Two limitations are stated honestly, as they bound what the current implementation should claim:
+
+- Reusing one key across many images leaks it slowly. The watermarking-security literature @cayre05 shows that an adversary holding many images marked with the same key can gradually estimate the secret. In ICNML's threat model the adversary is a leak recipient holding one or a few copies and no originals, the weak end of that spectrum, but per-donor or per-submission keys are the mitigation if this becomes a concern.
+- Keys prevent reading and forging, not erasing. An attacker who only wants to destroy the mark can still try heavy compression or noise. Whether they succeed is a robustness question, answered by the evaluation below, not a security one.
+
+== Does it work? Evaluation <wm-evaluation>
+
+The scheme was measured, not merely discussed. An evaluation script (the `test-scripts` repository) embeds an encrypted identifier with each candidate scheme, subjects every marked copy to a battery of 32 attacks, and reports three things:
+- One how many bits were flipped (bit error rate). 
+- Two whether the full identifier was recovered exactly end-to-end. 
+- Three how much the image was visibly degraded. 
+
+The attack battery covers the ordinary signal-processing distortions (JPEG at several qualities, cropping, rotation, rescaling, brightness and gamma changes, noise, blur) and a forensic-workflow family specific to fingerprints: grayscale inversion, mirroring, contrast equalisation, sharpening, and round-trips through WSQ, the FBI's fingerprint compression format. The carriers are thirty fingerprint, palm-print and tenprint images from ICNML.
+
+A distinctive criterion is included for further discussion which is biometric utility. Using the Open Source FingerJetFX minutiae extractor @fjfx, the evaluation script measures what fraction of a print's identifying minutiae still survive after the mark is embedded, informing the destruction rate 
+A distinctive criterion is included for further discussion which is biometric utility. Using the Open Source FingerJetFX minutiae extractor @fjfx, the evaluation script measures what fraction of a print's identifying minutiae still survive after the mark is embedded. This can be used to analyse how much the embedding hurts the minutiae automatic detections.
+
+
+
+The retained scheme, `stdm-gain`, is not the one with the highest raw recovery rate, and the reason it was chosen is a threat-model argument rather than a leaderboard one. It is the best scheme on two axes that matter most in this setting: the perceived fidelity of the stored biometric, and robustness to the innocent photometric edits (brightness, contrast, gamma) a forensic image is most likely to undergo in ordinary use. The strength knob (`delta`) is a documented tuning path: raising it trades fidelity for more robustness if a deployment needs it.
+
+== Limitations and future work <wm-limits>
+
+The implementation deliberately scopes the adversary to a single redistributing recipient, so it uses an error-correcting code rather than a collusion-resistant fingerprinting code (Tardos). If future ICNML workflows distribute distinctly-marked copies to many students at once, several of whom might compare their copies to erase the trace, the code layer would need to be revisited. The state-of-the-art chapter records why that path was set aside for now and what it would cost. 
+
+
+No mention of the path on which the watermarking is set. And how it completely replaces the old one, but maybe it's irrelevant ? 
+
+No discussion on the beautiful graphs that were made for this as this would improve the talk and the why the gain variant was chosen. With perhaps links in the appendices to images that are outliers or interesting to talk about. 
+
+Also talk about the implementation found that were very weak + very very slow on the kind of images we handle.
+
