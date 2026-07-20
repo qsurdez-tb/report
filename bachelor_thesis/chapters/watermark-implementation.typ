@@ -24,11 +24,11 @@ Before hiding anything, the system decides what to hide. Each marked copy carrie
   caption: [The 24-byte identity record embedded in every downloaded copy (`watermark/__init__.py`).]
 )
 
-This record is not embedded as-is. It passes through two protective layers first, in the order shown in @wm-pipeline-fig.
+This record is not embedded as-is. It passes through two protective layers first, in the order shown in @watermark-pipeline.
 
 The first layer is encryption with authentication. The record is encrypted with AES-256 in Galois/Counter Mode (AES-GCM) @nist80038d. Encryption matters because the mark should not itself leak who downloaded a file to anyone who learns the embedding recipe. Only ICNML, holding the secret key, can read it back. The "authentication" part adds a short cryptographic seal (a 16-byte tag): when the payload is later recovered, ICNML can verify the seal and be certain the identity it reads is one it actually wrote, not a coincidence or a forgery. This is what lets a recovered mark support an accusation rather than a guess.
 
-The second layer is error correction. The encrypted record is wrapped in a Reed-Solomon code @reed60, which appends 32 bytes of redundancy. Reed-Solomon works on whole bytes (symbols) rather than single bits, and can repair any 16 corrupted bytes out of the codeword. The reason this pairing is deliberate. Indeed, encryption is brittle by design. If even one bit of the encrypted record is wrong, decryption fails completely, there is no "almost right" ciphertext. The lossy channel of a watermarked image will flip bits. Error correction absorbs those flips so that the encryption layer always receives an exact, unmodified record to decrypt. The two layers protect against different things and neither replaces the other. See @watermark-pipeline
+The second layer is error correction. The encrypted record is wrapped in a Reed-Solomon code @reed60, which appends 32 bytes of redundancy. Reed-Solomon works on whole bytes (symbols) rather than single bits, and can repair any 16 corrupted bytes out of the codeword. The reason this pairing is deliberate. Indeed, encryption is brittle by design. If even one bit of the encrypted record is wrong, decryption fails completely, there is no "almost right" ciphertext. The lossy channel of a watermarked image will flip bits. Error correction absorbs those flips so that the encryption layer always receives an exact, unmodified record to decrypt. The two layers protect against different things and neither replaces the other.
 
 
 The result of these two layers is a fixed-length string of bits, 672 bits in the current configuration (84 bytes: 12 for the encryption nonce, 24 for the record, 16 for the authentication seal, 32 for the Reed-Solomon redundancy), that is now robust enough to survive a noisy channel and is ready to be hidden in the picture.
@@ -56,6 +56,11 @@ The one refinement worth explaining is gain invariance, because it is the distin
 Rotation and rescaling are a harder class of attack than compression or cropping. They do not merely corrupt a few bits, they slide the entire 8x8 grid out of alignment, so the recovery step reads every tile from the wrong place and recovers nothing. The code layer cannot help here. Indeed, error correction fixes scattered errors, not a loss of alignment.
 
 The implementation handles this with an optional resynchronisation step used only during verification, when ICNML still holds the original stored image to compare against (`watermark/resync.py`). It finds distinctive keypoints in both the suspect copy and the original, matches them, and computes the rotation-plus-scale transform that best maps one onto the other (ORB features with a RANSAC fit, discarding mismatches). Applying the inverse transform snaps the suspect copy back onto the original's grid, after which ordinary recovery proceeds. The same step also tries a few forensic-specific normalisations, inverting the grayscale or mirroring the image, since those are edits a fingerprint copy plausibly undergoes.
+
+#figure(
+  image("../assets/plots/output-orb.webp", width: 75%),
+  caption: [Example of matching feature for an image using OpenCV ORB detector. @gfgorb]
+)
 
 Verification therefore proceeds in the two following attempts. First read the mark directly, and only if that fails, then resynchronise against the original and read again (`watermark_verify/verify.py`). The direct path covers the common cases (compression, brightness, mild cropping), the resync path is the fallback for geometric distortion.
 
