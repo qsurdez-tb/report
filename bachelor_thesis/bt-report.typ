@@ -58,7 +58,7 @@
 // Set global page layout
 #set page(
   paper: "a4",
-  numbering: "1",
+  numbering: "i",
   header: context{
     if (not is-first-page(page)) and (not is-title-page(page)) {
       columns(2, [
@@ -293,6 +293,11 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 | ------------------------------------
 */
 
+// Main matter: restart page numbering in arabic at the first content chapter.
+#pagebreak(weak: true, to: none)
+#set page(numbering: "1")
+#counter(page).update(1)
+
 #include "chapters/introduction.typ"
 #include "chapters/planification.typ"
 #include "chapters/context.typ"
@@ -371,7 +376,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 
 #fullpage([= Appendices])
 #counter(heading).update(0)
-#set heading(numbering: "I.i")
+#set heading(numbering: "A.i")
 
 /*
 | ------------------------------------
