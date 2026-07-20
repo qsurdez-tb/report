@@ -130,7 +130,7 @@
 }else{
   v(14pt)
 }
-#v(3%)
+#v(2%)
 
 #align(left, [
   #block(
