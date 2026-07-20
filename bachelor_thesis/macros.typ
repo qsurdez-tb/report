@@ -25,8 +25,10 @@
 ]
 
 #let is-first-page(page) = {
-  let pageNumber = counter(page).get().first()
-  pageNumber == 1
+  // The title page is the first physical page. Detect it by absolute position
+  // rather than the page counter, which is deliberately reset to 1 again at the
+  // start of the main matter (Introduction).
+  here().page() == 1
 }
 
 #let is-title-page(page) = {
@@ -67,10 +69,6 @@
   width: 100%,
 )[*Note:* #body]
 
-// Plain-language chapter/section opener. Sits at the top of a chapter and
-// states, without jargon, what the topic is and why it matters, before any
-// implementation detail. Deliberately styled apart from #note so a reader can
-// grasp the essentials from the boxed summaries alone.
 #let concept(body) = block(
   fill: luma(245),
   stroke: (left: 3pt + luma(130)),
