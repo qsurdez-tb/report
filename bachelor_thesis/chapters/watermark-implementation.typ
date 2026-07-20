@@ -28,12 +28,8 @@ This record is not embedded as-is. It passes through two protective layers first
 
 The first layer is encryption with authentication. The record is encrypted with AES-256 in Galois/Counter Mode (AES-GCM) @nist80038d. Encryption matters because the mark should not itself leak who downloaded a file to anyone who learns the embedding recipe. Only ICNML, holding the secret key, can read it back. The "authentication" part adds a short cryptographic seal (a 16-byte tag): when the payload is later recovered, ICNML can verify the seal and be certain the identity it reads is one it actually wrote, not a coincidence or a forgery. This is what lets a recovered mark support an accusation rather than a guess.
 
-The second layer is error correction. The encrypted record is wrapped in a Reed-Solomon code @reed60, which appends 32 bytes of redundancy. Reed-Solomon works on whole bytes (symbols) rather than single bits, and can repair any 16 corrupted bytes out of the codeword. The reason this pairing is deliberate. Indeed, encryption is brittle by design. If even one bit of the encrypted record is wrong, decryption fails completely, there is no "almost right" ciphertext. The lossy channel of a watermarked image will flip bits. Error correction absorbs those flips so that the encryption layer always receives an exact, unmodified record to decrypt. The two layers protect against different things and neither replaces the other.
+The second layer is error correction. The encrypted record is wrapped in a Reed-Solomon code @reed60, which appends 32 bytes of redundancy. Reed-Solomon works on whole bytes (symbols) rather than single bits, and can repair any 16 corrupted bytes out of the codeword. The reason this pairing is deliberate. Indeed, encryption is brittle by design. If even one bit of the encrypted record is wrong, decryption fails completely, there is no "almost right" ciphertext. The lossy channel of a watermarked image will flip bits. Error correction absorbs those flips so that the encryption layer always receives an exact, unmodified record to decrypt. The two layers protect against different things and neither replaces the other. See @watermark-pipeline
 
-#figure(
-  image("../assets/watermark-pipeline.drawio.png", width: 78%),
-  caption: [The identity record is encrypted, then error-correction-coded, then spread invisibly across the image. Recovery runs the same steps in reverse.]
-)<wm-pipeline-fig>
 
 The result of these two layers is a fixed-length string of bits, 672 bits in the current configuration (84 bytes: 12 for the encryption nonce, 24 for the record, 16 for the authentication seal, 32 for the Reed-Solomon redundancy), that is now robust enough to survive a noisy channel and is ready to be hidden in the picture.
 

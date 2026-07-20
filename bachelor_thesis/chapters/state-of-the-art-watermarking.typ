@@ -148,7 +148,7 @@ This thesis combines a transform-domain watermark with a Reed-Solomon code layer
 #figure(
   image("../assets/watermark-pipeline.drawio.png", width: 70%),
   caption: [End-to-end source identification after a potential leak.]
-)
+)<watermark-pipeline>
 
 The watermarking scheme is not yet fixed. Two candidates from the previous sections are explored. One is a decomposition-based hybrid in the DWT-DCT-SVD domain, the other is a Spread-Transform Dither Modulation. They are compared along the criteria established above such as robustness under the in-scope attacks, exposure to the SVD ambiguity attack @zhang05, and the capacity each leaves for the code layer. Selecting the scheme is part of the implementation work. Candidate implementations under evaluation include the `blind_watermark` @blind-watermark package for the DWT-DCT-SVD hybrid and `reedsolo` @reedsolo for the Reed-Solomon layer.
 
