@@ -1,6 +1,6 @@
 = Authentication — implementation details <appendix-authentication>
 
-This appendix holds the code excerpts and the full per-role route inventory that the authentication chapter (@roles-and-permissions) refers to. The chapter body keeps the concepts and the decisions; the reference material lives here.
+This appendix holds the code excerpts and the full per-role route inventory that the authentication chapter (@roles-and-permissions) refers to. The chapter body keeps the concepts and the decisions. The reference material lives here.
 
 == Login and session code excerpts <auth-code>
 
@@ -47,7 +47,7 @@ This appendix holds the code excerpts and the full per-role route inventory that
   def rate_limit_to_seconds( nb ):
         return pow( config.login_rate_limiting_base, max( nb, config.login_rate_limiting_limit ) )
   ```,
-  caption: [Exponential rate-limit delay; base 2, floor 5 (`views/login/__init__.py`, ln 113-114).]
+  caption: [Exponential rate-limit delay, base 2, floor 5 (`views/login/__init__.py`, ln 113-114).]
 )
 
 #figure(
@@ -104,7 +104,7 @@ This appendix holds the code excerpts and the full per-role route inventory that
     key = "{}_{}".format( session[ "username" ], hra )
     config.redis_dbs[ "totp" ].set( key, "ok", ex = 30 * 24 * 3600 )
   ```,
-  caption: [Device-trust record keyed on username and hashed client IP; its presence skips the TOTP step for 30 days (`views/login/__init__.py`, ln 309-314).]
+  caption: [Device-trust record keyed on username and hashed client IP. Its presence skips the TOTP step for 30 days (`views/login/__init__.py`, ln 309-314).]
 )
 
 #figure(
@@ -129,7 +129,7 @@ This appendix holds the code excerpts and the full per-role route inventory that
 - Submission overview: view all submissions (`GET /admin/submission/list`).
 - AFIS management: create targets (`POST /admin/target/<submission_id>/<pc>/new`), delete targets or candidate matches, update assigned AFIS users, batch-assign targets (`POST /admin/afis/batch_assign/do`).
 - Full-resolution images: download uncompressed originals (`GET /image/file/<id>/full_resolution`).
-- PiAnoS integration: synchronise users and segments to the external PiAnoS system (`GET /pianos_api/add_user/all`, `GET /pianos_api/add_segments/all`; not working in production).
+- PiAnoS integration: synchronise users and segments to the external PiAnoS system (`GET /pianos_api/add_user/all`, `GET /pianos_api/add_segments/all`, not working in production).
 - Mark deletion in admin context (`POST /admin/<submission_id>/mark/<m_id>/delete`).
 - UUID inspection: retrieve the raw database table for any UUID (`GET /uuid/get_table/<uuid>`).
 
@@ -150,6 +150,25 @@ This appendix holds the code excerpts and the full per-role route inventory that
     [Browse own data],           [`GET /submission/list`, tenprint list, mark list, segment views.],
   ),
   caption: [Routes of interest for the Submitter role. `@submission_has_access` returns HTTP 403 when the `submission_id` was not created by the current submitter.]
+)
+
+=== Donor routes
+
+#figure(
+  table(
+    columns: (auto, 1fr),
+    stroke: 0.5pt,
+    fill: (col, row) => if row == 0 { luma(220) } else { white },
+    align: (left, left),
+    table.header[Route][Purpose],
+    [`GET  /user/myprofile/dek`],      [View the key (DEK) profile page.],
+    [`GET  /user/myprofile/tenprint`], [View own tenprint cards.],
+    [`GET  /user/myprofile/marks`],    [View own mark images.],
+    [`POST /dek/reconstruct`],         [Re-derive the DEK from the donor's e-mail (requires re-authentication).],
+    [`GET  /dek/delete`],              [Soft-delete the DEK (reversible).],
+    [`GET  /dek/fulldelete`],          [Permanently delete the DEK (right to erasure, irreversible).],
+  ),
+  caption: [Routes of interest for the Donor role, centred on key (DEK) management.]
 )
 
 === Trainer routes
