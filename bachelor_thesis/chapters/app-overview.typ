@@ -29,13 +29,13 @@ The home page is the submissions list, a grid of donor cards each carrying the d
 
 #figure(image("../assets/screenshots/admin/02-donor-page-admin.png", width: 100%), caption: [Donor detail, the five data categories.]) <fig-donor-detail>
 
-*General pattern.* The general-pattern view shows the ten fingerprint classifications, one per finger, each labelled with its pattern type. Any classification can be edited through a modal that presents every pattern type as a selectable icon (@fig-donor-gp, @fig-donor-gp-update).
+/ General pattern : The general-pattern view shows the ten fingerprint classifications, one per finger, each labelled with its pattern type. Any classification can be edited through a modal that presents every pattern type as a selectable icon (@fig-donor-gp, @fig-donor-gp-update).
 
 #figure(image("../assets/screenshots/admin/03-donor-gp-admin.png", width: 100%), caption: [General-pattern view.]) <fig-donor-gp>
 
 #figure(image("../assets/screenshots/admin/04-donor-gp-update-admin.png", width: 66%), caption: [Pattern-type edit modal.]) <fig-donor-gp-update>
 
-*Tenprints.* The tenprint list shows every reference card uploaded for the donor. Selecting one displays the card with its segments annotated (which finger sits where) alongside metadata and controls to update or delete segments, download, or remove the card (@fig-tenprint-list, @fig-donor-tenprint-detail). A separate segments list shows each segment cropped and labelled (@fig-donor-tenprint-segment).
+/ Tenprints : The tenprint list shows every reference card uploaded for the donor. Selecting one displays the card with its segments annotated (which finger sits where) alongside metadata and controls to update or delete segments, download, or remove the card (@fig-tenprint-list, @fig-donor-tenprint-detail). A separate segments list shows each segment cropped and labelled (@fig-donor-tenprint-segment).
 
 #figure(image("../assets/screenshots/admin/05-donor-tenprints-admin.png", width: 100%), caption: [Tenprint list.]) <fig-tenprint-list>
 
@@ -43,13 +43,13 @@ The home page is the submissions list, a grid of donor cards each carrying the d
 
 #figure(image("../assets/screenshots/admin/06.05-donor-tenprint-segment-list-admin.png", width: 70%), caption: [Segment list from a tenprint.]) <fig-donor-tenprint-segment>
 
-*Targets.* The targets view shows the ten rolled reference prints, one per finger. Opening one reveals four groups of linked images: target annotations, Close Non-Match results, references, and marks (@fig-target, @fig-target-detail).
+/ Targets : The targets view shows the ten rolled reference prints, one per finger. Opening one reveals four groups of linked images: target annotations, Close Non-Match results, references, and marks (@fig-target, @fig-target-detail).
 
 #figure(image("../assets/screenshots/admin/07-donor-target-admin.png", width: 100%), caption: [Targets view.]) <fig-target>
 
 #figure(image("../assets/screenshots/admin/08-donor-target-detail-admin.png", width: 100%), caption: [Images linked to a target.]) <fig-target-detail>
 
-*Marks.* Marks come in two subcategories, target and incidental, sharing the same layout: a searchable grid of images (@fig-marks-target, @fig-marks-incidental). Opening a mark shows its metadata with six editable fields (Detection, Surface, Activity, Distortion, Location, Notes) and buttons to download or delete it (@fig-marks-detail).
+/ Marks : Marks come in two subcategories, target and incidental, sharing the same layout: a searchable grid of images (@fig-marks-target, @fig-marks-incidental). Opening a mark shows its metadata with six editable fields (Detection, Surface, Activity, Distortion, Location, Notes) and buttons to download or delete it (@fig-marks-detail).
 
 #grid(
   columns: (1fr, 1fr),
@@ -86,7 +86,7 @@ The AFIS assignment page assigns targets to AFIS users in three steps: select us
 
 === CNM list
 
-The Close Non-Match list gathers every CNM image in the library, each labelled with its UUID and a status colour: blue for an incidental mark, red for a target mark, grey for no mark value (@fig-cnm-list). Opening one shows the CNM documentation form above the linked tenprint cards and the AFIS screenshot with minutiae (@fig-cnm-detail).
+The Close Non-Match list gathers every CNM image in the library, each labelled with its UUID and a status colour: blue for an incidental mark, red for a target mark, grey for no mark value (@fig-cnm-list). Opening one shows the CNM documentation form above, the linked tenprint cards and the AFIS screenshot with minutiae (@fig-cnm-detail).
 
 #figure(image("../assets/screenshots/admin/20-cnm-list-admin.png", width: 100%), caption: [Close Non-Match list.]) <fig-cnm-list>
 
