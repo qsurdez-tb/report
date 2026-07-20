@@ -306,6 +306,8 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 // #include "chapters/dek-donor-generation.typ"
 #include "chapters/db-architecture.typ"
 #include "chapters/state-of-the-art-watermarking.typ"
+#include "chapters/watermark-implementation.typ"
+#include "chapters/ux-improvements.typ"
 #include "chapters/conclusion.typ"
 
 // ------------------------------------
@@ -355,7 +357,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 #context {
   let tables = query(figure.where(kind: table))
   if tables.len() != 0 {
-    outline(title: "Tabs list", target: figure.where(kind: table))
+    outline(title: "List of tables", target: figure.where(kind: table))
   }
 }
 
