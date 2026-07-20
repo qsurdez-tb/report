@@ -114,6 +114,16 @@ reedsolo:
   author: ["Tomer Filiba", "and Stephen Karl Larroque"]
   url: https://github.com/tomerfiliba-org/reedsolomon
 
+kerckhoff:
+  type: Web
+  title: "Kerckhoffs's principle"
+  url: https://en.wikipedia.org/wiki/Kerckhoffs%27s_principle
+
+fjfx:
+  type: Web
+  title: "FingerJetFXOSE"
+  url: https://github.com/FingerJetFXOSE/FingerJetFXOSE
+
 # State of the art: watermarking / fingerprinting / traitor tracing
 
 # What are the approaches for robust watermarking
@@ -391,3 +401,65 @@ zhu18:
       name: Springer
   page-range: 682-697
   doi: 10.1007/978-3-030-01267-0_40
+
+# Rational Dither Modulation, the gain-invariance principle behind stdm-gain
+perezgonzalez05:
+  type: Article
+  title: "Rational Dither Modulation: A High-Rate Data-Hiding Method Invariant to Gain Attacks"
+  author: ["Fernando Pérez-González", "Carlos Mosquera", "Mauro Barni", "and Andrea Abrardo"]
+  date: 2005
+  parent:
+    type: Periodical
+    title: IEEE Transactions on Signal Processing
+    volume: 53
+    issue: 10
+  page-range: 3960-3975
+  doi: 10.1109/TSP.2005.855407
+
+# Reed-Solomon original paper, the outer error-correcting code
+reed60:
+  type: Article
+  title: "Polynomial Codes Over Certain Finite Fields"
+  author: ["Irving S. Reed", "and Gustave Solomon"]
+  date: 1960
+  parent:
+    type: Periodical
+    title: Journal of the Society for Industrial and Applied Mathematics
+    volume: 8
+    issue: 2
+  page-range: 300-304
+  doi: 10.1137/0108018
+
+# AES-GCM authenticated encryption used in the payload codec
+nist80038d:
+  type: Report
+  title: "Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) and GMAC (NIST SP 800-38D)"
+  author: "Morris Dworkin"
+  date: 2007
+  publisher:
+    name: National Institute of Standards and Technology
+  doi: 10.6028/NIST.SP.800-38D
+
+# Watermarking security classes, basis for the key-reuse caveat
+cayre05:
+  type: Article
+  title: "Watermarking Security: Theory and Practice"
+  author: ["François Cayre", "Caroline Fontaine", "and Teddy Furon"]
+  date: 2005
+  parent:
+    type: Periodical
+    title: IEEE Transactions on Signal Processing
+    volume: 53
+    issue: 10
+  page-range: 3976-3987
+  doi: 10.1109/TSP.2005.855418
+
+# NIST fingerprint image quality, the OpenLQM metric lineage
+nistlqm:
+  type: Report
+  title: "Local Quality Metrics for Fingerprint Images (OpenLQM / NFIQ lineage)"
+  author: ["Elham Tabassi", "and others"]
+  date: 2021
+  publisher:
+    name: National Institute of Standards and Technology
+  url: https://github.com/usnistgov/OpenLQM
