@@ -1,362 +1,96 @@
-#import "../macros.typ": note
+#import "../macros.typ": note, concept
 
 = Per-Donor Security Processes <per-donor-security>
 
-This chapter is focused on all the security processes around the user type Donor, @roles-and-permissions. These processes span the whole donor lifecycle, from protection of the data concerning the donor by a Submitter, through the consent and activation flow, to authentication and the DEK (Data Encryption Key) deletion and reconstruction mechanisms.
+#concept[
+  The Donor is the person whose fingerprints ICNML stores (@roles-and-permissions). This chapter is about how that person's data is protected across their whole life in the system. From the moment a Submitter registers them, through consent and account activation, to the operation that matters most for privacy, the donor's ability to make all of their biometric data permanently unrecoverable. That power rests on a single per-donor key, the Data Encryption Key (DEK). The supporting code is collected in @appendix-per-donor.
+]
 
-== Donor Creation and DEK Generation <dek-donor-generation>
+== The idea: one key per donor
 
-When a new donor is registered, a DEK (Data Encryption Key) is generated. This key is unique to the donor and is used to encrypt all biometric data associated with them.
+Every donor has one key, the DEK, and every piece of their biometric data, marks and tenprints alike, is encrypted with it. Destroying the DEK and the data becomes unreadable to everyone, permanently. Because the table that holds the DEKs is deliberately kept out of the ordinary database backups, this is not a soft promise, a destroyed key cannot be recovered from a backup either.
 
-The DEK is designed so that deleting it will render all 
-biometric data linked to the Donor unrecoverable. This is a 
-very important workflow to guarantee a privacy-by-deletion 
-design. If the donor wants to delete their key, they have the possibility to do it, and it will render all biometric data unreadable by other users.
+This is privacy by deletion, and for a biometric library it is the mechanism that makes a meaningful right to erasure possible. A donor who withdraws consent does not have to trust that every copy of their prints, in the database, was found and deleted. Removing the one key that unlocks them is enough. The rest of this chapter follows the DEK from creation to that final erasure.
 
-=== Entry point
+== Creating a donor and their key <dek-donor-generation>
 
-The entry point for the creation of a new donor is `POST /submission/do_new`. This is triggered after the Submitter has sent the form to register the new Donor. This is only accessible for the users with `@utils.decorator.submission_has_access`, @roles-and-permissions.
+A donor is never self-registered. A Submitter creates them through the registration form (`POST /submission/do_new`), supplying the donor's e-mail address and an optional nickname. Before anything is created, ICNML checks that the e-mail is not already registered, though only among the current submitter's own submissions, so the same donor could in principle be registered twice by two different submitters.
 
-The form provides two inputs:
-- `email`, this is the donor's plaintext email
-- `upload_nickname`, this is the donor's nickname chosen by the Submitter.
+The donor account is then created in a pending state with an automatically generated username of the form `donor_<id>`. The plaintext e-mail is never stored. What goes into the account's identity field is a hash of the e-mail. In this sense the e-mail hash is the donor's identifier inside ICNML.
 
-=== Step 1, checking for duplicate
+The DEK is then derived and stored. It is computed from two things tied to the donor, their username and a hash of their e-mail:
 
-Before any creation, the code check whether the hash of the email is already present in the database. To be more precise from the SQL query, it will check if, among the submissions done by the current Submitter, one has the same email hash.
+$ "DEK" = "PBKDF2"( "username" : "email_hash", "salt", 500\,000 "iterations" ) $
 
-#note[This duplicate check only queries submissions belonging to the current Submitter and not across all submissions. This could be improved easily.]
+#note[The code names the relevant parameter `email`, but it hashes the address internally before use (@apx-dek-creation). The value actually mixed into the DEK is the e-mail hash, not the address. The parameter name is misleading and is one of the small readability traps in the codebase.]
 
-#figure(
-    ```python
-    sql = "SELECT id, email_hash FROM submissions WHERE submitter_id = %s"
-    ...
-    if utils.hash.pbkdf2( email ).verify( case[ "email_hash" ] ):
-    # Return error that email is used for another submission
-    ```,
-    caption: [Duplicate check (`views/submission/__init__.py`, ln 329)]
-)
-
-=== Step 2, creating the donor user
-
-In this step, the Donor is created with the status pending. An Id is retrieved via a sequence found in the database and a username is created by appending this id to the string `donor_`.
-
-A new user is inserted within the `users` table with the format `donor_<id>`. The username, the email hash as well as the type of user (Donor) are persisted in the database.
+Alongside the DEK, the system stores a small check object. The word "ok" encrypted with the DEK. It is never needed to read data, but it lets ICNML later confirm that a recomputed DEK is the right one, by decrypting the check and seeing whether "ok" comes back. The DEK, its salt, and this check are saved in the `donor_dek` table.
 
 #figure(
-    ```python
-        userid = config.db.query_fetchone( "SELECT nextval( 'username_donor_seq' ) as id" )[ "id" ]
-        username = "donor_{}".format( userid )
-        sql = utils.sql.sql_insert_generate( "users", [ "username", "email", "type" ], "id" )
-        data = ( username, email_hash, 2 )
-    ```,
-    caption: [Creation of a new user of type Donor (`views/submission/__init__.py`, ln 353-356)]
+    image("../assets/DEK-generation.png", height: 62%),
+    caption: [Deriving and storing a donor's DEK at registration.]
 )
 
-=== Step 3, generating the DEK
+== Protecting the donor's e-mail and nickname
 
-After creating a user of type Donor, the DEK is generated calling the `utils.encryption.dek_generate()` function.
-This function can take up to 4 arguments:
-- `email`, the email of the donor
-- `email_hash`, the hash of the donor's email
-    - Either `email` or `email_hash` must be present in the kwargs
-- `username`, the username of the donor (required)
-- `salt`, the salt used for key generation (optional)
-
-The function will create a key derived from the username and the email hash using pbkdf2.
+The donor's e-mail is deliberately stored in two different forms, because two different needs pull in opposite directions.
 
 #figure(
-    ```python
-        dek = hash.pbkdf2( 
-            "{}:{}".format( username, email, ),
-            dek_salt,
-            iterations = config.DEK_NB_ITERATIONS,
-            hash_name = "sha512"
-        ).hash( True )
-    ```,
-    caption: [DEK generation (`utils/encryption.py`, ln 184-189)]
+  table(
+    columns: (auto, 1fr, 1fr),
+    stroke: 0.5pt,
+    fill: (col, row) => if row == 0 { luma(220) } else { white },
+    align: (left, left, left),
+    table.header[Form][How it is made][What it is for],
+    [E-mail hash], [PBKDF2 of the e-mail with a random salt (50 000 iterations)], [The donor's stable identifier, used to look accounts up. Cannot be reversed to the address.],
+    [Encrypted e-mail], [AES ciphertext with the submitter's session key], [Lets the submitter see the address back in the interface, without the server keeping the plaintext.],
+  ),
+  caption: [The two stored forms of a donor's e-mail and why both exist.]
 )
 
-Then the function creates a check object that is an AES-256 Ciphertext using the DEK as replacement for the usual password parameter. This object can be used later on if the user chooses to recrete their DEK after a soft-delete, // @dek-sof-delete. TODO
+The phrase "the submitter's session key" deserves unpacking, because the same idea reappears for the nickname. When a submitter logs in, a key derived from their client-side hashed password is held in their session (the session `password` field from @roles-and-permissions). ICNML encrypts the reversible e-mail form and the nickname with that key. These fields can only be decrypted while that particular submitter is logged in. No one else, not another submitter, not the server on its own, can turn them back into readable text.
+
+== The consent form
+
+A donor's consent form (a PDF) is handled with a different tool again, asymmetric GPG encryption. When the submitter uploads it, ICNML first scans each page for a QR code carrying the exact text `ICNML CONSENT FORM`, a simple check that the right document was uploaded. It then encrypts the file with a GPG public key belonging to the ICNML installation itself, and stores the result.
+
+The choice of an asymmetric key is what matters here. Encrypting with the institution's public key means the consent form can be written by the running application but only read back by whoever holds the matching private key, the institution's operators, kept off the server. Consent forms therefore sit encrypted at rest, out of reach of the web application in normal operation.
+
+#note[Two rough edges: the GPG key is identified by a single hardcoded key id in the configuration, and the encrypted file is stored base64-encoded in a text column, which inflates it by about 30% @base64. Both are easy to improve.]
 
 #figure(
-  ```python
-    check = {
-        "value": "ok",
-        "time": int( time.time() * 1000 ),
-        "random": rand.random_data( config.DEK_CHECK_SALT_LENGTH )
-    }
-    check = json.dumps( check )
-    check = aes.do_encrypt( check, dek )
-  ```,
-  caption: [Creation of the check object (`utils/encryption.py`, ln 191-197)]
+    image("../assets/submitter-consent-form.drawio.png", width: 78%),
+    caption: [Consent-form verification, encryption, and storage.]
 )
 
-The function returns a tuple of 3 variables:
-- `dek_salt`, the salt used for generating the DEK.
-- `dek`, the generated DEK.
-- `check`, the json object encrypted using the DEK.
+== Activating the donor account
 
-=== Step 4, persisting the DEK
-
-After the creation of the DEK, it is stored within the `donor_dek` table. Here's a list of the different fields that
-are persisted:
-
-- `donor_name`, this is the username created previously `donor_<id>`
-- `salt`, this is the `dek_salt` returned by the dek generating function
-- `dek`, the generated DEK
-- `dek_check`, the check object encrypted with AES-256 using the DEK
-- `iterations`, the number of iterations used to create the DEK
-- `algo`, the algo used for generating the DEK, here always pbkdf2
-- `hash`, the structure of the hash used, here always sha512
-
-It then returns a response with error false and the donor uuid.
+Only once the consent form is in place does the donor set their own password. They receive an e-mail with an activation link whose token is derived from their stored e-mail hash. Following it lets them choose a password, which, as everywhere in ICNML, is hashed once in the browser and a second time on the server before storage (@apx-dek-lifecycle). From this point the donor can log in and exercise control over their own key.
 
 #figure(
-    image("../assets/DEK-generation.png", height: 70%),
-    caption: [DEK Generation Schema]
+    image("../assets/donor-activation.drawio.png", width: 78%),
+    caption: [Donor account activation and password setup.]
 )
 
-== Submission Data Protection <submission-data-protection>
+== The DEK life cycle: withdraw, erase, restore
 
-When a new donor is registered, two pieces of identifying information are submitted by the Submitter: the donor's email address and an optional nickname. Both are sensitive and receive different treatments before being stored.
-
-=== Two Storage Formats for Donor's Email
-
-The donor's email is stored in two formats with two different purposes.
+Once the key exists, the donor (and, in a limited way, their submitter) can move it through the states shown in @dek-lifecycle-fig. Three operations matter.
 
 #figure(
-    ```python
-    email_aes  = utils.encryption.do_encrypt_user_session( email )
-    email_hash = utils.hash.pbkdf2( email, iterations = config.EMAIL_NB_ITERATIONS ).hash()
-    ```,
-    caption: [Different treamtment of the donor email at submission (`views/submission/__init__.py`, ln 344-345)]
-)
+    image("../assets/dek-lifecycle.drawio.png", width: 78%),
+    caption: [The DEK life cycle: soft deletion is reversible, full deletion is not.]
+)<dek-lifecycle-fig>
 
-`email_aes` is an AES-256 ciphertext created with the 
-Submitter's password, stored in the session object. It is 
-stored in `submission.email_aes` and allows the submitter to 
-display the email back in the interface without the server 
-needing the plaintext.
+/ Soft deletion : (`GET /dek/delete`) clears only the DEK itself, keeping its salt and check object. The donor's data immediately becomes unreadable, but because the salt survives, the key can still be recomputed later. This is a reversible withdrawal. The submission still appears to exist, its images simply cannot be opened for now.
 
-`email_hash` is a `PBKDF` hash with a random salt and 
-`EMAIL_NB_ITERATIONS` (50'000) iterations.
-The same hash value is stored in two places: `submissions.
-email_hash` and `users.email` as the identity of the donor 
-account in the `users` table. The plaintext email is not 
-persisted.
+/ Full deletion : (`GET /dek/fulldelete`) removes the DEK, its salt, and the check object. Without the salt, the derivation formula above can no longer be evaluated by anyone, so the DEK can never be reproduced and the donor's biometric data is permanently unreadable. This is the donor's right-to-erasure operation, and, as noted earlier, because the `donor_dek` table is excluded from backups, the erasure genuinely holds.
 
-=== Nickname encryption
+/ Reconstruction : undoes a soft deletion. The donor supplies a hash of their e-mail (computed in their browser with the fixed salt `icnml_user_DEK`). The server recomputes the DEK from it and the stored salt, checks it against the check object, and, only if "ok" comes back, restores it. A more limited form of this happens automatically for a submitter or administrator. When the DEK is soft-deleted but the salt remains, ICNML can rebuild the key from the encrypted e-mail form for the duration of that user's session only, never writing it back to the database. This is what lets a submitter keep working with a donor who has soft-deleted their key, while still leaving the donor in final control.
 
-The submission nickname provided by the Submitter is encrypted 
-with the same mechanism as the Submitter's password with AES 
-as`email_aes` before being stored in `submissions.nickname`.
+== Assessment
 
-#figure(
-    ```python
-    upload_nickname = utils.encryption.do_encrypt_user_session( upload_nickname )
-    ```,
-    caption: [Nickname encryption at submission (`views/submission/__init__.py`, ln 348)]
-)
+The per-donor design is the strongest security idea in ICNML. Encrypting every donor's data under a single, donor-controlled key, kept out of backups, turns "delete my data" from a promise into a cryptographic fact, and the check object gives the reconstruction paths a clean way to fail safely. Storing only a hash of the e-mail, and binding the reversible fields to the submitter's session, are sound choices.
 
-Because both fields use the submitter's password as the key, 
-they can only be decrypted during an authenticated session of 
-that submitter.
+The weaknesses are, for the most part, not structural. The duplicate-e-mail check should span all submissions, not just the current submitter's. The consent-form GPG key is hardcoded and its payload base64-bloated. The naming inside the key-derivation code (the `email` parameter that is really an e-mail hash) makes an already subtle mechanism harder to audit than it needs to be. The reconstruction paths in particular would benefit from clearer in-code documentation, as they are the part most easily misread.
 
-== Consent Form flow
-
-The content form PDF is encrypted via a mechanism involving an asymmetric GPG key.
-
-=== Step 1, QR Code Verification
-
-Before the file is stored, each page of the PDF is scanned searching for a QR code containing the exact string `"ICNML CONSENT FORM"`. The result is stored as a boolean in `cf.has_qrcode`.
-
-#figure(
-  ```python
-  for d in decoded:
-    if d.data == "ICNML CONSENT FORM":
-        qrcode_checked = True
-  ```,
-  caption: [QR code verification during consent form upload (`views/submission/__init__.py`, ln 212-213) ]
-)
-
-=== Step 2, Donor Activation Email
-
-Once the QR code is detected, the donor receivesan email containing a unique activation URL. The URL is computed as the SHA-512 hash of the email hash stored in `users.email`.
-
-#figure(
-    ```python
-    url_hash = hashlib.sha512( email_db ).hexdigest()
-    url = url_for( "newuser.config_new_user_donor", h = url_hash )
-    ```,
-    caption: [Activation URL token generation (`views/submission/__init__.py`, ln 188 + ln 227)]
-)
-
-The activation route (`GET /config/donor/<h>`) iterates all Donor accounts without a password set, computes `sha512(email)` for each, and matches against `h`. On a match, the donor's `user_id` is stored in the session and the account setup page is served.
-
-=== Step 3, GPG Encryption and Storage
-
-The consent form is then encrypted with a GPG public key identified by a hardcoded key Id configured in `config.gpg_key`. A separate email hash is derived for the consent form table using `CF_NB_ITERATIONS`.
-
-#figure(
-    ```python
-    file_data = config.gpg.encrypt( file_data, *config.gpg_key )
-    file_data = str( file_data )
-    file_data = base64.b64encode( file_data )
-
-    email_hash = utils.hash.pbkdf2( email, iterations = config.CF_NB_ITERATIONS ).hash()
-
-    sql = utils.sql.sql_insert_generate( "cf", [ "uuid", "data", "email", "has_qrcode" ] )
-    ```,
-    caption: [GPG encryption and storage of the consent form (`views/submission/__init__.py`)]
-)
-
-#note[The file data is stored in a `varchar` in the database. Thus it needs to be converted to base64. This bloats the data by about 30% @base64. It's an issue that could easily be fixed.]
-
-Only after the GPG encryption and database insertion succeed is the upload considered complete. The consent form is only uploaded once. The `submissions.consent_form` flag is set to `true` and further file upload for the donor become available.
-
-#figure(
-    image("../assets/submitter-consent-form.drawio.png", width: 80%),
-    caption: [Consent form creation workflow]
-)
-
-== Donor Account Activation 
-
-=== Entry Point
-
-The donor account activation is handled by the route `POST /do/config/donor`. It is reached via the link in the activation email. The session must already contain the `email_hash` and `user_id` set by the previous `GET /config/donor/<h>` route.
-
-=== Password Setup
-
-The password comes from the browser and is already hashed with the client-side first step:
-
-#figure(
-  ```javascript
-  password = await generateKey( password, "icnml_" + username, 20000 );
-  ```,
-  caption: [Encryption of the password Client-Side (`login/templates/login/users/config.html`, ln 109)]
-)
-
-#note[The function generateKey is defined in the file `app/function.js`. It would be interesting to explain it so to be sure it's understood how the password is encrypted on the Client-Side.]
-
-The server performs the second hash before storage, adding a new random salt:
-
-#figure(
-    ```python
-    password = utils.hash.pbkdf2( 
-      password, 
-      utils.rand.random_data( config.PASSWORD_SALT_LENGTH ), 
-      config.PASSWORD_NB_ITERATIONS )
-      .hash()
-    ...
-    config.db.query( "UPDATE users SET password = %s WHERE username = %s", ( password, username, ) )
-    ```,
-    caption: [Server-side second hash and storage (`views/newuser/__init__.py`)]
-)
-
-Before accepting the operation, the server verifies that the `email_hash` present in the session matches the one in the url as well as the `user_id` matches the one retrieved from the database using the username (`donor_<id>`).
-
-#figure(
-    image("../assets/donor-activation.drawio.png", width: 80%),
-    caption: [Donor activation schema]
-)
-
-
-== DEK Lifecycle
-
-After the DEK has been generated, the donor created and their password setup, the donor has control over the DEK through three operations: soft deletion, full deletion and reconstruction.
-
-=== Soft Deletion
-
-The route `GET /dek/delete` deletes only the `dek` column in `donor_dek`, leaving the `salt` and `dek_check` intact.
-
-#figure(
-    ```python
-    sql = "UPDATE donor_dek SET dek = NULL WHERE donor_name = %s"
-    config.db.query( sql, ( username, ) )
-    ```,
-    caption: [DEK soft-delete (`views/donor/__init__.py`, ln 92-93)]
-)
-
-This allows a user to withdraw their data from the application. The submitter's view of the submission is unchanged. Files appear to exist, but image content is no longer decryptable by the server. The DEK can still be reconstructed by the donor or the submitter.
-
-=== Full Deletion
-
-The route `GET /dek/fulldelete` removes the `dek`, `salt` and `dek_check` columns in three separate `UPDATE` statements.
-
-#figure(
-  ```python
-  sql = "UPDATE donor_dek SET dek = NULL WHERE donor_name = %s"
-  config.db.query( sql, ( username, ) )
-  sql = "UPDATE donor_dek SET salt = NULL WHERE donor_name = %s"
-  config.db.query( sql, ( username, ) )
-  sql = "UPDATE donor_dek SET dek_check = NULL WHERE donor_name = %s"
-  config.db.query( sql, ( username, ) )
-  ```,
-  caption: [DEK full delete (`views/donor/__init__.py`, ln 119-124)]
-)
-
-Without the salt, the DEK formula
-
-```
-DEK = PBKDF2( username + ":" + email_hash, salt, 500 000 )
-```
-
-cannot be evaluated by anyone. All encrypted biometric data becomes permanently unreadable. This is the donor's right-to-erasure operation. 
-
-#note[Quid of the backups ?]
-
-=== DEK Reconstruction by the Donor
-
-The route `POST /dek/reconstruct` allows the donor to restore their DEK after a soft deletion. The donor prodived their email hashed client-side with the fixed salt `"icnml_user_DEK"`. 
-
-The server fetches the stored `salt` and `dek_check`, recomputes the DEK, and validates it by decrypting `dek_check` and asserting `{"value": "ok"}` in the result.
-
-#figure(
-    ```python
-    _, dek, _ = utils.encryption.dek_generate(
-        username = username, email_hash = email_hash, salt = user[ "salt" ]
-    )
-    check = utils.aes.do_decrypt( user[ "dek_check" ], dek )
-    check = json.loads( check )
-
-    if check[ "value" ] != "ok":
-        raise Exception( "DEK check error" )
-
-    sql = "UPDATE donor_dek SET dek = %s WHERE id = %s AND donor_name = %s"
-    config.db.query( sql, ( dek, user[ "id" ], username, ) )
-    ```,
-    caption: [DEK reconstruction and verification by the donor (`views/donor/__init__.py`, ln 45-55)]
-)
-
-If the `dek_check` verification fails, the DEK is not written to the database and an error is returned.
-
-=== DEK Session Reconstruction by the Submitter or Administrator
-
-When the DEK column is empty but the `salt` is still present, the submitter or admin can access encrypted files for the duration of their session. This path is triggered automatically in `utils.encryption.get_dek_from_submissionid`.
-
-The submitter's session or admin's session must contain the AES-encrypted email `email_aes` for the submission. The code decrypts it using the session id, recomputes the DEK, verifies it against `dek_check`, and stores the result in the session under `session["dek_{submission_id}"]`.
-
-#figure(
-    ```python
-    email = do_decrypt_user_session( user[ "email" ] )
-    _, dek, _ = dek_generate( username = username, email = email, salt = dek_salt )
-
-    to_check = aes.do_decrypt( user[ "dek_check" ], dek )
-    to_check = json.loads( to_check )
-
-    if to_check[ "value" ] == "ok":
-        session[ "dek_{}".format( submission_id ) ] = dek
-        return True
-    ```,
-    caption: [Session-scoped DEK reconstruction for the submitter (`utils/encryption.py`, ln 139-146)]
-)
-
-The reconstructed DEK is never written back to `donor_dek`. It exists only in the server-side session for the duration of the submitter's or admin's login.
-
-#note[I'm not sure I understood this perfectly and which user is which. Have to take more time for that at some point!]
-
-#figure(
-    image("../assets/dek-lifecycle.drawio.png", width: 80%),
-    caption: [DEK lifecycle]
-)
+However, the DEK being stored in the same database as the encrypted images is a single point of failure. Indeed, if an attacker manages to dump the database, they would be able to decrypt all images very easily as the DEK is available to them. The images are stored as base64-bloated characters which makes the database very big, another solution would be to have a dedicated directory on the server where the images are in bytes and can be served by the server for example. 
