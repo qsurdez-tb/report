@@ -1262,6 +1262,84 @@ Intitulé à changer et donner les définitions. Avoir un processus plus génér
 
 0700 - Getting back into it 
 
+0716 - Looking at the diagrams I'm still a bit unsure about the scheme to choose. The forensic attack battery is the one I created and I don't know if it makes sense in the work ? Grrrr I wish I could contact someone easily about that ? 
 
+0717 -  Anyway, it's gonna be one of the stdm scheme and to be more precise either the block or gain variant... 
 
+0734 - Merging the lost commit branch into main... It's taking some time as there are conflicts ^^'
 
+0742 - Conflicts are resolved
+
+0750 - Coding the watermark feature.
+
+0828 - Who in the world names one of his internal package uuid ? urrrrgh cvan't import it easily it's just friction upon friction the dev on this codebase
+
+0840 - Hmm it seems to be working and it was my IDE being mislead. I hate this old dev who doesn't even know smth that obvious ...
+
+0854 - Have to create a new table in the DB for the nonce. 
+
+0925 - It's a bit difficult as I have to make sure that the key generated randomly and in a non-deterministic way have to be used inside a deterministic algo as seed to spread the bits in a random way... Urrrgh complicated.
+
+1011 - Put it aside and worked on the codec to encode decode with RS and AESGCM 
+
+1121 - Working on the service layer (orchestration) with the record of the watermarking event even when the watermarking failed
+
+1203 - Implementing the resync. Well after the break
+
+1302 - Had a 1 hour nap, that felt very very good 
+
+1357 - Handling the problem with pianos and icnml prod down ... 
+
+1427 - Cookie_path was mindtct and the binary is gone ... I have some very big feelings of hate for that person...
+
+1545 - well finally finished and it took quite a while on my TB :(( A bit annoying
+
+1627 - Now working on what Christophe asked me to do. Script for downloading the tenprint back cards 
+
+1731 - Finished for the day
+
+== 16.07
+
+0830 - Getting back into it and preparing the file transfer of the palm images
+
+0842 - Well good news a friend invited me to Paléo ! yay
+
+0847 - Just realized that I haven't tested the attack by zipping ? Is it lossless ? I'm not so sure
+
+0918 - Wanna try out a new rsync scheme that looks promising SIFT with MAGSAC. 
+
+0920 - Rerunning the compare_all script and we shall see what's the output after finishing working on the watermarking ^^'
+
+0928 - Integrating the watermark into the secure_download pipeline.
+
+0939 - I'm thinking of a fallback to the old method if there's an exception when watermarking the image like it's too small. I feel like that's smart rather than aborting completly the downloading. 
+
+1142 - Been implementing the verification for the watermark and it's going okay. A bit long but okay.
+
+1413 - Having trouble with opencv :(( Always complicated with that package
+
+1437 - Pushed all the commits and everything works ! Yay ! Wanna sleep now...
+
+1447 - Adding UUID on top of the card in folder for admins so they can easily see the uuid of the original for resync
+
+1530 - Finished ! Urrrgh so so soooo tiring though
+
+== 17.07 
+
+Feeling queasy 
+
+Implemented the WAtermark verify when I could during the day + writing the watermark-implementation chapter + ux-improvements chapters
+
+== 20.07
+
+0800 - Getting back into it
+
+0916 - Reread the watermark-implemenation chapter and have to redo some stuff and add a discussion on the graphs generated as they are quite awesome and telling.
+
+0931 - Both chapters are honestly quite good. I need to add the images and screenshots so that readers can easily see what I'm talking about. Perhaps quite small and in column so that it's quite interesting but doesn't take too musch space. Like dialog confirmation ^^ But the service is down so have to go to IT service.
+
+1010 - Okay it's resolved
+
+1016 - Discovered a new bug with toggle view. Honestly let's just remove the button...
+
+1020 - There's also a bug with the delete button ? WTF ? 
