@@ -92,7 +92,10 @@
 #show heading.where(level:1): set text(size: 25pt)
 #set table.cell(breakable: false)
 #show figure: set block(breakable: false, above: 1.5em, below: 1.5em)
-#show link: underline
+// Links appear with muted blue for clear separation from the text
+#show link: set text(fill: rgb("#1f4e79"))
+#show ref: set text(fill: rgb("#1f4e79"))
+#show cite: set text(fill: rgb("#1f4e79"))
 
 #show raw.where(block: true): block.with(
   fill: luma(240),
@@ -376,6 +379,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 | ------------------------------------
 */
 
+#include "chapters/appendix-glossary.typ"
 #include "chapters/tools-used.typ"
 #include "chapters/watermark-eval-figures.typ"
 #include "chapters/db-architecture.typ"
