@@ -379,11 +379,13 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 | ------------------------------------
 */
 
-#include "chapters/appendix-glossary.typ"
+#include "chapters/appendix/appendix-glossary.typ"
+#include "chapters/appendix/appendix-authentication.typ"
+#include "chapters/appendix/appendix-per-donor.typ"
 #include "chapters/tools-used.typ"
 #include "chapters/watermark-eval-figures.typ"
 #include "chapters/db-architecture.typ"
 #set page(flipped: true)
-#include "chapters/work-diary.typ"
+#include "chapters/appendix/work-diary.typ"
 
 // ------------------------------------

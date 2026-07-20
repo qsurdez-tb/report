@@ -41,7 +41,7 @@ Donor (type 2). Created by a submitter, never self-registered. A donor's pages a
 
 Trainer (type 4). Self-registers and is approved like a submitter. A trainer has read-only access to the mark library to build examiner-training exercises. They create no submissions and manage no donors. Routes in @auth-routes.
 
-AFIS (type 5). Self-registers and is approved like a submitter. AFIS users carry out fingerprint identification: they receive candidate-match assignments, upload and annotate search results, and record comparison decisions. This is a substantial part of the application; its routes are listed in @auth-routes.
+AFIS (type 5). Self-registers and is approved like a submitter. AFIS users carry out fingerprint identification: they receive candidate-match assignments, upload and annotate search results, and record comparison decisions. This is a substantial part of the application. Its routes are listed in @auth-routes.
 
 Selection (type 6). Self-registers and is approved, but reaches no dedicated function, as noted above.
 

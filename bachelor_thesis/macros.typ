@@ -66,3 +66,15 @@
   radius: 3pt,
   width: 100%,
 )[*Note:* #body]
+
+// Plain-language chapter/section opener. Sits at the top of a chapter and
+// states, without jargon, what the topic is and why it matters, before any
+// implementation detail. Deliberately styled apart from #note so a reader can
+// grasp the essentials from the boxed summaries alone.
+#let concept(body) = block(
+  fill: luma(245),
+  stroke: (left: 3pt + luma(130)),
+  inset: (x: 12pt, y: 10pt),
+  radius: 3pt,
+  width: 100%,
+)[*In brief.* #body]
