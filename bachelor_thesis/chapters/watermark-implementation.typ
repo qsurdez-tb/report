@@ -135,7 +135,7 @@ Raw robustness is only half the decision. @fig-fidelity generalises that single 
 
 #figure(
   image("../assets/plots/fidelity.png", width: 100%),
-  caption: [Imperceptibility of the embedded mark, one point per image. `stdm-gain` reaches a near-original SSIM of 0.98, while the equally-robust `stdm-block` sits lower and the `bw-svd` baseline drops to a visibly degraded 31 dB PSNR.]
+  caption: [Imperceptibility of the embedded mark, one point per image. `stdm-gain` reaches a near-original SSIM of 0.98.]
 )<fig-fidelity>
 
 #figure(
