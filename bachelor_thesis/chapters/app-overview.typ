@@ -47,7 +47,7 @@ The home page is the submissions list, a grid of donor cards each carrying the d
 
 #figure(image("../assets/screenshots/admin/07-donor-target-admin.png", width: 100%), caption: [Targets view.]) <fig-target>
 
-#figure(image("../assets/screenshots/admin/08-donor-target-detail-admin.png", width: 100%), caption: [Images linked to a target.]) <fig-target-detail>
+#figure(image("../assets/screenshots/admin/08-donor-target-detail-admin.png", width: 80%), caption: [Images linked to a target.]) <fig-target-detail>
 
 / Marks : Marks come in two subcategories, target and incidental, sharing the same layout: a searchable grid of images (@fig-marks-target, @fig-marks-incidental). Opening a mark shows its metadata with six editable fields (Detection, Surface, Activity, Distortion, Location, Notes) and buttons to download or delete it (@fig-marks-detail).
 
@@ -105,6 +105,12 @@ The new-users page is where an administrator validates or rejects account reques
 #figure(image("../assets/screenshots/admin/23-new-users-admin.png", width: 100%), caption: [Account-request management.]) <fig-new-users>
 
 #figure(image("../assets/screenshots/admin/24-security-keys-admin.png", width: 66%), caption: [Security-key management.]) <fig-security-keys>
+
+=== Marks search to add to trainer folder
+
+The marks search page is where a trainer or an administrator can browse the mark library and choose which ones to add to its exercise folder. There's currently no way to sort the images by any metrics which is resolved by the user-experience work of this thesis (@ux-improvements).
+
+#figure(image("../assets/screenshots/admin/25-marks-search.png", width: 100%), caption: [Marks searching page.]) <fig-marks-search>
 
 == User interface: strengths and weaknesses
 
