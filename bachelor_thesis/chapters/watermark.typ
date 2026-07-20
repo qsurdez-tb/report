@@ -1,6 +1,6 @@
 #import "../macros.typ": note
 
-= Watermark process
+= Watermark process <watermark>
 
 ICNML implements an image watermarking mechanism that adds 
 a CODE128 barcode into every image downloaded. The mechanism is called tattooing in the source code (`image_tattoo` in `views/images/__init__.py`).
