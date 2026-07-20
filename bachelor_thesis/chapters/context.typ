@@ -1,40 +1,38 @@
+#import "../macros.typ": note, concept
 
+= ICNML: Context <icnml-context>
 
-= ICNML: context <icnml-context>
+#concept[
+  ICNML is a web platform for storing and working with fingerprint data in forensic research. This chapter explains what it is for, the forensic problem it addresses, the two roles it plays, and the three-stage workflow, from collecting a donor's prints to handing a trainer a finished exercise, that the rest of the thesis documents in detail.
+]
 
-== What is ICNML ?
+== What is ICNML?
 
-ICNML (International Close Non-Matches Library) is a web platform designed for managing biometric data in scientific and forensic research contexts.  It is used by several reasearch institutions, for example at the University of Lausanne, Ecole des Sciences Criminelles (UNIL-ESC). It supports research in fingerprint identification.
+ICNML (International Close Non-Matches Library) is used by several research institutions, notably the School of Criminal Justice at the University of Lausanne (UNIL-ESC), to support research in fingerprint identification.
 
-The platform is both a library and a work environment for fingerprint traces (marks) and reference prints (tenprints), supporting all the steps from data acquisition to creating exercises for examiner training.
+It plays two roles at once. It is a library, a secure repository of fingerprint marks (traces) and reference prints (tenprints). It is also a workspace, the place where the forensic research workflow is actually carried out, from collecting a donor's data to preparing training exercises for fingerprint examiners. Keeping both under one roof, and doing so securely, is what makes the platform useful and what makes its security processes worth documenting.
 
-== Scientific context and motivation
+== The forensic problem it addresses
 
-Fingerprint examination in forensic science relies on comparing a latent mark found at a crime scene with a reference database. The Automated Fingerprint Identification Systems (AFIS) return a ranked list of candidate matches. The candidates that rank highly but do not actually correspond to the source trace are called Close Non-Matches (CNM). These are particularly valuable in research as they represent challenges for identification.
+Fingerprint examination compares a latent mark, a partial, often poor-quality print left at a scene, against a reference database. To narrow the field, examiners use an Automated Fingerprint Identification System (AFIS), a separate system, external to ICNML, that returns a ranked list of candidate prints. The candidates that rank highly but are not the true source are called Close Non-Matches (CNM).
 
-ICNML was built to collect, organise, and exploit these challenges for identification. It has two missions: 
+These close non-matches are the heart of the matter. They are the cases most likely to mislead an examiner, and so they are exactly the material needed to study identification errors and to train examiners against realistic, difficult scenarios. ICNML exists to collect and exploit them, which gives it two research-driven missions:
 
-+ Acts as a recipient for donors' biometric data (traces and reference tenprints) and for close non-matches results returned by AFIS searches.
-+ Provide trainers with the annotated data they need to build exercises that test fingerprint examiners against difficult, realistic scenarios.
++ Collect and protect donors' biometric data (marks and reference tenprints) together with the close non-matches returned by AFIS searches, building an organised research corpus.
++ Serve trainers with the annotated data they need to build exercises that test fingerprint examiners against genuinely hard, realistic cases.
 
-== Data acquisition to exercises creation
+== From a donor's prints to a finished exercise
 
-There are three different steps to understand the ICNML workflow from data creation to exercises creation.
+The platform's work follows three stages, each carried out by a different role. Understanding this flow is the quickest way to see how the roles, the platform, and its database relate. The roles themselves are detailed in @roles-and-permissions.
 
 === Stage 1: data acquisition
 
-A Submitter registers a new Donor in the system, for more info on the roles see @roles-and-permissions. The donor provides fingerprint reference cards (tenprints) and latent traces (marks). 
-Consent forms are acquired at this stage for new donors. Upon registration, a per-donor cryptographic key (DEK, see @dek-donor-generation) is generated and all biometric data for that donor is stored encrypted.
+A Submitter registers a new Donor, who provides reference tenprints and latent marks. Consent is recorded at this point. On registration, a per-donor cryptographic key (the DEK, @per-donor-security) is generated and every piece of that donor's biometric data is stored encrypted under it.
 
 === Stage 2: AFIS search
 
-An Administrator creates an AFIS target by submitting a trace to the AFIS users. The AFIS users will submit the target created by the Administrator to an Automated Fingerprint Identification System. 
-The AFIS returns a ranked list of candidate matches. The AFIS user will annotate those candidates, records a PFSP decision for each, a quality score that characterises the quality of the close non-match.
+An Administrator turns a mark into an AFIS target and assigns it to AFIS users, who run it through the external identification system. The returned candidates are annotated, each with a decision and a quality score characterising the close non-match. This is what steadily grows ICNML's library of hard cases.
 
-This will grow the library of close non-matches on ICNML.
+=== Stage 3: exercise creation
 
-=== Stage 3: Trainer exercise creation
-
-A Trainer uses the mark data, together with the known true correspondence and the AFIS close non-matches to build training exercises. For each exercise the trainer can choose to include either correct matches or misleading close non-matches.
-
-This allows the trainer to create realistic examination scenarios. Then the trainer can download the exercises they created and give them to their team.
+A Trainer draws on the marks, the known true correspondences, and the AFIS close non-matches to build training exercises, choosing for each whether to include a correct match or a misleading close non-match. The result is a set of realistic examination scenarios the trainer can download and give to their team.
