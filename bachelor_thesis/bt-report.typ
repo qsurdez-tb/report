@@ -304,7 +304,6 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 #include "chapters/deployment.typ"
 #include "chapters/backup-encryption.typ"
 // #include "chapters/dek-donor-generation.typ"
-#include "chapters/db-architecture.typ"
 #include "chapters/state-of-the-art-watermarking.typ"
 #include "chapters/watermark-implementation.typ"
 #include "chapters/ux-improvements.typ"
@@ -342,7 +341,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 #context {
   let figures = query(figure.where(kind: image))
   if figures.len() != 0 {
-    outline(title: "Figures table", target: figure.where(kind: image))
+    outline(title: "List of figures", target: figure.where(kind: image))
   }
 }
 
@@ -378,6 +377,8 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 */
 
 #include "chapters/tools-used.typ"
+#include "chapters/watermark-eval-figures.typ"
+#include "chapters/db-architecture.typ"
 #set page(flipped: true)
 #include "chapters/work-diary.typ"
 
