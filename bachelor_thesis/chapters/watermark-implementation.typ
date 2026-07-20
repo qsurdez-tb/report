@@ -104,27 +104,50 @@ Two limitations are stated honestly, as they bound what the current implementati
 == Does it work? Evaluation <wm-evaluation>
 
 The scheme was measured, not merely discussed. An evaluation script (the `test-scripts` repository) embeds an encrypted identifier with each candidate scheme, subjects every marked copy to a battery of 32 attacks, and reports three things:
+
 - One how many bits were flipped (bit error rate). 
 - Two whether the full identifier was recovered exactly end-to-end. 
 - Three how much the image was visibly degraded. 
 
 The attack battery covers the ordinary signal-processing distortions (JPEG at several qualities, cropping, rotation, rescaling, brightness and gamma changes, noise, blur) and a forensic-workflow family specific to fingerprints: grayscale inversion, mirroring, contrast equalisation, sharpening, and round-trips through WSQ, the FBI's fingerprint compression format. The carriers are thirty fingerprint, palm-print and tenprint images from ICNML.
 
-A distinctive criterion is included for further discussion which is biometric utility. Using the Open Source FingerJetFX minutiae extractor @fjfx, the evaluation script measures what fraction of a print's identifying minutiae still survive after the mark is embedded, informing the destruction rate 
-A distinctive criterion is included for further discussion which is biometric utility. Using the Open Source FingerJetFX minutiae extractor @fjfx, the evaluation script measures what fraction of a print's identifying minutiae still survive after the mark is embedded. This can be used to analyse how much the embedding hurts the minutiae automatic detections.
+A fourth criterion is biometric utility. Using the open-source FingerJetFX minutiae extractor @fjfx, the script measures what fraction of a print's identifying minutiae still survive after the mark is embedded, an indication of how much the embedding disturbs the automatic minutiae detection a forensic examiner relies on.
 
+Six schemes were put through the identical carriers and attacks: the four ST-DM variants developed for this thesis (`stdm-block`, `stdm-gain`, `stdm-tiled` and `stdm-global`) and two off-the-shelf library watermarkers kept as baselines (`bw-svd`, the `blind_watermark` DWT-DCT-SVD scheme, and `imw-dwtdct`, the `invisible-watermark` DWT-DCT scheme).
 
+#figure(
+  image("../assets/plots/overall_recovery.png", width: 88%),
+  caption: [Identifier recovery pooled over the whole 32-attack battery, one dot per carrier image. The tight ST-DM clusters separate cleanly from the widely-scattered library baselines.]
+)<fig-overall-recovery>
 
-The retained scheme, `stdm-gain`, is not the one with the highest raw recovery rate, and the reason it was chosen is a threat-model argument rather than a leaderboard one. It is the best scheme on two axes that matter most in this setting: the perceived fidelity of the stored biometric, and robustness to the innocent photometric edits (brightness, contrast, gamma) a forensic image is most likely to undergo in ordinary use. The strength knob (`delta`) is a documented tuning path: raising it trades fidelity for more robustness if a deployment needs it.
+Pooled over the whole battery (@fig-overall-recovery), the schemes separate cleanly. `stdm-block` recovers the identifier from 89% of attacked copies and `stdm-gain` from 84%, ahead of `stdm-tiled` (74%), the `bw-svd` baseline (70%), `stdm-global` (68%) and, far below, `imw-dwtdct` (22%). The per-image dots show this is not the work of a few lucky carriers as the ST-DM variants stay tight while the baselines scatter.
+
+Which attacks actually break each scheme is laid out in the per-attack recovery matrix (@fig-recovery-heatmap, appendix). Strong JPEG (quality 10) and heavy crops are the universal stress points (@fig-jpeg-robustness, appendix, traces the JPEG case quality by quality), `stdm-global` collapses under cropping (8% recovered), and `stdm-gain`'s one soft spot is the combined attacks (40-47%) that stack a geometric distortion on top of compression. The error-correcting layer is what keeps the rest of the matrix green, @fig-rs-margin (appendix) shows how much of the 16-byte Reed-Solomon budget each attack family consumes, and for every family bar the hardest combined cases the median stays comfortably below the correctable limit, this proves that the correction layer is important and interesting in our usecase.
+
+Before pooling fidelity across the library, it helps to see the effect on a single print. @fig-contact-sheet embeds one palm print with all six schemes and amplifies the resulting mark ten-fold. The embedded prints (upper row) are indistinguishable from the cover to the eye, exactly the point of an invisible mark. The amplified difference (lower row) is where the schemes part ways: the ST-DM variants leave only a faint trace, `stdm-gain` the faintest; `stdm-global` sprays a uniform speckle across even the flat background it need not touch; and the `bw-svd` baseline lays heavy, structured noise over the whole print, the visible damage its lower fidelity score reflects.
+
+#figure(
+  image("../assets/plots/embed_contact_sheet.png", width: 100%),
+  caption: [One palm print embedded by each of the six schemes (upper row, with per-image PSNR and SSIM), and the same watermark amplified ten-fold (lower row). The embedded prints are perceptually identical to the cover, while the amplified difference reveals how much each scheme disturbs the image and where.]
+)<fig-contact-sheet>
+
+Raw robustness is only half the decision. @fig-fidelity generalises that single example across all thirty carriers: `stdm-gain` embeds at a mean SSIM of 0.98, essentially indistinguishable from the stored original, whereas the equally-robust `stdm-block` sits at 0.93 and the `bw-svd` baseline falls to a visibly degraded 31 dB PSNR.
+
+#figure(
+  image("../assets/plots/fidelity.png", width: 100%),
+  caption: [Imperceptibility of the embedded mark, one point per image. `stdm-gain` reaches a near-original SSIM of 0.98, while the equally-robust `stdm-block` sits lower and the `bw-svd` baseline drops to a visibly degraded 31 dB PSNR.]
+)<fig-fidelity>
+
+#figure(
+  image("../assets/plots/tradeoff.png", width: 80%),
+  caption: [The decision plot. Robustness against imperceptibility, with marker size encoding minutiae retention. `stdm-gain` is the only scheme in the top-right corner, robust and near-invisible at once.]
+)<fig-tradeoff>
+
+This is the heart of the choice, drawn together in @fig-tradeoff, which plots robustness against imperceptibility with marker size encoding biometric utility. The retained scheme, `stdm-gain`, is not the highest scorer on raw recovery, and it is chosen on a threat-model argument rather than a leaderboard one. It is the only scheme that sits in the top-right corner, high robustness and high fidelity together, and it is the most robust of all to the innocent photometric edits (brightness, contrast, gamma) a forensic image is most likely to undergo in ordinary use, which is exactly what its gain-invariant design was built to buy.
+
+The two library baselines were evaluated and set aside for two independent reasons. They are weak, `imw-dwtdct` recovers only 22% of copies and fails outright on JPEG and on every combined attack, while `bw-svd`, though more robust, degrades the print too far to be usable. They are also terribly slow on ICNML's imagery. The library implementations are written for small consumer photographs, whereas ICNML's prints routinely run to tens or hundreds of megapixels, so a single embed-and-attack pass was slow enough that the baselines could only be run over a reduced subset (286 trials each, against 1020 for every ST-DM variant) and were never subjected to the forensic family at all. Writing a transform-domain scheme was therefore not a matter of preference but rather of necessity.
 
 == Limitations and future work <wm-limits>
 
-The implementation deliberately scopes the adversary to a single redistributing recipient, so it uses an error-correcting code rather than a collusion-resistant fingerprinting code (Tardos). If future ICNML workflows distribute distinctly-marked copies to many students at once, several of whom might compare their copies to erase the trace, the code layer would need to be revisited. The state-of-the-art chapter records why that path was set aside for now and what it would cost. 
-
-
-No mention of the path on which the watermarking is set. And how it completely replaces the old one, but maybe it's irrelevant ? 
-
-No discussion on the beautiful graphs that were made for this as this would improve the talk and the why the gain variant was chosen. With perhaps links in the appendices to images that are outliers or interesting to talk about. 
-
-Also talk about the implementation found that were very weak + very very slow on the kind of images we handle.
+The implementation deliberately scopes the adversary to a single redistributing recipient, so it uses an error-correcting code rather than a collusion-resistant fingerprinting code (Tardos). If future ICNML workflows distribute distinctly-marked copies to many students at once, several of whom might compare their copies to erase the trace, the code layer would need to be revisited. The state-of-the-art chapter records why that path was set aside for now and what it would cost.
 
