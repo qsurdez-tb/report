@@ -1343,3 +1343,23 @@ Implemented the WAtermark verify when I could during the day + writing the water
 1016 - Discovered a new bug with toggle view. Honestly let's just remove the button...
 
 1020 - There's also a bug with the delete button ? WTF ? 
+
+1142 - Added the plots in the watermark-implementaion + screenshots for ux-improvements. Now rewording the whole thesis and let's see if we can finish this today. That would be sooooo cool...
+
+1220 - Rewriting the auth document as it's the most symptomatic of the last version
+
+1354 - I think I have a very interesting version and I found the tone I wanna give to the thesis.
+
+1600 - Rewrote a lot of chapters
+
+== 21.07 
+
+0820 - Getting back into it
+
+0940 - Rewrote two chapters and they read so well and look so good I'm happy happy
+
+Write the résumé publiable au passé et en français et en anglais pour être tranquille
+
+1115 - Finished meeting and it went quite well hehe. Happy happy
+
+
