@@ -72,7 +72,7 @@ Document and, if chosen for the development phase, improve the procedures for de
   caption: [Current state and target state to demystify management operations]
 )
 
-==== Optimize user experience
+==== Enhance user experience
 
 Improve filtering and management features for end users, in particular filtering by donor and image quality.
 
@@ -84,7 +84,7 @@ Improve filtering and management features for end users, in particular filtering
     [Current State], [No filtering functionality exists for donor or image quality.],
     [Target State], [The exact scope to be confirmed on 20.05 based on findings from the analysis phases.]
   ),
-  caption: [Current state and target state to optimize user experience]
+  caption: [Current state and target state to enhance user experience]
 )
 
 === Schedule <schedule>
