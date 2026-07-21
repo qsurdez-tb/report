@@ -1,4 +1,4 @@
-= Database Architecture <db-arch>
+= Database Architecture : implementation details <db-arch>
 
 The _ICNML_ application uses a PostgreSQL database named `icnml` owned by the `icnml` role.
 

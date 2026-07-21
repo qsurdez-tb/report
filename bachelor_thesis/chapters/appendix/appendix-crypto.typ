@@ -1,4 +1,4 @@
-= Cryptographic utilities — implementation details <appendix-crypto>
+= Cryptographic utilities : implementation details <appendix-crypto>
 
 Code excerpts and the full call-site inventory for the cryptographic-utilities chapter (@crypto-utils).
 

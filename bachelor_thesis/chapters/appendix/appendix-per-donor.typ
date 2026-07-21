@@ -1,4 +1,4 @@
-= Per-donor security — implementation details <appendix-per-donor>
+= Per-donor security : implementation details <appendix-per-donor>
 
 Code excerpts supporting the per-donor security chapter (@per-donor-security). The chapter body keeps the concepts and the schemas. The implementation detail is collected here.
 

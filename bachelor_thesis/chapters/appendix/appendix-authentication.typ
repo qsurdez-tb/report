@@ -1,4 +1,4 @@
-= Authentication — implementation details <appendix-authentication>
+= Authentication : implementation details <appendix-authentication>
 
 This appendix holds the code excerpts and the full per-role route inventory that the authentication chapter (@roles-and-permissions) refers to. The chapter body keeps the concepts and the decisions. The reference material lives here.
 
