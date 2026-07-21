@@ -8,7 +8,7 @@
 
 == The idea: one key per donor
 
-Every donor has one key, the DEK, and every piece of their biometric data, marks and tenprints alike, is encrypted with it. Destroying the DEK and the data becomes unreadable to everyone, permanently. Because the table that holds the DEKs is deliberately kept out of the ordinary database backups, this is not a soft promise, a destroyed key cannot be recovered from a backup either.
+Every donor has one key, the DEK, and every piece of their biometric data, marks and tenprints alike, is encrypted with it. Destroying the DEK makes the data unreadable to everyone. There is one caveat to keep in mind throughout this chapter, the DEK table is itself backed up (@backup-security), so a destroyed key still lives in any backup taken in the last 30 days. A deletion therefore becomes fully irreversible only once those backups have aged out.
 
 This is privacy by deletion, and for a biometric library it is the mechanism that makes a meaningful right to erasure possible. A donor who withdraws consent does not have to trust that every copy of their prints, in the database, was found and deleted. Removing the one key that unlocks them is enough. The rest of this chapter follows the DEK from creation to that final erasure.
 
