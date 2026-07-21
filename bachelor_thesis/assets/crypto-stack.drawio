@@ -1,0 +1,40 @@
+<mxfile host="app.diagrams.net" agent="claude-code">
+  <diagram name="Page-1" id="crypto-stack-1">
+    <mxGraphModel dx="1414" dy="860" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="640" pageHeight="470" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;b&gt;Application security processes&lt;/b&gt;&lt;div&gt;password storage - e-mail protection - biometric files - DEK lifecycle&lt;/div&gt;" vertex="1">
+          <mxGeometry height="55" width="520" x="60" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="enc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;b&gt;encryption.py&lt;/b&gt;&lt;div&gt;high-level contexts (session-scoped, DEK)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="55" width="380" x="130" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="hash" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;hash.py&lt;/b&gt;&lt;div&gt;PBKDF2 password hashing&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="240" x="60" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="aes" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;aes.py&lt;/b&gt;&lt;div&gt;AES-256-CBC data encryption&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="240" x="340" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="rand" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;rand.py&lt;/b&gt;&lt;div&gt;random bytes for every salt, key and token&lt;/div&gt;" vertex="1">
+          <mxGeometry height="55" width="520" x="60" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="ea" edge="1" parent="1" source="app" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="enc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eh" edge="1" parent="1" source="enc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;exitX=0.35;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="hash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ee" edge="1" parent="1" source="enc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;exitX=0.65;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="aes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hr" edge="1" parent="1" source="hash" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.35;entryY=0;entryDx=0;entryDy=0;" target="rand">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ar" edge="1" parent="1" source="aes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.65;entryY=0;entryDx=0;entryDy=0;" target="rand">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
