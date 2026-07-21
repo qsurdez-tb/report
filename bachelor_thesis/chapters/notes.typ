@@ -1362,4 +1362,6 @@ Write the résumé publiable au passé et en français et en anglais pour être 
 
 1115 - Finished meeting and it went quite well hehe. Happy happy
 
+1405 - Wrote a loooot and also finished the python3 migration doc
 
+1608 - Just finished conclusion + intro ... I have some tears in my eyes. It's the wind ! It's the wiiiind ! 
