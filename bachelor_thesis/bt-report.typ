@@ -389,7 +389,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 #include "chapters/appendix/appendix-per-donor.typ"
 #include "chapters/tools-used.typ"
 #include "chapters/appendix/watermark-eval-figures.typ"
-#include "chapters/db-architecture.typ"
+#include "chapters/appendix/db-architecture.typ"
 #set page(flipped: true)
 #include "chapters/appendix/work-diary.typ"
 
