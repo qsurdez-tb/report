@@ -118,13 +118,13 @@
 
 #set par(leading: 0.6em, spacing: 1.1em, justify: true)
 #image("images/HEIG-VD_logotype-baseline_rouge-cmjn.pdf", width: 6cm)
-#v(10%)
-#align(center, [#text(size: 14pt, [*Bachelor Thesis*])])
 #v(4%)
+#align(center, [#text(size: 14pt, [*Bachelor Thesis*])])
+#v(2%)
 #align(center, [#text(size: 24pt, [*#config.information.title*])])
 #v(1%)
 #align(center, [#text(size: 16pt, [#config.information.subtitle])])
-#v(4%)
+#v(2%)
 #if config.global.confidential{
   align(center, [#text(size: 14pt, [*Confidential*])])
 }else{
