@@ -1,6 +1,6 @@
 #import "../macros.typ": note
 
-= Backup Encryption
+= Backup Mechanisms and Security
 
 This chapter documents the backup strategy implemented for the ICNML database. It covers how backup are created and encrypted and where the backup are stored. 
 
