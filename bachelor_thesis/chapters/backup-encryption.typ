@@ -1,78 +1,32 @@
-#import "../macros.typ": note
+#import "../macros.typ": note, concept
 
-= Backup Mechanisms and Security
+= Backup Mechanisms and Security <backup-security>
 
-This chapter documents the backup strategy implemented for the ICNML database. It covers how backup are created and encrypted and where the backup are stored. 
+#concept[
+  Backups face a hard problem. Keeping a full copy of a biometric database recoverable after a disaster, without letting any single person, or a stolen backup file, expose the data. ICNML solves it with a passphrase that no one holds, split across five people, and separate encrypted dumps. This chapter explains how that works and where it is strong or fragile. The shell scripts are in @appendix-backup.
+]
 
-== Overview
+== The security model
 
-The backup process is within a single shell script (`backup.sh`). This shell script resides in the `scripts` directory of the `icnml` repository. Each backup run creates seven files under a shared directory (`mnt/escnas/backup`):
+The core idea is that each backup run invents a fresh random passphrase, encrypts the database with it, then immediately destroys it, but not before splitting it into five pieces so that recovery is possible without any one person being able to open a backup alone.
 
-- Three encrypted database dumps: `_data.backup`, `_dek.backup`, `_cf.backup`
-- Five GPG-encrypted key share files: one per admin
-
-The three dumps cover different subsets of the database and are all encrypted with the same symmetric passphrase using GPG AES-256. The passphrase itself is never stored, it is split across five people using Shamir's Secret Sharing GNU implementation @ssss-gnu. Each person's share is encrypted with their personal GPG public key that was previously imported on the machine. The means that to read the message, the person needs their own private key to decrypt it.
-
-
-== Steps
-
-=== Step 1, generating the passphrase
-
-At the start of each backup, a 256-bit random passphrase is generated:
+The split uses Shamir's Secret Sharing @ssss-gnu, a scheme that breaks a secret into $n$ pieces such that any $t$ of them reconstruct it while fewer than $t$ reveal nothing at all. ICNML uses $t = 2$ of $n = 5$ which means that any two of the five shareholders can together rebuild the passphrase, no single one can. Each share is then locked to one specific person by encrypting it with their personal GPG public key. A stolen backup file is useless on its own, and so is any single shareholder. It takes two of five people cooperating to read a backup.
 
 #figure(
-  ```bash
-  PASS=$(openssl rand -base64 32 | sha256sum | cut -d' ' -f1)
-  ```,
-  caption: [Passphrase generation (`scripts/backup.sh`, ln 18)]
+  image("../assets/backup-encryption.drawio.png", width: 78%),
+  caption: [A backup run: generate a passphrase, split and distribute it, encrypt the dumps, destroy the passphrase.],
 )
 
-`openssl rand -base64 32` produces 32 bytes (256 bits) of random data. Piping it trhough `sha256sum` creates a 256-bit digest. This value is used as the symmetric passphrase for all three database dumps produced in this run.
+== How a backup run works
 
-=== Step 2, distributing the passphrase via Shamir's Secret Sharing
+A run proceeds in four steps (@appendix-backup):
 
-The passphrase is split using Shamir's Secret Sharing (`ssss-split`) @ssss-gnu. This scheme splits a secret into $n$ shares such that any $t$ of them are sufficient to reconstruct the original. Fewer than $t$ reveal nothing.
+1. Generate a passphrase. A fresh 256-bit random passphrase is produced for this run only.
+2. Split and distribute it. The passphrase is split into five Shamir shares, and each share is GPG-encrypted for its shareholder, producing five `.asc` files only their owners can open.
+3. Dump and encrypt. Three separate PostgreSQL dumps are taken and each is symmetrically encrypted with the passphrase using GPG AES-256.
+4. Destroy the passphrase. The passphrase variable is overwritten with new random data, so it never reaches the disk and can only be recovered through the shares.
 
-The backup script uses a threshold of $t = 2$ and distributes $n = 5$ shares across the five shareholders.
-
-#note[There's two email address that are owned by the old dev which means that he alone could decrypt it. I don't feel comfortable adding them in the report though. TODO discuss it with supervisor]
-
-Each share is then wrapped in a message and GPG-encrypted for the corresponding recipient's public key:
-
-#figure(
-  ```bash
-  SHARES=$(echo ${PASS} | ssss-split -t ${THRESHOLD} -n ${NBUSERS} -Q)
-  i=0
-  for s in ${SHARES}
-  do
-      cat <<EOF | gpg --encrypt --armor --recipient ${USERS[$i]} > ${DIRNAME}/${FILENAME_START}_ssss_${USERS[$i]}.asc
-  This will allow the ICNML admin ...
-      
-  ssss_key: ${s}
-      
-  EOF
-      i=$i+1
-  done
-  ```,
-  caption: [Share generation and GPG encryption per recipient (`scripts/backup.sh`, ln 24-39)]
-)
-
-The result is five `.asc` file. Each file can only be decrypted by the holder of the corresponding GPG private key. Any two of the five stakeholders must coopereate to reconstruct the passphrase. A single shareholder cannot access the backup content alone.
-
-=== Step 3, dumping and encrypting the database
-
-The script then executes three separate `pg_dump` operations. They're all piped into `gpg --symmetric` with the same passphrase and AES-256 as the cipher:
-
-#figure(
-  ```bash
-pg_dump -v -h ${HOST} -U ${DBUSER} -T ${DEKTABLE} -T ${CFTABLE} -Fc ${DBNAME} | gpg --armor --symmetric --cipher-algo AES256 --batch --yes --passphrase ${PASS} > ${DIRNAME}/${FILENAME_DATA}
-pg_dump -v -h ${HOST} -U ${DBUSER} -t ${DEKTABLE}               -Fc ${DBNAME} | gpg --armor --symmetric --cipher-algo AES256 --batch --yes --passphrase ${PASS} > ${DIRNAME}/${FILENAME_DEK}
-pg_dump -v -h ${HOST} -U ${DBUSER}                -t ${CFTABLE} -Fc ${DBNAME} | gpg --armor --symmetric --cipher-algo AES256 --batch --yes --passphrase ${PASS} > ${DIRNAME}/${FILENAME_CF}
-  ```,
-  caption: [Three database dump and encryption (`scripts/backup.sh`, ln 41-43)]
-)
-
-Here are the three dumps scopes:
+The three dumps deliberately separate the most sensitive tables from the rest:
 
 #figure(
     table(
@@ -80,81 +34,31 @@ Here are the three dumps scopes:
         stroke: 0.5pt,
         fill: (col, row) => if row == 0 { luma(220) } else { white },
         align: (left, left, left),
-        table.header[*File*][*Flag*][*Content*],
-        [`_data.backup`], [`-T donor_dek -T cf`], [Full database *excluding* the DEK and consent form tables],
-        [`_dek.backup`],  [`-t donor_dek`],        [Only the `donor_dek` table],
-        [`_cf.backup`],   [`-t cf`],               [Only the `cf` (consent forms) table],
+        table.header[File][Scope flag][Content],
+        [`_data.backup`], [`-T donor_dek -T cf`], [The whole database *except* the DEK and consent-form tables],
+        [`_dek.backup`],  [`-t donor_dek`],       [Only the `donor_dek` table (the keys)],
+        [`_cf.backup`],   [`-t cf`],              [Only the `cf` table (consent forms)],
     ),
-    caption: [Dumps scope]
+    caption: [The three dump scopes. `-T` excludes a table, `-t` selects only it, `-Fc` is the format `pg_restore` needs @pg_dump-doc.]
 )
 
-The `-T` flag excludes a table. The `-t` flag selects only that table. The `-Fc` flag produces PostgreSQL's custom binary format, which is required by `pg_restore` @pg_dump-doc.
+Splitting the keys (`donor_dek`) and the consent forms into their own files is what keeps the regular data backup free of the material that would make a leak catastrophic, the same separation that lets a donor's DEK deletion stay irreversible. There is an important caveat, though: all three dumps are encrypted with the same passphrase, so the separation is organisational, not cryptographic. Any two shareholders who can open one file can open all three.
 
-This allows three files with different responsabilities. One for the general application data, one for the encryption keys and one for the consent documents. However, the same passphrase is used for all three files. This means that any two shareholders can access to all three dumps.
+== Where backups live, and when they run
 
-=== Step 4, overwriting the passphrase
+Backups are written to a NAS mounted at `/mnt/escnas/backup/`, and a companion cleanup script deletes anything older than 30 days (@appendix-backup). What the scripts do not reveal is when they run. No schedule, cron entry, or trigger is present in any repository analysed. In practice this is almost certainly a scheduled cron job on the server, but the fact that it cannot be confirmed from the code is itself a documentation gap worth closing. It is also left unspecified whether the five share files and the three dumps are stored together or apart, which matters, since co-locating them concentrates everything an attacker would need in one place.
 
-Once the dumps are written, the passphrase variable is overwritten:
+== Restoring
+
+Only the first half of recovery is scripted. A `combine.sh` helper gathers the shareholders' decrypted shares and reconstructs the passphrase (@appendix-backup), after which an administrator would decrypt each dump and run `pg_restore` by hand. No end-to-end restore script exists, and, by the client's own account, a restore has never been formally tested.
 
 #figure(
-  ```bash
-  PASS=$(openssl rand -base64 32)
-  ```,
-  caption: [Passphrase overwrites (`scripts/backup.sh`, ln 45)]
+  image("../assets/backup-decryption.drawio.png", width: 78%),
+  caption: [Recovery: two shareholders reconstruct the passphrase, then each dump is decrypted and restored.],
 )
 
-This replaces the in memory value of `PASS` with fresh random data. The passphrasae is never written to disk by the script itself. This makes sure that it can only be reconstructed by the shareholders.
+== Assessment
 
-#figure(
-  image("../assets/backup-encryption.drawio.png"),
-  caption: [Encryption steps]
-)
+The design is genuinely good where it counts. A fresh per-run passphrase that never touches disk, two-of-five secret sharing so no single person or stolen file suffices, per-recipient GPG encryption of the shares, isolation of the keys and consent forms into their own dumps, and a bounded retention window together make for a serious, well-thought-out scheme.
 
-
-== Backup Storage
-
-#note[An analysis on the production database would be interesting as well as the production backup.]
-
-The clean script reveals that backups are stored on a NAS mounted at `/mnt/escnas/backup/` and that files older than 30 days are automatically deleted:
-
-#figure(
-  ```bash
-  DIRNAME=/mnt/escnas/backup/
-  find ${DIRNAME} -type f -mtime +30 -exec rm -f {} \;
-  ```,
-  caption: [Rentention policy (`scripts/clean.sh`)]
-)
-
-Whether the three dump files and the five key share files are stored in the same directory or a different one is not specified by the scripts. 
-
-#note[It may be a cronjob on the server. But there's absoluetly no clue in the different repos analysed.]
-
-== Restore Process
-
-The `combine.sh` script partially documents the decryption side. It finds all `.asc` files in the current directory, decrypts each with the shareholder's own GPG key, extracts the `ssss_key` lines, and reconstructs the passphrase:
-
-#note[It feels like it's the command given to the shareholders to then send the result to the admin. Have to check whether the private GPG keys are on the prod server, cause we never know.]
-
-#figure(
-  ```bash
-  VALUES=$(find . -name '*.asc' -exec gpg -d --yes {} 2>/dev/null \;)
-
-  echo ${VALUES} | grep -o 'ssss_key: [0-9]\+-[a-f0-9]\+' | cut -d':' -f2 | ssss-combine -q -t 2 2>&1
-  ```,
-  caption: [Passphrase reconstruction (`scripts/combine.sh`)]
-)
-
-Once the passphrase is printed to stdout, the admin can decrypt each backup file manually. However, there's no script documenting the expected process. It would probably look like this:
-
-#figure(
-  ```bash
-  gpg --decrypt --passphrase <PASS> --batch <file>.backup \
-      | pg_restore -h <HOST> -U <USER> -d <DB>
-  ```,
-  caption: [Expected restore script]
-)
-
-#figure(
-  image("../assets/backup-decryption.drawio.png"),
-  caption: [Decryption steps]
-)
+The weaknesses are worth acting on. First, the single shared passphrase means the three-way dump separation buys no cryptographic isolation, two shareholders unlock everything. Second, a threshold of two is low, and it only holds if no single person controls two shares, so share allocation needs to be audited to preserve the guarantee. Third, the trigger and schedule are undocumented, and, fourth, the restore path is only partially scripted and never formally exercised, which is the most dangerous gap of all, an untested backup is not yet a backup. Finally the dek is actually backuped, which means that DEK deletion by a donor will have effect only after the retention period of 30 days. Documenting the schedule and validating a full restore end-to-end should be a priority.
