@@ -1,14 +1,21 @@
-#import "../macros.typ": note
+#import "../macros.typ": note, concept
 
-= Deployment
+= Deployment <deployment>
 
-This chapter documents the deployment pipeline and production infrastructure of ICNML. The pipeline follows a GitOps patter: a push to the `master` branch in the source repository triggers an image builds and then propagates a configuration change to a dedicated configuration production repository. Another pipeline in the configuration production repository will do the actual deployment on a Docker Swarm cluster. 
+#concept[
+  ICNML is deployed through a fully automated pipeline. A developer pushes code, and, with no manual step, new images are built and rolled out to a production cluster. This chapter documents that pipeline as it was originally designed, the state it was in when this thesis began. It predates the Python 3 migration and, as of writing, no longer runs, broken by two independent failures covered at the end. The production version of ICNML is also down as of writing. The verbose CI and configuration listings are in @appendix-deployment.
+]
 
-As of the time of writing, this pipeline is no longer operational. Two independent failures prevent it from completing. First, The external library submodules it depends on are unreachable. Second, the container registry has an invalid TLS certificate. Further discussed in @pipeline-status
+The pipeline follows a GitOps pattern, meaning a Git repository, not a person, is the source of truth for what runs in production. A change is made by committing, and automation reconciles the running system to match the new version of the code. @deploy-seq-fig shows the full sequence, from a developer's push to a live update on the cluster.
 
-== Repositories involved
+#figure(
+  image("../assets/deployment-sequence.drawio.png", width: 63%),
+  caption: [The deployment sequence: a push builds images and, through a second repository, rolls them out to the production Swarm.],
+)<deploy-seq-fig>
 
-Two separate Git repositories are involved in the deployment: 
+== The two-repository chain
+
+Deployment spans two Git repositories with distinct roles.
 
 #figure(
   table(
@@ -17,70 +24,19 @@ Two separate Git repositories are involved in the deployment:
     fill: (col, row) => if row == 0 { luma(220) } else { white },
     align: (left, left),
     table.header[Repository][Role],
-    [`esc-md-git.unil.ch/ICNML/docker`],      [Docker repository for deployment. Contains the Flask application, libraries as submodules and the build pipeline (`.gitlab-ci.yml`). This is where the dev update the commit reference of the submodules to update the project.],
-    [`esc-md-git.unil.ch/ICNML/conf/production`], [Production configuration repository. Holds the `docker-compose.yml.template` that describes the production stack. Commits to its `master` branch trigger the deployment pipeline.],
+    [`ICNML/docker`], [The build side: the Flask application (with its libraries as submodules) and the build pipeline. A developer updates the submodule references here to update the project.],
+    [`ICNML/conf/production`], [The deploy side: holds the `docker-compose` template describing the production stack. Commits to its `master` branch trigger the actual deployment.],
   ),
-  caption: [The two repositories involved in the deployment chain]
+  caption: [The two repositories in the deployment chain.],
 )
 
-A push to `master` in the docker repository initiates the first pipeline. That pipeline's final step commits a change to the configuration repository, which launches the second pipeline. Neither pipeline requires manual intervention after the initial push.
+A push to `master` in the build repository starts the first pipeline. Its final step commits a change to the configuration repository, which triggers the second pipeline. After the initial push, no manual intervention is needed.
 
-== Docker Repository Pipeline
+== Building the image
 
-The docker repository's pipeline (`.gitlab-ci.yml`) defines two stages: `build` and `deploy`.
+The build pipeline uses Kaniko, a tool that builds Docker images from inside an unprivileged container without needing a privileged runner. Before every job it clones all submodules (the web app and its `WSQ`, `MDmisc`, `NIST`, `PMlib` dependencies), then runs a preparation step that inserts the build's provenance into the image, copies the GPG keys into the build context, and authenticates to the registry (@appendix-deployment).
 
-=== Default Image and Submodules
-
-The build job in the pipeline runs inside the Kaniko executor image (`gcr.io/kaniko-project/executor:debug`), the deploy job runs on the base icnml image (`cr.unil.ch/icnml/base:latest`). Kaniko builds Docker images from inside an unprivileged container, without requiring Docker-in-Dcoker or a privileged runner. The Kaniko project has since been archived and is no longer maintained, which is a concern for the maintenance of the pipeline.
-
-The variable `GIT_SUBMODULE_STRATEGY: recursive` causes GitLab CI to clone all submodules before each script or before_script. This ensures the web application and its dependencies are present in the build context. 
-
-#note[Today, the urls for the WSQ, MDmisc, NIST and PMlib, return a 404. This means that the pipeline is broken today.]
-
-#note[Today, the pipeline fails with this error: tls: failed to verify certificate: x509: certificate is valid for bunny.unil.ch, not cr.unil.ch. This has been written about in the dev setup environment.]
-
-=== Before Script
-
-A `before_script` block runs before every job in the pipeline. It performs three tasks. 
-
-First, it generates `web/app/version.py` by echoing Python assignments for the following GitLab variables: 
-
-#figure(
-  ```yaml
-  before_script:
-      - echo "__branch__ = '${CI_COMMIT_REF_NAME}'"     >  ./web/app/version.py
-      - echo "__commit__ = '${CI_COMMIT_SHA}'"          >> ./web/app/version.py
-      - echo "__commitshort__ = '${CI_COMMIT_SHORT_SHA}'" >> ./web/app/version.py
-      - echo "__commiturl__ = '${CI_PROJECT_URL}/commit/${CI_COMMIT_SHA}'" >> ./web/app/version.py
-      - echo "__treeurl__ = '${CI_PROJECT_URL}/tree/${CI_COMMIT_SHA}'"     >> ./web/app/version.py
-      - echo "__date__ = '${CI_COMMIT_TIMESTAMP}'"       >> ./web/app/version.py
-      - echo "__version__ = ' - '.join( [ __commitshort__, __date__ ] )"   >> ./web/app/version.py
-      - echo "__author_name__ = '${GITLAB_USER_NAME}'"  >> ./web/app/version.py
-      - echo "__author_email__ = '${GITLAB_USER_EMAIL}'" >> ./web/app/version.py
-      - echo "__author__ = __author_name__ + ' <' + __author_email__ + '>'" >> ./web/app/version.py
-  ```,
-  caption: [`version.py` generation in `before_script`]
-)
-
-This includes the build source with the branch, full and short commit SHA, commit and tree URLs, timestamp and author into the application image. 
-
-Then, it copies the GPG keys from `./config/keys` into `./web/keys`, putting them in the Docker build context so the web image can inlcude them.
-
-Third, it writes Kaniko's registry authentication file: 
-
-#figure(
-  ```yaml
-  - mkdir -p /kaniko/.docker
-  - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(echo -n $CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD | base64)\"}}}" > /kaniko/.docker/config.json
-  ```,
-  caption: [Kaniko registry authentication setup]
-)
-
-The credentials are encoded with base64 from the GitLab CI predefined vairables `CI_REGISTRY_USER` and `CI_REGISTRY_PASSWORD`. 
-
-=== Build Stage
-
-The build stage conatins four jobs split in development deliverables or production.
+The build produces different image tags depending on the branch, so a feature branch can be built and pulled without disturbing production:
 
 #figure(
   table(
@@ -89,97 +45,17 @@ The build stage conatins four jobs split in development deliverables or producti
     fill: (col, row) => if row == 0 { luma(220) } else { white },
     align: (left, left, left),
     table.header[Job][Branches][Tags pushed],
-    [`web_dev`],     [all except `master`], [`<short-sha>`, `<branch-name>`],
-    [`redis_dev`],   [all except `master`], [`<short-sha>`, `<branch-name>`],
-    [`web_master`],  [`master` only],       [`<short-sha>`, `master`, `latest`],
-    [`redis_master`],[`master` only],       [`<short-sha>`, `master`, `latest`],
+    [`web_dev`, `redis_dev`],       [all except `master`], [`<short-sha>`, `<branch-name>`],
+    [`web_master`, `redis_master`], [`master` only],       [`<short-sha>`, `master`, `latest`],
   ),
-  caption: [Build jobs and their image tag outputs]
+  caption: [Build jobs and their image tags. Only `master` builds update the `latest` tag.],
 )
 
-All four jobs call the Kaniko executor with `--cache=true --cache-ttl 20h`, that caches Docker layers for twenty hours across runs on the same runner. Each job builds one image and pushes it to the GitLab container registry under `$CI_REGISTRY_IMAGE`.
+On `master`, once the images are built, a deploy job hands off to the configuration repository. It does not deploy directly. Instead it clones the configuration repository over SSH, rewrites the `web` image tag in the compose template to the exact commit just built, and commits that change back. Pinning the deployment to a specific commit SHA, and attributing the automated commit to the developer who triggered it, gives a traceable history from any production state back to the source change that produced it.
 
-On branches that are not master, images are tagged with the commit short SHA and the branch name. This makes it possible to pull a specific branch's build without overwriting the `latest`tag. On `master`, a third `latest` tag is also pushed. This makes the most recent production build always reachable by that tag.
+== Deploying to the cluster
 
-=== Deploy Stage
-
-The deploy job runs only on `master` after both build jobs have completed. It uses `cr.unil.ch/icnml/base:latest`, which provides `git`, `ssh` and `openssh-client`.
-
-The job does the following actions: 
-
-#figure(
-  table(
-    columns: (auto, 1fr),
-    stroke: 0.5pt,
-    fill: (col, row) => if row == 0 { luma(220) } else { white },
-    align: (left, left),
-    table.header[Step][Action],
-    [1], [Start an `ssh-agent` and load the `$SSH_CONFIGURATION_KEY` secret variable into it.],
-    [2], [Set the git user identity from the triggering commit's author name and email (via `git show`), so the automated commit in the config repo is attributed to the dev who pushed.],
-    [3], [Scan and record the production git server's host key (`ssh-keyscan`) to prevent an interactive prompt.],
-    [4], [Clone the production configuration repository into a temporary directory.],
-    [5], [Rewrite the `web` image tag in `docker-compose.yml.template` from whatever value it held to `cr.unil.ch/icnml/docker/web:<short-sha>` using `sed`.],
-    [6], [Commit the change and push to the configuration repository's `master` branch.],
-    [7], [Clear the loaded SSH key and shut down the agent.],
-  ),
-  caption: [Deploy job steps]
-)
-
-The automated commit message records the short SHA and links back to the full commit in the source repository, providing an history from any production configuration state back to the changes from the Docker repository.
-
-=== Current Pipeline Status <pipeline-status>
-
-The pipeline is broken by two independent failures that both must be resolved before a build can succeed. 
-
-First the submodule URLs returning 404. The build relies on `GIT_SUBMODULE_STRATEGY: recursive` to clone the external libraries WSQ, MDmisc, NIST and PMlib before any job. The URLs for all four of these submodules return a 404. Because GitLab CI fetches submodules before executing any script, the pipeline fails at the very first step and no job runs. This also means that setting up a new development environment from the repository alone is impossible. 
-
-Second, the TLS certificate mismatch on the container registry. Kaniko fails to push images to `cr.unil.ch` because the server presents a certificate issued for `bunny.unil.ch` rather than `cr.unil.ch`. Even if the submodule issue was fixed, the build stage would complete but every push to the registry would be rejected. This issue was also encountered during the developement environment setup.
-
-Together, these two failures mean that no developer can currently build or deploy ICNML through the automated pipeline.
-
-== Production Configuration Repository Pipeline
-
-When the docker repository's deploy job pushes to `mater` in the configuration repository, GitLab triggers the configuration repository's own pipeline:
-
-#figure(
-  ```yaml
-  deploy:
-      stage: deploy
-      script:
-          - apt update
-          - apt install -y docker.io
-          - make
-      only:
-          - master
-  ```,
-  caption: [Production configuration repository pipeline]
-)
-
-This job installs the Docker CLI and then calls `make`, which executes three commands: 
-
-#figure(
-  ```makefile
-  template:
-      cat docker-compose.yml.template | envsubst > docker-compose.yml
-
-  deploy:
-      docker -H ${HOST} stack deploy -c docker-compose.yml icnml
-
-  clean:
-      -rm ${CONFIGURATION}
-  ```,
-  caption: [Production `Makefile` (`icnml/production/Makefile`)]
-)
-
-The `template` command creates the `docker-compose.yml` file via the template and the `envsubst` @envsubst-doc command. This will inject the remaining shell variable references (e.g. `${CONFIGURATION}`, the path to the runtime envionment file) to create the final `docker-compose.yml`.
-
-The `deploy` command calls `docker stack deploy` with a remote Docker daemon via the `-H ${HOST}` @dockerD-doc flag. This connect to the production Swarm manager. The stack is named `icnml`.
-
-The `clean` command removes the `${CONFIGURATION}` file. The envionment file that was placed on the runner for the duration of this job.
-
-== Production Docker Compose
-
-The production `docker-compose.yml` is a Docker Swarm with 2 services:
+The commit into the configuration repository triggers its own pipeline, which installs the Docker CLI and runs a `Makefile` (@appendix-deployment). That `Makefile` fills the compose template with the runtime environment values, then runs `docker stack deploy` against the remote production Swarm manager. The production stack is a Docker Swarm of two services:
 
 #figure(
   table(
@@ -188,36 +64,24 @@ The production `docker-compose.yml` is a Docker Swarm with 2 services:
     fill: (col, row) => if row == 0 { luma(220) } else { white },
     align: (left, left, center, center, left),
     table.header[Service][Image][Replicas][Memory][Notes],
-    [`web`],   [`cr.unil.ch/icnml/docker/web:<sha>`],   [15], [512 MB], [Pinned to the deploying commit's short SHA],
-    [`redis`], [`cr.unil.ch/icnml/docker/redis:latest`], [1],  [1 GB],  [Always the most recent master build],
+    [`web`],   [`.../web:<sha>`],     [15], [512 MB], [Pinned to the deploying commit],
+    [`redis`], [`.../redis:latest`],  [1],  [1 GB],  [Always the latest master build],
   ),
-  caption: [Production stack services]
+  caption: [The production Swarm services.],
 )
 
-The services communicate over an overlay network with a fixed subnet (`10.254.252.0/24`). Redis data is persisted in a named volume. 
+Running the web service in fifteen replicas is what allows updates to be rolled out gradually rather than all at once. The update policy starts five new replicas at a time, waits for each to pass a health check before stopping its old counterpart (`start-first`), and, if an update fails, automatically rolls every replica back to the previous image. In principle, a bad deploy repairs itself.
 
-=== Update and Rollback Policy
+== Why it no longer runs <pipeline-status>
 
-Both services define an `update_config` block that controls how Swarm performs rolling updates. For the `web` service:
+The pipeline is currently broken by two independent failures, either of which alone would stop it.
 
-#figure(
-  table(
-    columns: (auto, 1fr),
-    stroke: 0.5pt,
-    fill: (col, row) => if row == 0 { luma(220) } else { white },
-    align: (left, left),
-    table.header[Parameter][Value],
-    [`parallelism`],    [5, update five replicas at a time],
-    [`delay`],          [10 seconds between batches],
-    [`order`],          [`start-first`, new replica starts and passes health check before old one stops],
-    [`failure_action`], [`rollback`, on failure, revert all updated replicas to the previous image],
-  ),
-  caption: [`web` service update policy]
-)
+/ First, the submodule URLs return 404 : The build clones the `WSQ`, `MDmisc`, `NIST` and `PMlib` libraries as submodules before any job runs, and all four remotes are now unreachable. Because this happens at the very first step, no job runs at all, which is also why a new environment cannot be built from the repositories alone (@dev-env).
 
-== Deployment summary
+/ Second, the registry certificate is invalid : Kaniko cannot push images to `cr.unil.ch` because the server presents a certificate issued for a different host. Even with the submodules fixed, every image push would still be rejected. Together, these mean no developer can currently build or deploy ICNML through the automated pipeline.
 
-#figure(
-  image("../assets/deployment-sequence.drawio.png"),
-  caption: [Diagram of the sequence to deploy on production server]
-)
+== Assessment
+
+As a design, the pipeline is genuinely good. Fully automated GitOps with the configuration repository as the source of truth, commit-pinned deployments traceable back to their source change, and health-checked rolling updates with automatic rollback are all production-grade practices that many mature projects lack.
+
+Its fragility is operational, not architectural, and it is severe. The pipeline depends on external submodule remotes and a container registry that have both become unreachable, so it is currently inert, and it is built on Kaniko, which has since been archived. Because the Python 3 migration also changed how the application is built, this original pipeline cannot simply be repaired in place, it needs to be re-established around the new stack. Documenting the migration (@dev-env and the migration work) and rebuilding a working, submodule-free deployment on maintained tooling is the natural continuation of this chapter.
