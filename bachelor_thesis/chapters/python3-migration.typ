@@ -3,7 +3,7 @@
 = Migrating to Python 3 <python3-migration>
 
 #concept[
-  ICNML was written for Python 2.7, a language version that reached end of life in January 2020 and has received no security fix since. That single fact is the root cause behind much of the fragility described in the earlier chapters, from the unbuildable environment (@dev-env) to the stalled deployment pipeline (@deployment). This chapter documents migrating the whole codebase, four internal libraries and the Flask application, to Python 3.11. The work was done as a clean break, with one hard constraint. Every stored format, password hashes and encrypted image blobs alike, had to stay byte-for-byte identical so that existing data would still decrypt after the move. The detailed tables and code-level fixes are in @appendix-python3-migration.
+  ICNML was written for Python 2.7, a language version that reached end of life in January 2020 and has received no security fix since. That single fact is the root cause behind much of the fragility described in the earlier chapters, from the unbuildable environment (@appendix-dev-env) to the stalled deployment pipeline (@deployment). This chapter documents migrating the whole codebase, four internal libraries and the Flask application, to Python 3.11. The work was done as a clean break, with one hard constraint. Every stored format, password hashes and encrypted image blobs alike, had to stay byte-for-byte identical so that existing data would still decrypt after the move. The detailed tables and code-level fixes are in @appendix-python3-migration.
 ]
 
 == Why it had to be done

@@ -38,7 +38,7 @@
   caption: [The ICNML repositories.],
 )<repo-table>
 
-Two structural facts stand out. The `web` repository is where almost all the application logic and the security-sensitive code lives, so it is where this thesis spends most of its effort. And several repositories (`docker`, `tools`) depend on git submodules whose remotes are no longer reachable, which is the first obstacle a new developer hits and a recurring theme of the development-environment chapter (@dev-env).
+Two structural facts stand out. The `web` repository is where almost all the application logic and the security-sensitive code lives, so it is where this thesis spends most of its effort. And several repositories (`docker`, `tools`) depend on git submodules whose remotes are no longer reachable, which is the first obstacle a new developer hits and a recurring theme of the environment obstacles catalogued in @appendix-dev-env.
 
 == Outdated dependencies
 
@@ -63,4 +63,4 @@ The root cause is that the codebase runs on Python 2.7. That pins every dependen
 
 == Conclusion
 
-The repository layout tells the story of a research project that grew organically into a constellation of loosely coupled repositories, several now unused or unreachable, held together by an automated pipeline that assumes submodules and a container registry that are no longer reachable. Three things would most improve it. Consolidating or retiring the out-of-scope repositories would reduce the surface a newcomer must understand. Restoring, or vendoring, the missing submodule dependencies would make the build reproducible. And migrating off Python 2.7 would resolve the dependency vulnerabilities at their root rather than one CVE at a time. The development-environment chapter (@dev-env) shows what these gaps cost in practice.
+The repository layout tells the story of a research project that grew organically into a constellation of loosely coupled repositories, several now unused or unreachable, held together by an automated pipeline that assumes submodules and a container registry that are no longer reachable. Three things would most improve it. Consolidating or retiring the out-of-scope repositories would reduce the surface a newcomer must understand. Restoring, or vendoring, the missing submodule dependencies would make the build reproducible. And migrating off Python 2.7 would resolve the dependency vulnerabilities at their root rather than one CVE at a time. The environment obstacles catalogued in @appendix-dev-env show what these gaps cost in practice.

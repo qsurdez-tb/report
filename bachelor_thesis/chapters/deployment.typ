@@ -76,7 +76,7 @@ Running the web service in fifteen replicas is what allows updates to be rolled 
 
 The pipeline is currently broken by two independent failures, either of which alone would stop it.
 
-/ First, the submodule URLs return 404 : The build clones the `WSQ`, `MDmisc`, `NIST` and `PMlib` libraries as submodules before any job runs, and all four remotes are now unreachable. Because this happens at the very first step, no job runs at all, which is also why a new environment cannot be built from the repositories alone (@dev-env).
+/ First, the submodule URLs return 404 : The build clones the `WSQ`, `MDmisc`, `NIST` and `PMlib` libraries as submodules before any job runs, and all four remotes are now unreachable. Because this happens at the very first step, no job runs at all, which is also why a new environment cannot be built from the repositories alone (@appendix-dev-env).
 
 / Second, the registry certificate is invalid : Kaniko cannot push images to `cr.unil.ch` because the server presents a certificate issued for a different host. Even with the submodules fixed, every image push would still be rejected. Together, these mean no developer can currently build or deploy ICNML through the automated pipeline.
 
@@ -84,4 +84,4 @@ The pipeline is currently broken by two independent failures, either of which al
 
 As a design, the pipeline is genuinely good. Fully automated GitOps with the configuration repository as the source of truth, commit-pinned deployments traceable back to their source change, and health-checked rolling updates with automatic rollback are all production-grade practices that many mature projects lack.
 
-Its fragility is operational, not architectural, and it is severe. The pipeline depends on external submodule remotes and a container registry that have both become unreachable, so it is currently inert, and it is built on Kaniko, which has since been archived. Because the Python 3 migration also changed how the application is built, this original pipeline cannot simply be repaired in place, it needs to be re-established around the new stack. Documenting the migration (@dev-env and the migration work) and rebuilding a working, submodule-free deployment on maintained tooling is the natural continuation of this chapter.
+Its fragility is operational, not architectural, and it is severe. The pipeline depends on external submodule remotes and a container registry that have both become unreachable, so it is currently inert, and it is built on Kaniko, which has since been archived. Because the Python 3 migration also changed how the application is built, this original pipeline cannot simply be repaired in place, it needs to be re-established around the new stack. Documenting the migration (@python3-migration) and rebuilding a working, submodule-free deployment on maintained tooling is the natural continuation of this chapter.

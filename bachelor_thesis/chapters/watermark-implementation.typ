@@ -4,7 +4,7 @@
 
 The previous chapter surveyed how a leaked image can be traced back to the recipient it was issued to, and settled on a design: an error-correcting code layer (Reed-Solomon) carrying an encrypted recipient identifier, embedded by a transform-domain watermark. This chapter describes the working implementation of that design that was added to ICNML, explains each choice, and reports how well it performs when the marked image is attacked.
 
-The goal is worth restating in forensic terms. A biometric image leaves ICNML when an authorised user downloads it. If that image later resurfaces somewhere it should not, the institution needs to answer one question: which download did this copy come from? A watermark answers it by writing an invisible label into the image itself, so the label travels with the picture even after it has been recompressed, resized or cropped. Unlike the existing barcode tattoo (@watermark) which is a visible strip that a simple crop removes, the mark described here is spread invisibly across the whole image.
+The goal is worth restating in forensic terms. A biometric image leaves ICNML when an authorised user downloads it. If that image later resurfaces somewhere it should not, the institution needs to answer one question: which download did this copy come from? A watermark answers it by writing an invisible label into the image itself, so the label travels with the picture even after it has been recompressed, resized or cropped. Unlike the existing barcode tattoo (@tattooing) which is a visible strip that a simple crop removes, the mark described here is spread invisibly across the whole image.
 
 == What the mark says: the payload <wm-payload>
 
