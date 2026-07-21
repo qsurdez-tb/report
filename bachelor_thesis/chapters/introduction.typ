@@ -6,7 +6,7 @@ ICNML (International Close Non-Matches Library) is one such system. It is a web 
 
 == A research platform grown critical
 
-Over the years the platform became an important tool for several institutions, yet it kept the shape of a prototype, with accumulated technical debt affecting its maintainability, its security, and the daily experience of the people who use it.
+Over the years the platform became an important tool for several institutions, yet it kept the shape reasearch prototype, with accumulated technical debt affecting its maintainability, its security, and the daily experience of the people who use it.
 
 Three symptoms stood out at the start of this work. First, the system ran on Python 2.7, a version of the language that reached end of life in January 2020 and receives no security fix at all, so any flaw discovered in it stays open forever. Second, the environment could no longer be rebuilt from its own sources, which meant a new contributor could not realistically get the platform running. Third, and most importantly for a system holding biometric data, its security mechanisms were undocumented. The protections were real and, as this thesis shows, often quite sophisticated, but because nobody had written down how they worked, nobody could say with confidence what actually guarded the data or where its weak points lay. A sensitive system that cannot be explained is a system that cannot be trusted, maintained, or safely improved.
 
