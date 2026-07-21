@@ -1,152 +1,54 @@
-#import "../macros.typ": note
+#import "../macros.typ": note, concept
 
-= Biometric Data Management
+= Biometric Data Management <biometric-data>
 
-This chapter covers the complete lifecycle of biometric image files within ICNML: upload, storage, serving, segmentation, deletion and format handling. All biometric content is stored encrypted in the PostgreSQL database.
+#concept[
+  Holding biometric images is ICNML's whole reason to exist, so how it stores, protects, serves and deletes them is central. This chapter follows a biometric file through its life in the platform, from upload to deletion. Every image lives encrypted under its donor's key (the DEK, @per-donor-security), never on a plain filesystem. The code excerpts are in @appendix-biometric.
+]
 
-== Storage Model
-
-ICNML does not use a file system. All biometric images are stored as base64 encoded string in the `data` column of the `files` table. Before storage, the content is encrypted with the donor's DEK, see @dek-donor-generation.
-
-The database tables involved in biometric storage are:
-
-- `files`: primary table for tenprint cards, mark images and NIST files
-- `thumbnails`: reduced size previews, also DEK-encrypted, generated on first access.
-- `files_segments`: individual finger segments cropped from tenprint cards, DEK-encrypted
-- `cnm_annotation`: close non-match annotation images, DEK-encrypted
-- `cnm_candidate`: candidate images, NOT DEK-encrypted
-
-#note[The images in `cnm_candidate` are not DEK-encrypted. These images still contain biometric data. The absence of per-donor encryption is strange.]
-
-== File Upload
-
-The upload entrypoint is `POST /upload`, only logged-in users can access it. After a few checks as the presence of the `upload_type` parameter inn the request, the presence of the `file` in the request and a submission existing, each type of file is processed in a different way.
-
-=== NIST Files
-
-NIST files (check by their extensions, defined in `config.NIST_file_extensions`) bypass image processing entirely. The raw bytes are base64 encoded and DEK-encrypted before insertion into the `files` table with `format = NIST`.
-
-=== Image Files
-
-For all other file types, PIL opens the uploaded file and performs two preparation steps:
-
-The first one is a resolution check. The image must carry DPI information in `img.info["dpi"]`. If the field is absent the upload is rejected. 
+@biometric-flow-fig shows the path a biometric file takes. The sections below walk through where images are stored, how they are encrypted on the way in, decrypted on the way out, and removed.
 
 #figure(
-  ```python
-  try:
-      res = int( img.info[ "dpi" ][ 0 ] )
-      current_app.logger.debug( "Resolution: {}".format( res ) )
-  except:
-      return jsonify( {
-          "error": True,
-          "message": "No resolution found in the image. Upload not possible at the moment."
-      } )
-  ```,
-  caption: [DPI check on upload (`views/submission/__init__.py`, ln 128-136)]
-)
+  image("../assets/biometric-management.drawio.png", width: 80%), // TODO simplify figures
+  caption: [The life of a biometric file: upload and encryption, encrypted storage, decryption on serving, deletion.],
+)<biometric-flow-fig>
 
-The second one is an EXIF-based rotation. If the imgae contains EXIF orientation metadata, it is rotated to the right orientation before storage with a call to a util function. 
+== Where the images live
 
-After the rotation, the image is re-saved via PIL. PIL's save operation does not copy EXIF tags by default, so the stored image has its EXIF metadata removed.
+ICNML uses no filesystem. Every biometric image is stored as a base64-encoded string inside the database, encrypted beforehand with the donor's DEK. Several tables hold this content, each for a different kind of image:
 
-=== Encryption and Persistence
+- `files`, the main table for tenprint cards, mark images and NIST files.
+- `thumbnails`, reduced-size previews generated on first access, also DEK-encrypted.
+- `files_segments`, individual finger segments cropped from tenprint cards, DEK-encrypted.
+- `cnm_annotation`, close-non-match annotation images, DEK-encrypted.
+- `cnm_candidate`, candidate images, *not* DEK-encrypted.
 
-After image preparation, the file bytes are base64 encoded, then DEK encrypted: 
+#note[The `cnm_candidate` images are stored without DEK encryption, yet they still contain biometric data. This exception to the otherwise consistent per-donor encryption is worth flagging.]
 
-#figure(
-  ```python
-  file_data = utils.encryption.do_encrypt_dek( file_data, submission_uuid )
-                
-  sql = utils.sql.sql_insert_generate( "files", [
-      "folder", "creator",
-      "filename", "type",
-      "format", "size", "width", "height", "resolution",
-      "uuid", "data"
-  ] )
-  ...
-  config.db.query( sql, data )
-  ```,
-  caption: [DEK encryption and database insertion (`views/submission/__init__.py`, ln 276-290)]
-)
+== From upload to encrypted storage
 
-The name of the file is also encrypted with the submitter's password before storage. 
+Uploading goes through a single logged-in endpoint (`POST /upload`), and the handling forks by file type. NIST files (recognised by their extension) skip image processing entirely and their raw bytes are base64-encoded and DEK-encrypted straight into the `files` table.
 
-For tenprint cards, a thumbnail is generated and stored immediately in the `thumbnails` table, also DEK-encrypted.
+Every other image goes through two preparation steps first. A resolution check rejects any image that carries no DPI metadata, since resolution is essential for forensic use (@appendix-biometric). Then an EXIF-based rotation turns the image to its correct orientation and re-saves it. A useful side effect of that re-save is that PIL drops the EXIF metadata, so incidental capture information does not travel with the stored image like the model of camera it was photographed with.
 
-== Image Serving and Decryption
+Only then is the file base64-encoded, DEK-encrypted, and inserted into `files`. The filename is encrypted with the submitter's session key (@crypto-utils), and for tenprint cards a thumbnail is generated and stored, itself DEK-encrypted.
 
-The main decryption function is `image_serve` in `views/images/__init__.py`. It fetches the `data` column from the requested table, decrypts it with the DEK of the donor related to this submission, and transforms the result into a PIL image.
+== Serving: decryption on the fly
 
-#figure(
-  ```python
-  if need_to_decrypt_with_donor_dek:
-    img = utils.encryption.do_decrypt_dek( img, submission_id )
+Images are never stored in the clear, so every time one is displayed it is decrypted on demand. A single function, `image_serve`, does this. It reads the encrypted `data`, fetches the DEK of the donor that owns the containing submission (a short SQL join from `donor_dek` through `users` to `submissions`), decrypts, and rebuilds a displayable image. If the DEK is unavailable, because the donor soft-deleted it, the content simply cannot be reconstructed, which is exactly the privacy-by-deletion behaviour described in the per-donor chapter.
 
-  if table == "files" and data[ "format" ].upper() == "NIST":
-    img = str2nist2img( img )
-  else:
-    img = str2img( img )
+== Deletion
 
-  img = utils.images.patch_image_to_web_standard( img )
-  ```,
-  caption: [DEcryption and transformation of raw bytes into PIL image (`views/images/__init__.py`, ln 271-279)]
-)
+Removing biometric data comes in two forms, and they are not equally clean.
 
-#figure(
-  ```python
-  sql = """
-      SELECT donor_dek.dek
-      FROM donor_dek
-      LEFT JOIN users ON users.username = donor_dek.donor_name
-      LEFT JOIN submissions ON submissions.donor_id = users.id
-      WHERE submissions.uuid = %s
-      LIMIT 1
-  """
-  ```,
-  caption: [SQL statement to get the donor's DEK linked to the submission (`utils/encryption.py`, ln 41-48)]
-)
+1. Mark deletion is immediate and permanent, with no soft-delete or audit trail. A submitter may only delete their own marks (the ownership is enforced in the query), whereas the administrator path deletes by identifier alone, without that check.
 
-== File Deletion
+2. Submission deletion is oddly restricted. A submission folder can be deleted only while it has no consent form. Once a consent form is present, deletion is refused.
 
-=== Mark Deletion
+#note[This rule sits awkwardly beside the platform's central privacy promise. A donor can make all their biometric data unrecoverable at any time by deleting their DEK (@per-donor-security), yet the submission that frames that data cannot be removed once a consent form exists. The two erasure paths should be reconciled.]
 
-Individual mark files are deleted with a direct `DELETE FROM files` SQL statement. The submitter route enforces ownership via `creator = session["user_id"]`. The admin route omits that constraint.
+== Assessment
 
-#figure(
-  ```python
-  if admin:
-      sql = "DELETE FROM files WHERE uuid = %s"
-      data = ( mark_id, )
-  else:
-      sql = "DELETE FROM files WHERE creator = %s AND uuid = %s"
-      data = ( session[ "user_id" ], mark_id, )
-  ```,
-  caption: [Mark deletion with ownership check (`views/submission/__init__.py`, ln 1147-1153)]
-)
+The storage design is sound in its core choice. No biometric image ever touches a filesystem or sits unencrypted, everything is DEK-encrypted in the database, thumbnails and segments included, and decryption happens only while serving. Enforcing a resolution and shedding EXIF metadata on upload are good, forensically-aware defaults.
 
-Deletion is immediate and permanent. There is no mechanism of soft-delete.
-
-=== Submission Deletion
-
-A submission folder can only be deleted if the consent form is absent thus the submission folder is empty. Once `submission.consent_form` is `true`, the route returns an error and no deletion occurs.
-
-#note[That's inconsistent with the right to deletion boasted about with the donor being able to delete their DEK at any given time.]
-
-#figure(
-  ```python
-  cf = config.db.query_fetchone( sql, ( session[ "user_id" ], submission_id, ) )[ "consent_form" ]
-  
-  if not cf:
-      sql = "DELETE FROM submissions WHERE submitter_id = %s AND uuid = %s"
-      config.db.query( sql, ( session[ "user_id" ], submission_id, ) )
-  else:
-      current_app.logger.error( "Can  not delete a submission with consent form" )
-  ```,
-  caption: [Consent-form check on submission deletion (`views/submission/__init__.py`, ln 1177-1182)]
-)
-
-#figure(
-  image("../assets/biometric-management.drawio.png"),
-  caption: [Biometric files flow]
-)
+Three gaps stand out for future work. The `cnm_candidate` images escape the per-donor encryption that protects everything else and should be brought back under it. Deletion is a hard `DELETE` with no soft-delete or audit trail, unlike the reversible DEK mechanism the platform relies on elsewhere. And the consent-form restriction on submission deletion contradicts the DEK-based right to erasure, so the two should be aligned. Storing images as base64 text in the database also inflates them by roughly a third, the same avoidable overhead noted for the consent form.
