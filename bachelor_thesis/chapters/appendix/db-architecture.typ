@@ -856,7 +856,7 @@ Default inserted values:
 
 #figure(
   image(
-    "../assets/db-schema.png",
+    "../../assets/db-schema.png",
     height: 80%
   ),
   caption: [Auto-generated schema of the database tables]
