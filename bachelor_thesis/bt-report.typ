@@ -87,7 +87,7 @@
 )
 
 // LaTeX look and feel :)
-#set text(font: "New Computer Modern")
+#set text(font: "New Computer Modern", size: 10pt)
 #show heading: set block(above: 1.4em, below: 1em)
 #show heading.where(level:1): set text(size: 25pt)
 #set table.cell(breakable: false)
@@ -116,7 +116,7 @@
 ▀▀           ▀▀▀                                                     
 */
 
-#set par(leading: 0.55em, spacing: 0.55em, justify: true)
+#set par(leading: 0.6em, spacing: 1.1em, justify: true)
 #image("images/HEIG-VD_logotype-baseline_rouge-cmjn.pdf", width: 6cm)
 #v(10%)
 #align(center, [#text(size: 14pt, [*Bachelor Thesis*])])
@@ -233,13 +233,13 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 
 #align(left)[*Bachelor Thesis #config.information.academic_years*]
 #align(left)[*Title:*  #config.information.title]
-#align(left)[*Subtitle:*  #config.information.subtitle]
+// #align(left)[*Subtitle:*  #config.information.subtitle]
 
-#v(5%)
+// #v(2%)
 
 #config.information.resume_publiable
 
-#v(5%)
+#v(2%)
 
 #align(bottom + left, [
   #block(
