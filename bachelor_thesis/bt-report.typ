@@ -87,7 +87,7 @@
 )
 
 // LaTeX look and feel :)
-#set text(font: "New Computer Modern", size: 10pt)
+#set text(font: "New Computer Modern", size: 10.5pt)
 #show heading: set block(above: 1.4em, below: 1em)
 #show heading.where(level:1): set text(size: 25pt)
 #set table.cell(breakable: false)
@@ -235,11 +235,11 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 #align(left)[*Title:*  #config.information.title]
 // #align(left)[*Subtitle:*  #config.information.subtitle]
 
-// #v(2%)
+#v(5%)
 
 #config.information.resume_publiable
 
-#v(2%)
+#v(8%)
 
 #align(bottom + left, [
   #block(
