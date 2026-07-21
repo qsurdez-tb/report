@@ -129,6 +129,11 @@ gfgorb:
   title: "Feature matching using ORB algorithm in Python-OpenCV"
   url: https://www.geeksforgeeks.org/python/feature-matching-using-orb-algorithm-in-python-opencv/
 
+latin-encoding:
+  type: Web
+  title: ISO/IEC 8859-1
+  url: https://en.wikipedia.org/wiki/ISO/IEC_8859-1
+
 # State of the art: watermarking / fingerprinting / traitor tracing
 
 # What are the approaches for robust watermarking
