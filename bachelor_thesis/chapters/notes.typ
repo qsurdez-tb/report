@@ -1365,3 +1365,9 @@ Write the résumé publiable au passé et en français et en anglais pour être 
 1405 - Wrote a loooot and also finished the python3 migration doc
 
 1608 - Just finished conclusion + intro ... I have some tears in my eyes. It's the wind ! It's the wiiiind ! 
+
+== 22.07
+
+0800 - Stressed and reviewing the feedback all day and then the poster adfkajhflkhasldkfhsldkfhlaksdjhf
+
+1440 - I think I've finished implementing feedback urrjkhaflkgjhakdlfhgdg
