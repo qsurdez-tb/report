@@ -3,7 +3,7 @@
 = Biometric Data Management <biometric-data>
 
 #concept[
-  Holding biometric images is ICNML's whole reason to exist, so how it stores, protects, serves and deletes them is central. This chapter follows a biometric file through its life in the platform, from upload to deletion. Every image lives encrypted under its donor's key (the DEK, @per-donor-security), never on a plain filesystem. The code excerpts are in @appendix-biometric.
+  Holding biometric images is ICNML's whole reason to exist, so their lifecycle is central. This chapter follows a biometric file through its life in the platform, from upload to deletion. Every image lives encrypted under its donor's key (the DEK, @per-donor-security), never on a plain filesystem. The code excerpts are in @appendix-biometric.
 ]
 
 @biometric-flow-fig shows the path a biometric file takes. The sections below walk through where images are stored, how they are encrypted on the way in, decrypted on the way out, and removed.
@@ -23,13 +23,12 @@ ICNML uses no filesystem. Every biometric image is stored as a base64-encoded st
 - `cnm_annotation`, close-non-match annotation images, DEK-encrypted.
 - `cnm_candidate`, candidate images, *not* DEK-encrypted.
 
-#note[The `cnm_candidate` images are stored without DEK encryption, yet they still contain biometric data. This exception to the otherwise consistent per-donor encryption is worth flagging.]
 
 == From upload to encrypted storage
 
 Uploading goes through a single logged-in endpoint (`POST /upload`), and the handling forks by file type. NIST files (recognised by their extension) skip image processing entirely and their raw bytes are base64-encoded and DEK-encrypted straight into the `files` table.
 
-Every other image goes through two preparation steps first. A resolution check rejects any image that carries no DPI metadata, since resolution is essential for forensic use (@appendix-biometric). Then an EXIF-based rotation turns the image to its correct orientation and re-saves it. A useful side effect of that re-save is that PIL drops the EXIF metadata, so incidental capture information does not travel with the stored image like the model of camera it was photographed with.
+Every other image goes through two preparation steps first. A resolution check rejects any image that carries no DPI metadata, since resolution is essential for forensic use (@appendix-biometric). Then an EXIF-based (Exchangeable image file format) rotation turns the image to its correct orientation and re-saves it. A useful side effect of that re-save is that the python image library used (`PIL`) drops the EXIF metadata, so incidental capture information does not travel with the stored image like the model of camera it was photographed with.
 
 Only then is the file base64-encoded, DEK-encrypted, and inserted into `files`. The filename is encrypted with the submitter's session key (@crypto-utils), and for tenprint cards a thumbnail is generated and stored, itself DEK-encrypted.
 
@@ -43,9 +42,8 @@ Removing biometric data comes in two forms, and they are not equally clean.
 
 1. Mark deletion is immediate and permanent, with no soft-delete or audit trail. A submitter may only delete their own marks (the ownership is enforced in the query), whereas the administrator path deletes by identifier alone, without that check.
 
-2. Submission deletion is oddly restricted. A submission folder can be deleted only while it has no consent form. Once a consent form is present, deletion is refused.
+2. Submission deletion is restricted. A submission folder can be deleted only while it has no consent form. Once a consent form is present, deletion is refused.
 
-#note[This rule sits awkwardly beside the platform's central privacy promise. A donor can make all their biometric data unrecoverable at any time by deleting their DEK (@per-donor-security), yet the submission that frames that data cannot be removed once a consent form exists. The two erasure paths should be reconciled.]
 
 == Assessment
 
