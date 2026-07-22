@@ -14,19 +14,21 @@ This is privacy by deletion, and for a biometric library it is the mechanism tha
 
 == Creating a donor and their key <dek-donor-generation>
 
-A donor is never self-registered. A Submitter creates them through the registration form (`POST /submission/do_new`), supplying the donor's e-mail address and an optional nickname. Before anything is created, ICNML checks that the e-mail is not already registered, though only among the current submitter's own submissions, so the same donor could in principle be registered twice by two different submitters.
+A donor is never self-registered. A Submitter creates them through the registration form (`POST /submission/do_new`), supplying the donor's e-mail address and an optional nickname. Before anything is created, ICNML checks that the e-mail is not already registered, though only among the current submitter's own submissions, so the same donor could in principle be registered twice by two different submitters (@dek-generation).
 
 #figure(
     image("../assets/DEK-generation.png", height: 62%),
     caption: [Deriving and storing a donor's DEK at registration.]
-)
+)<dek-generation>
 
 
 The donor account is then created in a pending state with an automatically generated username of the form `donor_<id>`. The plaintext e-mail is never stored. What goes into the account's identity field is a hash of the e-mail. In this sense the e-mail hash is the donor's identifier inside ICNML.
 
 The DEK is then derived and stored. It is computed from two things tied to the donor, their username and a hash of their e-mail:
 
-$ "DEK" = "PBKDF2"( "username" : "email_hash", "salt", 500\'000 "iterations" ) $
+```python
+DEK = PBKDF2("username" : "email_hash", "salt", 500000)
+```
 
 #note[The code names the relevant parameter `email`, but it hashes the address internally before use (@apx-dek-creation). The value actually mixed into the DEK is the e-mail hash, not the address. The parameter name is misleading and is one of the small readability traps in the codebase.]
 
@@ -54,12 +56,12 @@ The phrase "the submitter's session key" deserves unpacking, because the same id
 
 == The consent form
 
-A donor's consent form (a PDF) is handled with a different tool, asymmetric GPG encryption. When the submitter uploads it, ICNML first scans each page for a QR code carrying the exact text `ICNML CONSENT FORM`, a simple check that the right document was uploaded. It then encrypts the file with a GPG public key belonging to the ICNML installation itself, and stores the result.
+A donor's consent form (a PDF) is handled with a different tool, asymmetric GPG encryption. When the submitter uploads it, ICNML first scans each page for a QR code carrying the exact text `ICNML CONSENT FORM`, a simple check that the right document was uploaded. It then encrypts the file with a GPG public key belonging to the ICNML installation itself, and stores the result (@submitter-consent-form).
 
 #figure(
     image("../assets/submitter-consent-form.drawio.png", width: 50%),
     caption: [Consent-form verification, encryption, and storage.]
-)
+)<submitter-consent-form>
 
 The choice of an asymmetric key is what matters here. Encrypting with the institution's public key means the consent form can be written by the running application but only read back by whoever holds the matching private key, the institution's operators, kept off the server. Consent forms therefore sit encrypted at rest, out of reach of the web application in normal operation.
 
@@ -67,12 +69,12 @@ The choice of an asymmetric key is what matters here. Encrypting with the instit
 
 == Activating the donor account
 
-Only once the consent form is in place does the donor set their own password. They receive an e-mail with an activation link whose token is derived from their stored e-mail hash. Following it lets them choose a password, which, as everywhere in ICNML, is hashed once in the browser and a second time on the server before storage (@apx-dek-lifecycle). From this point the donor can log in and exercise control over their own key.
+Only once the consent form is in place does the donor set their own password. They receive an e-mail with an activation link whose token is derived from their stored e-mail hash. Following it lets them choose a password, which, as everywhere in ICNML, is hashed once in the browser and a second time on the server before storage (@apx-dek-lifecycle). From this point the donor can log in and exercise control over their own key (@donor-activation).
 
 #figure(
     image("../assets/donor-activation.drawio.png", width: 78%),
     caption: [Donor account activation and password setup.]
-)
+)<donor-activation>
 
 == The DEK life cycle: withdraw, erase, restore
 
