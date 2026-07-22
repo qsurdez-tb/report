@@ -372,6 +372,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 */
 
 #include "chapters/specifications.typ"
+#include "chapters/appendix/tools-used.typ"
 #include "chapters/appendix/appendix-authentication.typ"
 #include "chapters/appendix/appendix-per-donor.typ"
 #include "chapters/appendix/appendix-crypto.typ"
@@ -382,7 +383,6 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 #include "chapters/appendix/appendix-running-icnml.typ"
 #include "chapters/appendix/appendix-deployment.typ"
 #include "chapters/appendix/appendix-python3-migration.typ"
-#include "chapters/appendix/tools-used.typ"
 #include "chapters/appendix/watermark-eval-figures.typ"
 #include "chapters/appendix/db-architecture.typ"
 #set page(flipped: true)
