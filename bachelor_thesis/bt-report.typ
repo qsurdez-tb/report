@@ -268,7 +268,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
                                                                                  ▀▀▀              
 */
 
-#include "chapters/appendix/appendix-glossary.typ"
+#include "chapters/glossary.typ"
 
 
 #outline(title: "Table of contents", depth: 2, indent: 15pt)
