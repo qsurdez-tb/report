@@ -59,4 +59,4 @@ Everything else was the ordinary work of a version bump. Every third-party depen
 
 == Assessment
 
-The migration achieved its two goals. ICNML now runs on a supported interpreter, and it does so without a data migration, existing hashes and encrypted images remain valid because the stored formats were preserved byte-for-byte. The application boots and serves against real PostgreSQL and Redis, and the passkey flow works against the rewritten library. In terms of the codebase, this is the single most consequential change made during the thesis, because it removes the root cause the earlier chapters kept pointing back to.
+The migration achieved its two goals. ICNML now runs on a supported interpreter, and it does so without a data migration, existing hashes and encrypted images remain valid because the stored formats were preserved byte-for-byte. The application boots and serves against real PostgreSQL and Redis, and the passkey flow works against the rewritten library. In terms of the codebase, this is the single most consequential change made during the thesis, because it removes the constraints and vulnerabilities of the Python 2.7 version.
