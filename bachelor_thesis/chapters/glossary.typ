@@ -18,6 +18,8 @@ This glossary collects the recurring technical terms of the thesis, from the bio
 
 / DWT : Discrete Wavelet Transform. A mathematical operation that separates an image into coarse and fine detail bands at several scales. Like the DCT, it provides a transform domain in which a watermark can be embedded more robustly than in the raw pixels.
 
+/ EXIF : Exchangeable image file format. Metadata tags that can define the camera settings, image metrics, date and time information, location information. descscriptions and copyright information.
+
 / FIDO2 / WebAuthn : an open standard for logging in with a physical security key (such as a USB device) instead of, or in addition to, a password. It is resistant to phishing because the key proves its identity to the exact physical device only. ICNML uses it as the strong second factor for administrators.
 
 / Latent mark : a fingermark left unintentionally on a surface, for example at a crime scene. Latent marks are usually partial, distorted and of variable quality, which is what makes their assessment and comparison difficult.
