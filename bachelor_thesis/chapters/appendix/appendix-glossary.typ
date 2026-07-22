@@ -50,4 +50,6 @@ This glossary collects the recurring technical terms of the thesis, from the bio
 
 / DWT : Discrete Wavelet Transform. A mathematical operation that separates an image into coarse and fine detail bands at several scales. Like the DCT, it provides a transform domain in which a watermark can be embedded more robustly than in the raw pixels.
 
-/ CNM : Close Non-Match. A reference print that is highly closed to a mark but not its true source. Close non-matches are the cases most likely to mislead an examiner, which is why ICNML (the International Close Non-Matches Library) collects them, to study identification errors and to build realistic training exercises.
+/ CNM : Close Non-Match. A reference print that is highly close to a mark but not its true source. Close non-matches are the cases most likely to mislead an examiner, which is why ICNML (the International Close Non-Matches Library) collects them, to study identification errors and to build realistic training exercises.
+
+/ STDM : Spread-Transform Dither Modulation. The watermarking scheme retained in this thesis. It combines spread-spectrum embedding with QIM, projecting a block of the image onto a secret direction and writing a bit by quantising that projection onto one of two grids. It needs only the marked image to read the bit back, and applied to the mid-frequency DCT of each block it resists JPEG compression and cropping.
