@@ -1,4 +1,4 @@
-= Documentation and Analysis of ICNML
+= Documentation and Analysis
 
 Before ICNML could be modernised, it had to be understood. The platform had accumulated years of behaviour that no document described, so there was no map of what it did or of how it protected the data entrusted to it. This first stage of the thesis produced that map, documenting ICNML as it was found, the legacy Python 2.7 system, one part at a time.
 
