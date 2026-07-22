@@ -26,6 +26,8 @@ This glossary collects the recurring technical terms of the thesis, from the bio
 
 / Minutiae : the small, individual features of a fingerprint's ridge pattern, for example ridge endings and bifurcations (points where a ridge splits). Fingerprint identification, whether by an examiner or by AFIS, rests on comparing minutiae.
 
+/ Nonce : short for "number used once". A value unique to each encryption, combined with the key so that encrypting the same content twice never yields the same ciphertext. AES-GCM requires one, and the watermark stores a fresh 12-byte nonce alongside every embedded payload so it can be decrypted.
+
 / OpenLQM : an open-source Local Quality Metric for fingerprint images, from the quality-metric lineage published by the United States National Institute of Standards and Technology (NIST). It scores how usable a print is with 13 different metrics.
 
 / ORB : Oriented FAST and Rotated BRIEF. A fast algorithm that finds distinctive keypoints in an image, such as corners and textured spots, and describes them so the same points can be recognised in another image. ICNML's watermark verification uses it to realign a suspect image with the original before reading the payload.
