@@ -110,7 +110,7 @@ The new-users page is where an administrator validates or rejects account reques
 
 The marks search page is where a trainer or an administrator can browse the mark library and choose which ones to add to its exercise folder. There's currently no way to sort the images by any metrics which is resolved by the user-experience work of this thesis (@ux-improvements).
 
-#figure(image("../assets/screenshots/admin/25-marks-search.png", width: 100%), caption: [Marks searching page.]) <fig-marks-search>
+#figure(image("../assets/screenshots/admin/25-marks-search.png", width: 70%), caption: [Marks searching page.]) <fig-marks-search>
 
 == User interface: strengths and weaknesses
 
