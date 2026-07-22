@@ -1,9 +1,9 @@
 #import "../macros.typ": note, concept
 
-= Deployment <deployment>
+= Legacy Deployment <deployment>
 
 #concept[
-  ICNML is deployed through a fully automated pipeline. A developer pushes code, and, with no manual step, new images are built and rolled out to a production cluster. This chapter documents that pipeline as it was originally designed, the state it was in when this thesis began. It predates the Python 3 migration and, as of writing, no longer runs, broken by two independent failures covered at the end. The production version of ICNML is also down as of writing. The verbose CI and configuration listings are in @appendix-deployment.
+  ICNML is deployed through a fully automated pipeline. A developer pushes code, and, with no manual step, new images are built and rolled out to a production cluster. This chapter documents that pipeline as it was originally designed and the state it was in when this thesis began. It predates the Python 3 migration and, as of writing, no longer runs, broken by two independent failures covered at the end. The production version of ICNML is also down as of writing. The verbose CI and configuration listings are in @appendix-deployment.
 ]
 
 The pipeline follows a GitOps pattern, meaning a Git repository, not a person, is the source of truth for what runs in production. A change is made by committing, and automation reconciles the running system to match the new version of the code. @deploy-seq-fig shows the full sequence, from a developer's push to a live update on the cluster.
