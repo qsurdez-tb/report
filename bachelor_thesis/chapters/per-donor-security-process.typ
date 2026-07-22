@@ -54,7 +54,7 @@ The phrase "the submitter's session key" deserves unpacking, because the same id
 
 == The consent form
 
-A donor's consent form (a PDF) is handled with a different tool again, asymmetric GPG encryption. When the submitter uploads it, ICNML first scans each page for a QR code carrying the exact text `ICNML CONSENT FORM`, a simple check that the right document was uploaded. It then encrypts the file with a GPG public key belonging to the ICNML installation itself, and stores the result.
+A donor's consent form (a PDF) is handled with a different tool, asymmetric GPG encryption. When the submitter uploads it, ICNML first scans each page for a QR code carrying the exact text `ICNML CONSENT FORM`, a simple check that the right document was uploaded. It then encrypts the file with a GPG public key belonging to the ICNML installation itself, and stores the result.
 
 #figure(
     image("../assets/submitter-consent-form.drawio.png", width: 50%),
@@ -96,3 +96,5 @@ The per-donor design is the strongest security idea in ICNML. Encrypting every d
 The weaknesses are, for the most part, not structural. The duplicate-e-mail check should span all submissions, not just the current submitter's. The consent-form GPG key is hardcoded and its payload base64-bloated. The naming inside the key-derivation code (the `email` parameter that is really an e-mail hash) makes an already subtle mechanism harder to audit than it needs to be. The reconstruction paths in particular would benefit from clearer in-code documentation, as they are the part most easily misread.
 
 However, the DEK being stored in the same database as the encrypted images is a single point of failure. Indeed, if an attacker manages to dump the database, they would be able to decrypt all images very easily as the DEK is available to them. The images are stored as base64-bloated characters which makes the database very big, another solution would be to have a dedicated directory on the server where the images are in bytes and can be served by the server for example. 
+
+It is important to note that the private GPG key of the application, used that would be used to decrypt the consent form, has not been found yet. This is a priority for future work so that the consent forms can be read if necessary.
