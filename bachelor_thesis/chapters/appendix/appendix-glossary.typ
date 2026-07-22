@@ -40,4 +40,14 @@ This glossary collects the recurring technical terms of the thesis, from the bio
 
 / TOTP : Time-based One-Time Password. The six-digit codes, refreshed every thirty seconds, produced by an authenticator app. ICNML uses TOTP as a second authentication factor for non-administrator accounts.
 
-/ Watermarking / Fingerprinting : embedding information directly into the content of an image so it travels with the picture. When each distributed copy carries a different mark identifying its recipient, so a recovered copy can be traced back to whom it was issued, the practice is called fingerprinting or traitor tracing.
+/ Watermarking / Fingerprinting : embedding information directly into the content of an image so it travels with the picture. When each distributed copy carries a different payload identifying its recipient, so a recovered copy can be traced back to whom it was issued, the practice is called fingerprinting or traitor tracing.
+
+/ ORB : Oriented FAST and Rotated BRIEF. A fast algorithm that finds distinctive keypoints in an image, such as corners and textured spots, and describes them so the same points can be recognised in another image. ICNML's watermark verification uses it to realign a suspect image with the original before reading the payload.
+
+/ RANSAC : Random Sample Consensus. A method for fitting a model to data that contains many wrong entries, by repeatedly testing small random subsets and keeping the fit that the most points agree with. In watermark verification it recovers the rotation-and-scale transform between two images while discarding mismatched keypoints.
+
+/ SVD : Singular Value Decomposition. A standard matrix factorisation that breaks an image, or a block of it, into components ordered by how much each contributes. Some watermarking schemes embed the payload in these components, at the cost of a known ambiguity attack.
+
+/ DWT : Discrete Wavelet Transform. A mathematical operation that separates an image into coarse and fine detail bands at several scales. Like the DCT, it provides a transform domain in which a watermark can be embedded more robustly than in the raw pixels.
+
+/ CNM : Close Non-Match. A reference print that is highly closed to a mark but not its true source. Close non-matches are the cases most likely to mislead an examiner, which is why ICNML (the International Close Non-Matches Library) collects them, to study identification errors and to build realistic training exercises.
