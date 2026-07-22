@@ -1,6 +1,10 @@
-#import "../macros.typ": note
+#import "../macros.typ": note, concept
 
 = State of the Art for Tracing the Source of a Leaked Image <state-of-the-art>
+
+#concept[
+  When a biometric image issued by ICNML leaks, the question is which recipient it came from. This chapter surveys how the literature answers that question, by hiding a recipient identifier inside the image so it can be recovered even after the copy has been recompressed, cropped or rotated. It separates the two independent pieces every such scheme needs, a code layer that keeps the identifier readable through damage and a watermark that hides it robustly, and narrows the many published options down to the design this thesis implements.
+]
 
 This part of the thesis concerns source identification after a leak. When a grayscale biometric image issued by ICNML reappears outside the system, the goal is to recover which recipient it was given to. Even after the file has been reencoded, rescaled, cropped or rotated.
 
