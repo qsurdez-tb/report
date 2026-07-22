@@ -3,7 +3,7 @@
 = Tattooing <tattooing>
 
 #concept[
-  Every image ICNML serves for download is stamped with a pair of barcodes, one identifying the file and one recording who downloaded it and when. The source code calls this tattooing (`image_tattoo` in `views/images/__init__.py`). Its intent is forensic. If a downloaded biometric image later resurfaces where it should not, the stamp is meant to tie that copy back to the account that pulled it. This chapter documents the tattooing as found in the codebase, what each mark records, and where it falls short, the shortcomings that motivate the invisible traceable watermark developed later (@watermark-implementation). The Python listings are in @appendix-tattooing.
+  Every image ICNML serves for download is stamped with a pair of barcodes, one identifying the file and one recording who downloaded it and when. The source code calls this tattooing (`image_tattoo` in `views/images/__init__.py`). Its intent is traceability. If a downloaded biometric image later resurfaces where it should not, the tattoo is meant to tie that copy back to the account that pulled it. This chapter documents the tattooing as found in the codebase, what each tattoo records, and where it falls short, the shortcomings that motivate the invisible traceable watermark developed later (@watermark-implementation). The Python listings are in @appendix-tattooing.
 ]
 
 Tattooing is applied to an image at the moment it is downloaded, as one step of the download endpoints. @tattoo-flow-fig shows where it sits in that path. It leaves the pixels of the image itself untouched and instead grows the canvas, adding one strip above the image and one below it, so the two marks live in the added margins rather than over the biometric content. The original DPI metadata is read before the operation and written back afterwards, so the marked copy still reports the resolution of the source.
@@ -13,9 +13,9 @@ Tattooing is applied to an image at the moment it is downloaded, as one step of 
   caption: [Where tattooing sits in the flow from a download endpoint.],
 )<tattoo-flow-fig>
 
-== The two marks
+== The two tattoos
 
-Tattooing writes two CODE128 barcodes with deliberately different roles. CODE128 is an ordinary one-dimensional barcode, the kind a warehouse scanner reads, so both marks are machine-readable with any standard reader.
+Tattooing writes two CODE128 barcodes with deliberately different roles. CODE128 is a standard one-dimensional barcode, the kind a warehouse scanner reads, so both marks are machine-readable with any standard reader.
 
 #figure(
   table(
@@ -58,4 +58,4 @@ Its weaknesses, in order of severity, all follow from the same root, that the ma
 + The audit trail can be bypassed without any attack on the mark. Because the preview and TIFF endpoints serve unmarked full images, a user who wants an untraceable copy need only request one through those routes.
 + The human-visible mark cannot attribute a leak on its own. It encodes only the file identifier, so recovering it tells an examiner which image leaked but not to whom it was issued. Attribution depends entirely on the near-invisible bottom strip, which is also the easiest part to crop away.
 
-These limitations are precisely what the traceable watermark in @watermark-implementation is built to overcome. Instead of stamping removable barcodes into the margins, it spreads a cryptographic recipient identity invisibly across the whole image, so that a crop, a recompression or a rescale can no longer strip the copy of its origin.
+These limitations are precisely what the traceable watermark in @watermark-implementation is built to overcome. Instead of tatooing removable barcodes into the margins, it spreads an identifier invisibly across the whole image, so that a crop, a recompression or a rescale can no longer strip the copy of its origin.
