@@ -31,7 +31,7 @@ tasks:
     end: 2026-06-17
     x:
     estimate: 3.75
-- name: Focus 4 - Steganography on all served images (14d)
+- name: Focus 4 - Watermarking on downloaded images (14d)
   subtasks:
   - name: Literature review + scope definition (3d)
     start: 2026-06-17
