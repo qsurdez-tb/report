@@ -142,7 +142,7 @@ Which attacks actually break each scheme is laid out in the per-attack recovery 
 Before pooling fidelity across the library, it helps to see the effect on a single print. @fig-contact-sheet embeds one palm print with all six schemes and amplifies the resulting payload ten-fold. The embedded prints (upper row) are indistinguishable from the cover to the eye, exactly the point of an invisible payload. The amplified difference (lower row) is where the schemes part ways, the ST-DM variants leave only a faint trace, `stdm-gain` the faintest. `stdm-global` sprays a uniform speckle across even the flat background it need not touch, and the `bw-svd` baseline lays heavy, structured noise over the whole print, the visible damage its lower fidelity score reflects.
 
 #figure(
-  image("../assets/plots/embed_contact_sheet.png", width: 100%),
+  image("../assets/plots/embed_contact_sheet.png"),
   caption: [One palm print embedded by each of the six schemes (upper row, with per-image PSNR and SSIM), and the same watermark amplified ten-fold (lower row). The embedded prints are perceptually identical to the cover, while the amplified difference reveals how much each scheme disturbs the image and where.]
 )<fig-contact-sheet>
 

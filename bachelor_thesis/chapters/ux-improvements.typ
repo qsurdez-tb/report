@@ -1,8 +1,12 @@
-#import "../macros.typ": note
+#import "../macros.typ": note, concept
 
 = Enhancing the User Experience <ux-improvements>
 
-The fourth objective of this thesis was to enhance the day-to-day experience of the people who actually use ICNML. The trainers who build exercises from biometric marks, the administrators who oversee the platform, and the external recipients who receive material from ICNML. Unlike the documentation and security work, whose scope was fixed at the outset, the exact features here were confirmed part-way through the project, on 20.05, once the analysis phases had revealed which frictions mattered most. This chapter presents the four enhancements that were built, each motivated by a concrete obstacle a user was hitting.
+#concept[
+  The fourth objective was to make ICNML easier to use without weakening its protections. This chapter presents four enhancements built for the platform's trainers, administrators and external recipients, a secure way to share a folder, automatic quality scoring of marks, a donor-aware search, and safe deletion with recovery, each fixing a concrete friction the analysis had surfaced. It also presents the administrator page that reads a watermark back from a suspected leak, the operator-facing side of the traceable-watermark work. One rule runs through all four, added convenience must never quietly remove a safeguard on the biometric data.
+]
+
+The fourth objective of this thesis was to enhance the day-to-day experience of the people who actually use ICNML. The trainers who build exercises from latent marks, the administrators who oversee the platform, and the external recipients who receive material from ICNML. Unlike the documentation and security work, whose scope was fixed at the outset, the exact features here were confirmed part-way through the project, on 20.05, once the analysis phases had revealed which frictions mattered most. This chapter presents the four enhancements that were built, each motivated by a concrete obstacle a user was hitting.
 
 A guiding constraint runs through all four, ICNML holds sensitive biometric data, so a usability improvement must never quietly weaken a safeguard. Where a feature touches deletion, sharing, or the export of full-resolution images, the design keeps the cautious behaviour and adds the convenience around it.
 
@@ -40,12 +44,7 @@ Several precautions sit underneath the convenience:
 - code entry is compared in constant time, is limited to five attempts, and each code works only once.
 - every recipient who downloads is recorded, producing an audit list of exactly who received the material.
 
-That audit list is where this feature meets the watermarking work of the previous chapters. Traceability only has intereset when distinct copies reach distinct, identified recipients. Ff everyone shares one anonymous copy, a recovered mark points to no one in particular. The secure share flow is what makes per-recipient distribution real, so that the invisible mark carried by each downloaded image (@watermark-implementation) can later be tied back to a named person on the recipient list.
-
-#figure(
-  image("../assets/screenshots/ux-improvements/04-watermark-verification.png", width: 78%),
-  caption: [Where the share flow meets traceability. Recovering the invisible mark from a leaked copy resolves it to the exact account, file and download event that produced it (`watermark_verify` blueprint).]
-)<fig-ux-share-verify>
+That audit list is where this feature meets the watermarking work of the previous chapters. Traceability only has interest when distinct copies reach distinct, identified recipients. If everyone shares one anonymous copy, a recovered payload points to no one in particular. The secure share flow is what makes per-recipient distribution real, so that the invisible payload carried by each downloaded image (@watermark-implementation) can later be tied back to a named person on the recipient list, through the verification page described in @ux-verify.
 
 == Judging image quality automatically <ux-quality>
 
@@ -116,6 +115,19 @@ Deleting a folder is a soft delete which means that the trainer marks their own 
 
 Removing a single image from a folder is as well promoted to a visible remove button on each image, guarded by a confirmation dialog that shows a preview of the exact image about to be removed, so the trainer can see what they are deleting before they commit. One detail ties back to traceability again. When a folder is hard-deleted, the recipient records associated with it are kept, because they are the evidence a watermark accusation would rely on.
 
+== Verifying a leaked image <ux-verify>
+
+The four enhancements above were the scoped user-experience work. One more interface belongs in this chapter, because it is what makes the watermarking contribution usable in practice. A watermark is only as useful as an admin's ability to read it back, so the administrator side of ICNML gained a verification page.
+
+An administrator uploads a suspected leaked image and, optionally, the UUID of the original stored file to help undo any rotation or rescaling. ICNML recovers the invisible payload and resolves it to a concrete provenance record (@fig-ux-verify), the account that downloaded the image with its e-mail and identifier, the file the copy is of, the moment the payload was embedded, the exact download event from the audit log, and whether the authentication seal, shown as the nonce binding, verified. That last line is what separates evidence from a guess, a verified seal means the recovered identity is one ICNML actually wrote rather than a coincidence or a forgery.
+
+This closes the traceability loop the secure share flow opened. Distinct copies reach identified recipients, and a recovered payload names one of them.
+
+#figure(
+  image("../assets/screenshots/ux-improvements/04-watermark-verification.png", width: 80%),
+  caption: [The administrator verification page. Uploading a suspected leaked image recovers the invisible payload and resolves it to the account, file, embedding time and download event that produced it, with the authentication seal shown as a verified nonce binding (`watermark_verify` blueprint).],
+)<fig-ux-verify>
+
 == Summary <ux-summary>
 
 #figure(
@@ -129,8 +141,9 @@ Removing a single image from a folder is as well promoted to a visible remove bu
     [Automatic quality scoring, sorting and heatmap], [slow, manual, by-eye assessment of mark usability],
     [Donor-aware mark search], [no way to find all marks of one donor],
     [Safe folder and image deletion (soft delete, admin restore)], [no removal, or irreversible removal with no confirmation],
+    [Watermark verification page (upload a suspect image, resolve to account and audit event)], [no operator-facing way to read a leaked image's mark back to its downloader],
   ),
-  caption: [The four user-experience enhancements and the friction each addresses.]
+  caption: [The user-experience work and the friction each item addresses, the four scoped enhancements and the administrator verification page.]
 )
 
-Taken together, the four enhancements share a common shape. They add convenience without removing a safeguard, they degrade gracefully or switch off cleanly, and two of them, the audited share flow and the retention of recipient records, are what give the watermarking contribution its real-world footing.
+Taken together, the four enhancements share a common shape. They add convenience without removing a safeguard, they degrade gracefully or switch off cleanly, and two of them, the audited share flow and the retention of recipient records, are what give the watermarking contribution its real-world footing, put to use by the verification page of @ux-verify.
