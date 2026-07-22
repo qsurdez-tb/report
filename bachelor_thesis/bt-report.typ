@@ -268,7 +268,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
                                                                                  ▀▀▀              
 */
 
-#include "chapters/specifications.typ"
+#include "chapters/appendix/appendix-glossary.typ"
 
 
 #outline(title: "Table of contents", depth: 2, indent: 15pt)
@@ -385,7 +385,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 | ------------------------------------
 */
 
-#include "chapters/appendix/appendix-glossary.typ"
+#include "chapters/specifications.typ"
 #include "chapters/appendix/appendix-authentication.typ"
 #include "chapters/appendix/appendix-per-donor.typ"
 #include "chapters/appendix/appendix-crypto.typ"
