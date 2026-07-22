@@ -8,11 +8,15 @@ This glossary collects the recurring technical terms of the thesis, from the bio
 
 / BER : Bit Error Rate. The fraction of embedded bits that come back wrong after an image has been attacked. It measures how robust a watermark is (lower is better).
 
+/ CNM : Close Non-Match. A reference print that is highly close to a mark but not its true source. Close non-matches are the cases most likely to mislead an examiner, which is why ICNML (the International Close Non-Matches Library) collects them, to study identification errors and to build realistic training exercises.
+
 / CSK : Client-Side Key. A key derived from the user's password inside the browser that never leaves the browser. ICNML uses it to encrypt items the user must be able to read back but the server should not, such as filenames and the donor email shown to the submitter.
 
 / DCT : Discrete Cosine Transform. A standard mathematical operation that re-describes a small image tile in terms of frequencies (broad shading versus fine detail) instead of raw pixel values. It is the same operation JPEG compression is built on.
 
 / DEK : Data Encryption Key. A per-donor key that encrypts all of that donor's biometric images.
+
+/ DWT : Discrete Wavelet Transform. A mathematical operation that separates an image into coarse and fine detail bands at several scales. Like the DCT, it provides a transform domain in which a watermark can be embedded more robustly than in the raw pixels.
 
 / FIDO2 / WebAuthn : an open standard for logging in with a physical security key (such as a USB device) instead of, or in addition to, a password. It is resistant to phishing because the key proves its identity to the exact physical device only. ICNML uses it as the strong second factor for administrators.
 
@@ -21,6 +25,8 @@ This glossary collects the recurring technical terms of the thesis, from the bio
 / Minutiae : the small, individual features of a fingerprint's ridge pattern, for example ridge endings and bifurcations (points where a ridge splits). Fingerprint identification, whether by an examiner or by AFIS, rests on comparing minutiae.
 
 / OpenLQM : an open-source Local Quality Metric for fingerprint images, from the quality-metric lineage published by the United States National Institute of Standards and Technology (NIST). It scores how usable a print is with 13 different metrics.
+
+/ ORB : Oriented FAST and Rotated BRIEF. A fast algorithm that finds distinctive keypoints in an image, such as corners and textured spots, and describes them so the same points can be recognised in another image. ICNML's watermark verification uses it to realign a suspect image with the original before reading the payload.
 
 / Payload : the actual sequence of bits embedded into an image by a watermark. In this thesis the payload encodes an encrypted recipient identifier.
 
@@ -32,24 +38,18 @@ This glossary collects the recurring technical terms of the thesis, from the bio
 
 / QIM : Quantisation Index Modulation. A watermarking technique that writes a bit into an image by rounding a measurement of the image onto one of two interleaved grids, one grid meaning 0, the other meaning 1. Reading the bit back needs only the marked image, not the original.
 
+/ RANSAC : Random Sample Consensus. A method for fitting a model to data that contains many wrong entries, by repeatedly testing small random subsets and keeping the fit that the most points agree with. In watermark verification it recovers the rotation-and-scale transform between two images while discarding mismatched keypoints.
+
 / Reed-Solomon code : an error-correcting code that adds redundancy to data so that a bounded number of corrupted symbols can be repaired exactly. It works on whole bytes, which suits localised damage such as a crop.
 
 / Regular expression (regex) : a compact text pattern used to search for or match strings that follow a given shape (for example, "a UUID" or "a date"). It is a standard tool for finding and extracting structured text.
 
 / Salt : a random value combined with a password before hashing, so that two identical passwords do not produce the same stored hash and precomputed guessing tables cannot be reused.
 
-/ TOTP : Time-based One-Time Password. The six-digit codes, refreshed every thirty seconds, produced by an authenticator app. ICNML uses TOTP as a second authentication factor for non-administrator accounts.
-
-/ Watermarking / Fingerprinting : embedding information directly into the content of an image so it travels with the picture. When each distributed copy carries a different payload identifying its recipient, so a recovered copy can be traced back to whom it was issued, the practice is called fingerprinting or traitor tracing.
-
-/ ORB : Oriented FAST and Rotated BRIEF. A fast algorithm that finds distinctive keypoints in an image, such as corners and textured spots, and describes them so the same points can be recognised in another image. ICNML's watermark verification uses it to realign a suspect image with the original before reading the payload.
-
-/ RANSAC : Random Sample Consensus. A method for fitting a model to data that contains many wrong entries, by repeatedly testing small random subsets and keeping the fit that the most points agree with. In watermark verification it recovers the rotation-and-scale transform between two images while discarding mismatched keypoints.
+/ STDM : Spread-Transform Dither Modulation. The watermarking scheme retained in this thesis. It combines spread-spectrum embedding with QIM, projecting a block of the image onto a secret direction and writing a bit by quantising that projection onto one of two grids. It needs only the marked image to read the bit back, and applied to the mid-frequency DCT of each block it resists JPEG compression and cropping.
 
 / SVD : Singular Value Decomposition. A standard matrix factorisation that breaks an image, or a block of it, into components ordered by how much each contributes. Some watermarking schemes embed the payload in these components, at the cost of a known ambiguity attack.
 
-/ DWT : Discrete Wavelet Transform. A mathematical operation that separates an image into coarse and fine detail bands at several scales. Like the DCT, it provides a transform domain in which a watermark can be embedded more robustly than in the raw pixels.
+/ TOTP : Time-based One-Time Password. The six-digit codes, refreshed every thirty seconds, produced by an authenticator app. ICNML uses TOTP as a second authentication factor for non-administrator accounts.
 
-/ CNM : Close Non-Match. A reference print that is highly close to a mark but not its true source. Close non-matches are the cases most likely to mislead an examiner, which is why ICNML (the International Close Non-Matches Library) collects them, to study identification errors and to build realistic training exercises.
-
-/ STDM : Spread-Transform Dither Modulation. The watermarking scheme retained in this thesis. It combines spread-spectrum embedding with QIM, projecting a block of the image onto a secret direction and writing a bit by quantising that projection onto one of two grids. It needs only the marked image to read the bit back, and applied to the mid-frequency DCT of each block it resists JPEG compression and cropping.
+/ Watermarking / Fingerprinting : embedding information directly into the content of an image so it travels with the picture. When each distributed copy carries a different payload identifying its recipient, so a recovered copy can be traced back to whom it was issued, the practice is called fingerprinting or traitor tracing.
