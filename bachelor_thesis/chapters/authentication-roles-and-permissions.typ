@@ -8,7 +8,7 @@
 
 == Who uses ICNML: roles and permissions <roles-and-permissions>
 
-ICNML controls access with a role-based model which means that every authenticated user holds exactly one role, and the role, not the individual, decides what is permitted. The available roles are stored in the `account_type` database table and copied into the user's session at login. A set of small gatekeeper functions (decorators, described at the end of this section) then checks the role on every protected page.
+ICNML controls access with a role-based model which means that every authenticated user holds exactly one role, and the role, not the individual, decides what is permitted. The available roles are stored in the `account_type` database table (@db-arch) and copied into the user's session at login. A set of small gatekeeper functions (decorators, described at the end of this section) then checks the role on every protected page.
 
 @roles-actors maps each role to the real-world participant it represents and to their part in the biometric-data workflow.
 
@@ -31,7 +31,7 @@ ICNML controls access with a role-based model which means that every authenticat
 
 Two properties of this table are worth stating. First, the Donor is not a person who logs in to browse. They exist so that the biometric subject retains control of their own data, the ability to erase it, a point developed in the per-donor security chapter. Second, the Selection role is defined in the sign-up flow and the database but has no dedicated pages. A Selection user can currently reach only the pages guarded by the weakest "just be logged in" check.
 
-=== What each role may do
+=== What each role does
 
 Administrator (type 1). Created directly in the database (there is no self-service path). An administrator passes every gatekeeper check and additionally reaches the `/admin/` pages: approving sign-up requests, viewing all submissions, managing AFIS targets, downloading uncompressed originals, and inspecting raw records by UUID. The full capability list is in @auth-routes.
 
@@ -68,8 +68,6 @@ A complete login follows one of two sequences. The ordinary path is password, th
 The steps below run in order on repeated calls to the single login endpoint. The server remembers which step is next in the session.
 
 / Rate limiting (before anything else) : Every login attempt is throttled before any credential is examined. The throttle is keyed not on the exact client address but on its surrounding `/16` network block (derived from the client IP, `REMOTE_ADDR`), and the enforced delay grows exponentially once a floor of five attempts is passed (delay $= 2^(max(n, 5))$ seconds). Because the counter increases on both a wrong password and an unknown username, the response does not reveal whether an account exists.
-
-#note[Keying the throttle on a whole `/16` block means one person's repeated failures can lock out everyone sharing that network. This happened in practice while creating administrator accounts. Narrowing the key to the individual address would remove the collateral lockout.]
 
 / Password verification : The password is first hashed inside the browser before it is sent (@auth-code). The intent is that the server never receives the raw password, so a leak of server logs or a broken transport reveals only a hash. The trade-off, worth stating honestly, is that this browser-side hash then behaves as the effective password. On the server, if the username is unknown, ICNML still runs a verification against a dummy stored hash before answering. This deliberate wasted work keeps the response time the same whether or not the account exists, closing a timing side channel that would otherwise leak which usernames are valid. When the account does exist, the submitted hash is checked against the stored one. In the code this check sits inside a compound `or not` condition, which is easy to miss on a first reading.
 
