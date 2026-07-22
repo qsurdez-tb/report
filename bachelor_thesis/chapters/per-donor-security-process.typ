@@ -63,7 +63,7 @@ A donor's consent form (a PDF) is handled with a different tool, asymmetric GPG 
     caption: [Consent-form verification, encryption, and storage.]
 )<submitter-consent-form>
 
-The choice of an asymmetric key is what matters here. Encrypting with the institution's public key means the consent form can be written by the running application but only read back by whoever holds the matching private key, the institution's operators, kept off the server. Consent forms therefore sit encrypted at rest, out of reach of the web application in normal operation.
+Encrypting with the institution's public key means the consent form can be written by the running application but only read back by whoever holds the matching private key, the institution's operators, kept off the server. Consent forms therefore sit encrypted at rest, out of reach of the web application in normal operation.
 
 #note[Two rough edges: the GPG key is identified by a single hardcoded key id in the configuration, and the encrypted file is stored base64-encoded in a text column, which inflates it by about 30% @base64. Both are easy to improve.]
 
