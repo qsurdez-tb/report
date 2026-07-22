@@ -1,6 +1,6 @@
 = Glossary <glossary>
 
-This glossary collects the recurring technical terms of the thesis, from the biometric, security and signal-processing domains, in one place. Each term is defined in plain language on first use in the text as well. This appendix is the single reference to return to. The watermarking-specific vocabulary is defined more fully in the terminology section of the state-of-the-art chapter (@state-of-the-art).
+This glossary collects the recurring technical terms of the thesis, from the biometric, security and signal-processing domains, in one place. Each term is defined in plain language on first use in the text as well. This is the single reference to return to. The watermarking-specific vocabulary is defined more fully in the terminology section of the state-of-the-art chapter (@state-of-the-art).
 
 / AES-GCM : Advanced Encryption Standard in Galois/Counter Mode. A way of encrypting data that also produces a short cryptographic "seal" (a tag). Anyone with the key can both read the data back and verify that it was not altered or forged.
 
