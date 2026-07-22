@@ -15,9 +15,11 @@ A solution to this problem is built from two largely independent layers. A code 
 
 == Terminology
 
-The two communities this work draws on, signal processing on one side and coding theory on the other, use a dense and overlapping vocabulary. The terms below are used throughout this chapter with the following meaning.
+The two communities this work draws on, signal processing on one side and coding theory on the other, use a dense and overlapping vocabulary.
 
 / Watermarking : the act of embedding information (the payload) directly into the content of an image so that it is carried by the image itself rather than by a separate file or header. Robust watermarking specifically aims for the payload to survive distortion of the image.
+
+/ Recipient identifier : A recipient identifier is any information allowing to identify a recipient amongst others. In the case of this work, it would a user id from the database and a timestamp.
 
 / Payload : the sequence of bits or symbols actually embedded into the image. Here the payload encodes a recipient identifier.
 
@@ -60,7 +62,7 @@ The defender's goal is to recover the recipient identifier from a leaked copy th
 
 Every watermarking scheme is governed by a three-way trade-off between imperceptibility, robustness and capacity. Improving one of these properties degrades at least one of the others @cox07. In the present context, three further criteria refine the picture. 
 
-The first is traceability. The payload must reliably carry enough information to designate one recipient among all of them. In ICNML the identifier is an encrypted recipient token of a few hundred bits. ICNML images are grayscale biometric high quality images of roughly 1000 x 1000 at 500 dpi, which leaves a lot of capacity for a payload of that size.
+The first is traceability. The payload must reliably carry enough information to designate one recipient among all of them. In ICNML the identifier is an encrypted recipient token of a few hundred bits.
 
 The second is the attack model the scheme is expected to survive. Distinguishing a single redistributor from a coalition is what separates the two code families discussed below @cox02.
 
@@ -76,7 +78,7 @@ Tardos @tardos08 reduced this length with a probabilistic construction whose len
 
 $ m = O(c^2 ln(n / epsilon)) $
 
-is sufficient to accuse, with false-positive probability $epsilon$, at least one member of any coalition of up to $c$ recipients among $n$. Following work reduced the length like the method proposed by Skoric et al. @skoric08 that uses symmetric two-sided scoring which improved the accusation power. Then even tighter analyses shortened the codewords further @laarhoven14. This family of codes has been paired with transform-domain watermarking for video @rehman22 mostly in literature. Tardos codes are the state of the art for collusion-resistant fingerprinting.
+is sufficient to accuse, with false-positive probability $epsilon$, at least one member of any coalition of up to $c$ recipients among $n$. Following work reduced the length like the method proposed by Skoric et al. @skoric08 that uses symmetric two-sided scoring which improved the accusation power. Then even tighter analyses shortened the codewords further @laarhoven14. This family of codes has been paired with transform-domain watermarking for video @rehman22 in literature. Tardos codes are the state of the art for collusion-resistant fingerprinting.
 
 === Why Tardos is set aside
 
@@ -96,11 +98,11 @@ Reed-Solomon (RS) codes fit this well. They work on symbols, small groups of bit
 
 $ t = floor((n - k) / 2)$
 
-corrupted ones. Working on symbols is the key advantage here, because a localised attack such as cropping damages a contiguous region of the image, which maps to a few whole symbols rather than many scattered bits, exactly what RS corrects the most efficiently and what is probably one of the most likely attack for ICNML biometric images. RS has been used as the coding layer of wavelet-domain schemes @abdul13 and of a scheme designed specifically to resist JPEG compression and cropping @liu25. 
+corrupted ones. Working on symbols is the key advantage here, because a localised attack such as cropping damages a contiguous region of the image, which maps to a few whole symbols rather than many scattered bits, which is what RS corrects the most efficiently and what is probably one of the most likely attack for ICNML biometric images. RS has been used as the coding layer of wavelet-domain schemes @abdul13 and of a scheme designed specifically to resist JPEG compression and cropping @liu25. 
 
-It recovers the payload in a deterministic way and costs only $n - k$ extra symbols. This is very interesting if the embedded bits are an encrypted token as this ensures all the bits will be extracted, if the corrupted symbols stay within the correction budget $t$, and then the token can be decrypted by the server to accuse the leaker with precision.
+It recovers the payload in a deterministic way and costs only $n - k$ extra symbols. This is very interesting if the embedded bits are an encrypted token as this ensures all the bits will be extracted, if the corrupted symbols stay within the correction budget $t$, and then the token can be decrypted by the server to accuse the recipient that realeased the image with precision.
 
-== The watermarking scheme
+== Studied watermarking schemes
 
 === Spread-spectrum watermarking
 
@@ -112,9 +114,7 @@ It underlies the transform-domain schemes in use today and frames how a recipien
 
 The robustness of the embedding itself comes largely from the domain in which symbols are inserted. Rather than the spatial domain, modern robust schemes work in a transform domain, where the payload is spread across coefficients that survive compression and geometric edits. Hybrid constructions that combine several decompositions, for example a wavelet transform (DWT) with a singular value decomposition (SVD), concentrate robustness while preserving imperceptibility @abdul13 @liu25.
 
-Most of these schemes were designed for colour images, where the mark can be hidden in a colour channel. On the grayscale images ICNML handles, the mark competes directly with the luminance the biometric content lives in, which tightens the imperceptibility budget.
-
-SVD-based hybrids also carry a known weakness. Because the extracted mark depends on reference data supplied at detection, an attacker can claim a mark of their own in an image they do not own. This is known as the SVD ambiguity or false-positive attack @zhang05. Guarding agains it requires either using a cryptographic primitive on the reference data or preferring a blind, quantisation-based detector.
+Most of these schemes were designed for colour images, where the payload can be hidden in a colour channel. On the grayscale images ICNML handles, the payload competes directly with the luminance the biometric content lives in, which tightens the imperceptibility budget.
 
 === Quantisation-based embedding
 
@@ -150,7 +150,7 @@ This thesis combines a transform-domain watermark with a Reed-Solomon code layer
   caption: [End-to-end source identification after a potential leak.]
 )<watermark-pipeline>
 
-The watermarking scheme is not yet fixed. Two candidates from the previous sections are explored. One is a decomposition-based hybrid in the DWT-DCT-SVD domain, the other is a Spread-Transform Dither Modulation. They are compared along the criteria established above such as robustness under the in-scope attacks, exposure to the SVD ambiguity attack @zhang05, and the capacity each leaves for the code layer. Selecting the scheme is part of the implementation work. Candidate implementations under evaluation include the `blind_watermark` @blind-watermark package for the DWT-DCT-SVD hybrid and `reedsolo` @reedsolo for the Reed-Solomon layer.
+The watermarking scheme is not yet fixed. Two candidates from the previous sections are explored. One is a decomposition-based hybrid in the DWT-DCT-SVD domain, the other is a Spread-Transform Dither Modulation. They are compared along the criteria established above such as robustness under the in-scope attacks and the capacity each leaves for the code layer. Selecting the scheme is part of the implementation work. Candidate implementations under evaluation include the `blind_watermark` @blind-watermark package for the DWT-DCT-SVD hybrid and `reedsolo` @reedsolo for the Reed-Solomon layer.
 
 Everyday distortions such as compression, mild cropping are handled by the code layer's built-in error correction. Rotation and rescaling, which throw the whole image out of alignment, are handled, only if needed, by a synchronisation approach. 
 
