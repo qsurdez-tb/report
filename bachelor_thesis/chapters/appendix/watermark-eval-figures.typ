@@ -11,11 +11,6 @@ This annex collects the detailed evaluation figures referenced from the watermar
 
 #page(flipped: true)[
   #figure(
-    image("../../assets/plots/recovery_heatmap.png", width: 100%),
-    caption: [Exact identifier recovery for every scheme and attack, grouped by attack family. Warm cells are failures, cool cells successes. The blank forensic block for the two library baselines marks attacks they were never run against.]
-  )<fig-recovery-heatmap>
-
-  #figure(
     image("../../assets/plots/rs_margin.png", width: 100%),
     caption: [Reed-Solomon correction budget consumed per attack family, expressed as byte errors over the 16 correctable. The dashed line is the correction limit: as long as a scheme stays below it the identifier decodes exactly. The margin is comfortable everywhere except the hardest combined attacks.]
   )<fig-rs-margin>
