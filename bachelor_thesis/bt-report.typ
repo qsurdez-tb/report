@@ -268,6 +268,8 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
                                                                                  ▀▀▀              
 */
 
+#include "chapters/specifications.typ"
+
 #include "chapters/glossary.typ"
 
 
@@ -371,7 +373,6 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 | ------------------------------------
 */
 
-#include "chapters/specifications.typ"
 #include "chapters/appendix/tools-used.typ"
 #include "chapters/appendix/appendix-authentication.typ"
 #include "chapters/appendix/appendix-per-donor.typ"
