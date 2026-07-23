@@ -46,6 +46,8 @@ Several precautions sit underneath the convenience:
 
 That audit list is where this feature meets the watermarking work of the previous chapters. Traceability only has interest when distinct copies reach distinct, identified recipients. If everyone shares one anonymous copy, a recovered payload points to no one in particular. The secure share flow is what makes per-recipient distribution real, so that the invisible payload carried by each downloaded image (@watermark-implementation) can later be tied back to a named person on the recipient list, through the verification page described in @ux-verify.
 
+One caveat sits against these precautions. The recipient email addresses that form the audit list are stored in plain text in the database, unlike the donor emails elsewhere in ICNML, which are only ever kept encrypted or hashed. This is a known weakness. Because the audit trail must still be able to name a recipient for a watermark accusation, the fix is to encrypt these addresses at rest rather than hash them, so that a database dump no longer reveals who received what. It is a worthwhile item for future work.
+
 == Judging image quality automatically <ux-quality>
 
 A recurring, tedious task for a trainer is judging how usable or unusable (if a low quality mark is what interests the trainer) a latent mark is before building an exercise around it, a judgement previously made entirely by eye, one image at a time. ICNML has ~6000 marks so the task is daunting. The enhancement automates a first pass at this by integrating OpenLQM, the open-source local quality metric from NIST's fingerprint-quality lineage @nistlqm.
