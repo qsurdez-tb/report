@@ -239,7 +239,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 
 #config.information.resume_publiable
 
-#v(8%)
+#v(15%)
 
 #align(bottom + left, [
   #block(
