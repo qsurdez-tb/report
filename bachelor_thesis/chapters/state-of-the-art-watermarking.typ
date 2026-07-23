@@ -21,31 +21,31 @@ A solution to this problem is built from two largely independent layers. A code 
 
 The two communities this work draws on, signal processing on one side and coding theory on the other, use a dense and overlapping vocabulary.
 
-/ Watermarking : the act of embedding information (the payload) directly into the content of an image so that it is carried by the image itself rather than by a separate file or header. Robust watermarking specifically aims for the payload to survive distortion of the image.
-
-/ Recipient identifier : A recipient identifier is any information allowing to identify a recipient amongst others. In the case of this work, it would a user id from the database and a timestamp.
-
-/ Payload : the sequence of bits or symbols actually embedded into the image. Here the payload encodes a recipient identifier.
-
-/ Fingerprinting : watermarking where each distributed copy carries a different payload, one per recipient, so that a recovered copy can be tied back to the specific recipient it was issued to. Also called traitor tracing.
-
-/ Recipient : the entity a marked copy is issued to and that a recovered payload designates. In ICNML this is the party who downloads an image.
-
-/ Collusion : an attack where several recipients, each holding a differently marked copy of the same image, compare their copies to forge a new copy whose payload traces back to none of them. A group of such recipients is a coalition.
-
-/ Marking assumption : the rule that defines what a coalition can do. Where all colluders' copies agree on a symbol, that symbol cannot be altered undetected. Where the copies differ, the coalition may set the symbol freely.
-
-/ Imperceptibility : how little the embedding degrades the visible image. Measurements in the litterature are peak signal-to-noise ratio (PSNR) or structural similarity (SSIM).
-
-/ Robustness : how well the payload survives distortions of the image. Measurement in the litterature is bit error rate (BER).
-
 / Capacity : how many payload bits the image can carry.
-
-/ Transform domain : a representation of the image in terms of frequency-like coefficients (for example wavelet or cosine coefficients) rather than raw pixels. Embedding in this domain is more robust than embedding in the pixels directly.
 
 / Code layer : the step that turns a short identifier into a longer, redundant sequence of symbols and reconstructs the identifier from a distorted reading.
 
+/ Collusion : an attack where several recipients, each holding a differently marked copy of the same image, compare their copies to forge a new copy whose payload traces back to none of them. A group of such recipients is a coalition.
+
+/ Fingerprinting : watermarking where each distributed copy carries a different payload, one per recipient, so that a recovered copy can be tied back to the specific recipient it was issued to. Also called traitor tracing.
+
+/ Imperceptibility : how little the embedding degrades the visible image. Measurements in the litterature are peak signal-to-noise ratio (PSNR) or structural similarity (SSIM).
+
+/ Marking assumption : the rule that defines what a coalition can do. Where all colluders' copies agree on a symbol, that symbol cannot be altered undetected. Where the copies differ, the coalition may set the symbol freely.
+
+/ Payload : the sequence of bits or symbols actually embedded into an image by a watermark. In this thesis the payload encodes an encrypted recipient identifier.
+
+/ Recipient : the entity a marked copy is issued to and that a recovered payload designates. In ICNML this is the party who downloads an image.
+
+/ Recipient identifier : A recipient identifier is any information allowing to identify a recipient amongst others. In the case of this work, it would a user id from the database and a timestamp.
+
+/ Robustness : how well the payload survives distortions of the image. Measurement in the litterature is bit error rate (BER).
+
 / Synchronisation : recovering the alignment of the embedding grid before reading the payload. Geometric distortions desynchronise this grid, which is a distinct problem from ordinary symbol errors.
+
+/ Transform domain : a representation of the image in terms of frequency-like coefficients (for example wavelet or cosine coefficients) rather than raw pixels. Embedding in this domain is more robust than embedding in the pixels directly.
+
+/ Watermarking : the act of embedding information (the payload) directly into the content of an image so that it is carried by the image itself rather than by a separate file or header. Robust watermarking specifically aims for the payload to survive distortion of the image.
 
 == Attack model
 

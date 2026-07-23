@@ -32,7 +32,7 @@ This glossary collects the recurring technical terms of the thesis, from the bio
 
 / ORB : Oriented FAST and Rotated BRIEF. A fast algorithm that finds distinctive keypoints in an image, such as corners and textured spots, and describes them so the same points can be recognised in another image. ICNML's watermark verification uses it to realign a suspect image with the original before reading the payload.
 
-/ Payload : the actual sequence of bits embedded into an image by a watermark. In this thesis the payload encodes an encrypted recipient identifier.
+/ Payload : the sequence of bits or symbols actually embedded into an image by a watermark. In this thesis the payload encodes an encrypted recipient identifier.
 
 / PBKDF2 : Password-Based Key Derivation Function 2. A deliberately slow method that turns a password into a key by hashing it many thousands of times together with a random salt.
 
