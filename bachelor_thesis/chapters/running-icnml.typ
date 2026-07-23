@@ -8,13 +8,13 @@
 
 == The local development stack
 
-For day-to-day work on the code, ICNML runs as a plain `docker compose` stack, brought up from the `icnml-dev` repository.
+For day-to-day work on the code, ICNML runs as a self-contained `docker compose` stack, brought up from the `icnml-dev` repository with its local compose file.
 
-+ Clone the repository and run `docker compose up`. Three containers start, the Flask application, a PostgreSQL database, and Redis.
-+ Create the first administrator with the bootstrap script, `docker compose exec web python /app/create_admin.py`, which inserts an admin account directly and bypasses the normal registration flow.
-+ Open `http://localhost` and log in.
++ Clone the repository and run `docker compose -f docker-compose.local.yml up --build`. Four containers start, the Flask application, a PostgreSQL database, Redis, and the OpenLQM quality-scoring service (@ux-quality).
++ Create the first administrator with the bootstrap script, `docker compose -f docker-compose.local.yml exec web python /app/create_admin.py`, which inserts an admin account directly and bypasses the normal registration flow.
++ Open `http://localhost:8080` and log in.
 
-The stack is arranged so that a fresh checkout comes up with a usable database and no manual setup. The database container creates the `icnml` role and database on first boot, and loads the numbered install scripts, which carry both the schema and the seed lookup data, including the reconstructed CNM tables that the original scripts were missing (@appendix-dev-env). A health check holds the web container back until PostgreSQL is actually ready. The exact differences from the original repository's compose file are listed in @appendix-running-icnml.
+The stack is arranged so that a fresh checkout comes up with a usable database and no manual setup. The database container creates the `icnml` role and database on first boot, and loads the numbered install scripts, which carry both the schema and the seed lookup data, including the reconstructed CNM tables that the original scripts were missing (@appendix-dev-env). A health check holds the web container back until PostgreSQL is actually ready. The local compose file is kept separate from the deployment one, since the local stack stores its database in a Docker volume rather than binding a host path and publishes the application on `http://localhost:8080` over plain HTTP, so a laptop needs no extra setup. The exact differences are listed in @appendix-running-icnml, and the complete developer guide, from a fresh clone through to a production deployment, is reproduced from the repository in @appendix-dev-guide.
 
 == The switch that matters: `ENVTYPE`
 

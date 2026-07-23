@@ -381,6 +381,7 @@ Any use, even partial, of this BT must be made in compliance with copyright law.
 #include "chapters/appendix/appendix-backup.typ"
 #include "chapters/appendix/appendix-dev-env.typ"
 #include "chapters/appendix/appendix-running-icnml.typ"
+#include "chapters/appendix/appendix-dev-guide.typ"
 #include "chapters/appendix/appendix-deployment.typ"
 #include "chapters/appendix/appendix-python3-migration.typ"
 #include "chapters/appendix/watermark-eval-figures.typ"
